@@ -1,7 +1,9 @@
 let age = 1;
 let name = "Monkey";
 let result = 10 * (20 / 2);
-
+//comentario
+/*comentario
+largo*/
 let myArray = [1, 2, 3, 4, 5];
 
 let thorsten = {"name": "Thorsten", "age": 28};

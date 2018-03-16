@@ -17,31 +17,31 @@ additionExpression  : multiplicationExpression additionFactor   #additionExpress
 additionFactor     : ((SUM|SUB) multiplicationExpression)*  #additionFactorAST;
 multiplicationExpression    : elementExpression multiplicationFactor    #multiplicationExpressionASP;
 multiplicationFactor        : ((MUL|DIV) elementExpression)*    #multiplicationFactorASP;
-elementExpression           : primitiveExpression (elementAccess | callExpression | );
-elementAccess               : PCIZQ expression PCDER;
-callExpression              : PIZQ expressionList PDER;
-primitiveExpression         : INTEGER
-                            | STRING
-                            | IDENTIFIER
-                            |TRUE
-                            | FALSE
-                            | PIZQ expression PDER
-                            | arrayLiteral
-                            | arrayFunctions PIZQ expressionList PDER
-                            | functionLiteral
-                            | hashLiteral
-                            | printExpression
-                            | ifExpression;
-arrayFunctions              : LEN | FIRST | LAST | REST | PUSH;
-arrayLiteral                : PCIZQ expressionList PCDER;
-functionLiteral             : FN PIZQ functionParameters PDER blockStatement;
-functionParameters          : IDENTIFIER moreIdentifiers;
-moreIdentifiers             : (COMMA IDENTIFIER)*;
-hashLiteral                 : LLAVEIZQ hashContent moreHashContent LLAVEDER;
-hashContent                 : expression DOSPUN expression;
-moreHashContent             : (COMMA hashContent)*;
-expressionList              : expression moreExpressions | ;
-moreExpressions             : (COMMA expression)*;
-printExpression             : PUTS PIZQ expression PDER;
-ifExpression                : IF expression blockStatement (ELSE blockStatement | );
-blockStatement              : LLAVEIZQ statement* LLAVEDER;
+elementExpression           : primitiveExpression (elementAccess | callExpression | )   #elementExpressionASP;
+elementAccess               : PCIZQ expression PCDER    #elementAccessASP;
+callExpression              : PIZQ expressionList PDER  #callExpressionASP;
+primitiveExpression         : INTEGER   #pExprIntASP
+                            | STRING    #pExpStrASP
+                            | IDENTIFIER #pExpIDASP
+                            |TRUE           #pExpTrueASP
+                            | FALSE         #pExpFalseASP
+                            | PIZQ expression PDER  #pExpParExpParASP
+                            | arrayLiteral          #pExpArrayLitASP
+                            | arrayFunctions PIZQ expressionList PDER #pExpArrayFuncASP
+                            | functionLiteral   #pExpFunLitASP
+                            | hashLiteral       #pExpHashLitASP
+                            | printExpression   #pExpPrintExpASP
+                            | ifExpression  #pExpIfASP;
+arrayFunctions              : LEN | FIRST | LAST | REST | PUSH  #arrayFunctionsASP;
+arrayLiteral                : PCIZQ expressionList PCDER    #arrayLiteralASP;
+functionLiteral             : FN PIZQ functionParameters PDER blockStatement    #functionLiteralASP;
+functionParameters          : IDENTIFIER moreIdentifiers    #functionParametersASP;
+moreIdentifiers             : (COMMA IDENTIFIER)*   #moreIdentifiersASP;
+hashLiteral                 : LLAVEIZQ hashContent moreHashContent LLAVEDER #hashLiteralASP;
+hashContent                 : expression DOSPUN expression  #hashContentASP;
+moreHashContent             : (COMMA hashContent)*  #moreHashContentASP;
+expressionList              : expression moreExpressions #expressionListF| #expressionListE;
+moreExpressions             : (COMMA expression)*   #moreExpressionsASP;
+printExpression             : PUTS PIZQ expression PDER #printExpressionASP;
+ifExpression                : IF expression blockStatement (ELSE blockStatement | ) #ifExpressionASP;
+blockStatement              : LLAVEIZQ statement* LLAVEDER  #blockStatementASP;

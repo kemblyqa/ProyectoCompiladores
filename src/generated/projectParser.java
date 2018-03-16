@@ -860,6 +860,17 @@ public class projectParser extends Parser {
 	}
 
 	public static class ElementExpressionContext extends ParserRuleContext {
+		public ElementExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_elementExpression; }
+	 
+		public ElementExpressionContext() { }
+		public void copyFrom(ElementExpressionContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ElementExpressionASPContext extends ElementExpressionContext {
 		public PrimitiveExpressionContext primitiveExpression() {
 			return getRuleContext(PrimitiveExpressionContext.class,0);
 		}
@@ -869,16 +880,14 @@ public class projectParser extends Parser {
 		public CallExpressionContext callExpression() {
 			return getRuleContext(CallExpressionContext.class,0);
 		}
-		public ElementExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_elementExpression; }
+		public ElementExpressionASPContext(ElementExpressionContext ctx) { copyFrom(ctx); }
 	}
 
 	public final ElementExpressionContext elementExpression() throws RecognitionException {
 		ElementExpressionContext _localctx = new ElementExpressionContext(_ctx, getState());
 		enterRule(_localctx, 22, RULE_elementExpression);
 		try {
+			_localctx = new ElementExpressionASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(116);
@@ -917,21 +926,30 @@ public class projectParser extends Parser {
 	}
 
 	public static class ElementAccessContext extends ParserRuleContext {
+		public ElementAccessContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_elementAccess; }
+	 
+		public ElementAccessContext() { }
+		public void copyFrom(ElementAccessContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ElementAccessASPContext extends ElementAccessContext {
 		public TerminalNode PCIZQ() { return getToken(projectParser.PCIZQ, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
 		public TerminalNode PCDER() { return getToken(projectParser.PCDER, 0); }
-		public ElementAccessContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_elementAccess; }
+		public ElementAccessASPContext(ElementAccessContext ctx) { copyFrom(ctx); }
 	}
 
 	public final ElementAccessContext elementAccess() throws RecognitionException {
 		ElementAccessContext _localctx = new ElementAccessContext(_ctx, getState());
 		enterRule(_localctx, 24, RULE_elementAccess);
 		try {
+			_localctx = new ElementAccessASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(122);
@@ -954,21 +972,30 @@ public class projectParser extends Parser {
 	}
 
 	public static class CallExpressionContext extends ParserRuleContext {
+		public CallExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_callExpression; }
+	 
+		public CallExpressionContext() { }
+		public void copyFrom(CallExpressionContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class CallExpressionASPContext extends CallExpressionContext {
 		public TerminalNode PIZQ() { return getToken(projectParser.PIZQ, 0); }
 		public ExpressionListContext expressionList() {
 			return getRuleContext(ExpressionListContext.class,0);
 		}
 		public TerminalNode PDER() { return getToken(projectParser.PDER, 0); }
-		public CallExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_callExpression; }
+		public CallExpressionASPContext(CallExpressionContext ctx) { copyFrom(ctx); }
 	}
 
 	public final CallExpressionContext callExpression() throws RecognitionException {
 		CallExpressionContext _localctx = new CallExpressionContext(_ctx, getState());
 		enterRule(_localctx, 26, RULE_callExpression);
 		try {
+			_localctx = new CallExpressionASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(126);
@@ -991,41 +1018,84 @@ public class projectParser extends Parser {
 	}
 
 	public static class PrimitiveExpressionContext extends ParserRuleContext {
-		public TerminalNode INTEGER() { return getToken(projectParser.INTEGER, 0); }
-		public TerminalNode STRING() { return getToken(projectParser.STRING, 0); }
-		public TerminalNode IDENTIFIER() { return getToken(projectParser.IDENTIFIER, 0); }
-		public TerminalNode TRUE() { return getToken(projectParser.TRUE, 0); }
-		public TerminalNode FALSE() { return getToken(projectParser.FALSE, 0); }
+		public PrimitiveExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_primitiveExpression; }
+	 
+		public PrimitiveExpressionContext() { }
+		public void copyFrom(PrimitiveExpressionContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class PExpParExpParASPContext extends PrimitiveExpressionContext {
 		public TerminalNode PIZQ() { return getToken(projectParser.PIZQ, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
 		public TerminalNode PDER() { return getToken(projectParser.PDER, 0); }
-		public ArrayLiteralContext arrayLiteral() {
-			return getRuleContext(ArrayLiteralContext.class,0);
-		}
-		public ArrayFunctionsContext arrayFunctions() {
-			return getRuleContext(ArrayFunctionsContext.class,0);
-		}
-		public ExpressionListContext expressionList() {
-			return getRuleContext(ExpressionListContext.class,0);
-		}
-		public FunctionLiteralContext functionLiteral() {
-			return getRuleContext(FunctionLiteralContext.class,0);
-		}
-		public HashLiteralContext hashLiteral() {
-			return getRuleContext(HashLiteralContext.class,0);
-		}
-		public PrintExpressionContext printExpression() {
-			return getRuleContext(PrintExpressionContext.class,0);
-		}
+		public PExpParExpParASPContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class PExpIfASPContext extends PrimitiveExpressionContext {
 		public IfExpressionContext ifExpression() {
 			return getRuleContext(IfExpressionContext.class,0);
 		}
-		public PrimitiveExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
+		public PExpIfASPContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class PExpIDASPContext extends PrimitiveExpressionContext {
+		public TerminalNode IDENTIFIER() { return getToken(projectParser.IDENTIFIER, 0); }
+		public PExpIDASPContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class PExpArrayFuncASPContext extends PrimitiveExpressionContext {
+		public ArrayFunctionsContext arrayFunctions() {
+			return getRuleContext(ArrayFunctionsContext.class,0);
 		}
-		@Override public int getRuleIndex() { return RULE_primitiveExpression; }
+		public TerminalNode PIZQ() { return getToken(projectParser.PIZQ, 0); }
+		public ExpressionListContext expressionList() {
+			return getRuleContext(ExpressionListContext.class,0);
+		}
+		public TerminalNode PDER() { return getToken(projectParser.PDER, 0); }
+		public PExpArrayFuncASPContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class PExpTrueASPContext extends PrimitiveExpressionContext {
+		public TerminalNode TRUE() { return getToken(projectParser.TRUE, 0); }
+		public PExpTrueASPContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class PExprIntASPContext extends PrimitiveExpressionContext {
+		public TerminalNode INTEGER() { return getToken(projectParser.INTEGER, 0); }
+		public PExprIntASPContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class PExpArrayLitASPContext extends PrimitiveExpressionContext {
+		public ArrayLiteralContext arrayLiteral() {
+			return getRuleContext(ArrayLiteralContext.class,0);
+		}
+		public PExpArrayLitASPContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class PExpPrintExpASPContext extends PrimitiveExpressionContext {
+		public PrintExpressionContext printExpression() {
+			return getRuleContext(PrintExpressionContext.class,0);
+		}
+		public PExpPrintExpASPContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class PExpFunLitASPContext extends PrimitiveExpressionContext {
+		public FunctionLiteralContext functionLiteral() {
+			return getRuleContext(FunctionLiteralContext.class,0);
+		}
+		public PExpFunLitASPContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class PExpHashLitASPContext extends PrimitiveExpressionContext {
+		public HashLiteralContext hashLiteral() {
+			return getRuleContext(HashLiteralContext.class,0);
+		}
+		public PExpHashLitASPContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class PExpStrASPContext extends PrimitiveExpressionContext {
+		public TerminalNode STRING() { return getToken(projectParser.STRING, 0); }
+		public PExpStrASPContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
+	}
+	public static class PExpFalseASPContext extends PrimitiveExpressionContext {
+		public TerminalNode FALSE() { return getToken(projectParser.FALSE, 0); }
+		public PExpFalseASPContext(PrimitiveExpressionContext ctx) { copyFrom(ctx); }
 	}
 
 	public final PrimitiveExpressionContext primitiveExpression() throws RecognitionException {
@@ -1036,6 +1106,7 @@ public class projectParser extends Parser {
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case INTEGER:
+				_localctx = new PExprIntASPContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(130);
@@ -1043,6 +1114,7 @@ public class projectParser extends Parser {
 				}
 				break;
 			case STRING:
+				_localctx = new PExpStrASPContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(131);
@@ -1050,6 +1122,7 @@ public class projectParser extends Parser {
 				}
 				break;
 			case IDENTIFIER:
+				_localctx = new PExpIDASPContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(132);
@@ -1057,6 +1130,7 @@ public class projectParser extends Parser {
 				}
 				break;
 			case TRUE:
+				_localctx = new PExpTrueASPContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(133);
@@ -1064,6 +1138,7 @@ public class projectParser extends Parser {
 				}
 				break;
 			case FALSE:
+				_localctx = new PExpFalseASPContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(134);
@@ -1071,6 +1146,7 @@ public class projectParser extends Parser {
 				}
 				break;
 			case PIZQ:
+				_localctx = new PExpParExpParASPContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(135);
@@ -1082,6 +1158,7 @@ public class projectParser extends Parser {
 				}
 				break;
 			case PCIZQ:
+				_localctx = new PExpArrayLitASPContext(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
 				setState(139);
@@ -1093,6 +1170,7 @@ public class projectParser extends Parser {
 			case LAST:
 			case REST:
 			case PUSH:
+				_localctx = new PExpArrayFuncASPContext(_localctx);
 				enterOuterAlt(_localctx, 8);
 				{
 				setState(140);
@@ -1106,6 +1184,7 @@ public class projectParser extends Parser {
 				}
 				break;
 			case FN:
+				_localctx = new PExpFunLitASPContext(_localctx);
 				enterOuterAlt(_localctx, 9);
 				{
 				setState(145);
@@ -1113,6 +1192,7 @@ public class projectParser extends Parser {
 				}
 				break;
 			case LLAVEIZQ:
+				_localctx = new PExpHashLitASPContext(_localctx);
 				enterOuterAlt(_localctx, 10);
 				{
 				setState(146);
@@ -1120,6 +1200,7 @@ public class projectParser extends Parser {
 				}
 				break;
 			case PUTS:
+				_localctx = new PExpPrintExpASPContext(_localctx);
 				enterOuterAlt(_localctx, 11);
 				{
 				setState(147);
@@ -1127,6 +1208,7 @@ public class projectParser extends Parser {
 				}
 				break;
 			case IF:
+				_localctx = new PExpIfASPContext(_localctx);
 				enterOuterAlt(_localctx, 12);
 				{
 				setState(148);
@@ -1191,21 +1273,30 @@ public class projectParser extends Parser {
 	}
 
 	public static class ArrayLiteralContext extends ParserRuleContext {
+		public ArrayLiteralContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_arrayLiteral; }
+	 
+		public ArrayLiteralContext() { }
+		public void copyFrom(ArrayLiteralContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ArrayLiteralASPContext extends ArrayLiteralContext {
 		public TerminalNode PCIZQ() { return getToken(projectParser.PCIZQ, 0); }
 		public ExpressionListContext expressionList() {
 			return getRuleContext(ExpressionListContext.class,0);
 		}
 		public TerminalNode PCDER() { return getToken(projectParser.PCDER, 0); }
-		public ArrayLiteralContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_arrayLiteral; }
+		public ArrayLiteralASPContext(ArrayLiteralContext ctx) { copyFrom(ctx); }
 	}
 
 	public final ArrayLiteralContext arrayLiteral() throws RecognitionException {
 		ArrayLiteralContext _localctx = new ArrayLiteralContext(_ctx, getState());
 		enterRule(_localctx, 32, RULE_arrayLiteral);
 		try {
+			_localctx = new ArrayLiteralASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(153);
@@ -1228,6 +1319,17 @@ public class projectParser extends Parser {
 	}
 
 	public static class FunctionLiteralContext extends ParserRuleContext {
+		public FunctionLiteralContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_functionLiteral; }
+	 
+		public FunctionLiteralContext() { }
+		public void copyFrom(FunctionLiteralContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class FunctionLiteralASPContext extends FunctionLiteralContext {
 		public TerminalNode FN() { return getToken(projectParser.FN, 0); }
 		public TerminalNode PIZQ() { return getToken(projectParser.PIZQ, 0); }
 		public FunctionParametersContext functionParameters() {
@@ -1237,16 +1339,14 @@ public class projectParser extends Parser {
 		public BlockStatementContext blockStatement() {
 			return getRuleContext(BlockStatementContext.class,0);
 		}
-		public FunctionLiteralContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_functionLiteral; }
+		public FunctionLiteralASPContext(FunctionLiteralContext ctx) { copyFrom(ctx); }
 	}
 
 	public final FunctionLiteralContext functionLiteral() throws RecognitionException {
 		FunctionLiteralContext _localctx = new FunctionLiteralContext(_ctx, getState());
 		enterRule(_localctx, 34, RULE_functionLiteral);
 		try {
+			_localctx = new FunctionLiteralASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(157);
@@ -1273,20 +1373,29 @@ public class projectParser extends Parser {
 	}
 
 	public static class FunctionParametersContext extends ParserRuleContext {
-		public TerminalNode IDENTIFIER() { return getToken(projectParser.IDENTIFIER, 0); }
-		public MoreIdentifiersContext moreIdentifiers() {
-			return getRuleContext(MoreIdentifiersContext.class,0);
-		}
 		public FunctionParametersContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_functionParameters; }
+	 
+		public FunctionParametersContext() { }
+		public void copyFrom(FunctionParametersContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class FunctionParametersASPContext extends FunctionParametersContext {
+		public TerminalNode IDENTIFIER() { return getToken(projectParser.IDENTIFIER, 0); }
+		public MoreIdentifiersContext moreIdentifiers() {
+			return getRuleContext(MoreIdentifiersContext.class,0);
+		}
+		public FunctionParametersASPContext(FunctionParametersContext ctx) { copyFrom(ctx); }
 	}
 
 	public final FunctionParametersContext functionParameters() throws RecognitionException {
 		FunctionParametersContext _localctx = new FunctionParametersContext(_ctx, getState());
 		enterRule(_localctx, 36, RULE_functionParameters);
 		try {
+			_localctx = new FunctionParametersASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(163);
@@ -1307,6 +1416,17 @@ public class projectParser extends Parser {
 	}
 
 	public static class MoreIdentifiersContext extends ParserRuleContext {
+		public MoreIdentifiersContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_moreIdentifiers; }
+	 
+		public MoreIdentifiersContext() { }
+		public void copyFrom(MoreIdentifiersContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class MoreIdentifiersASPContext extends MoreIdentifiersContext {
 		public List<TerminalNode> COMMA() { return getTokens(projectParser.COMMA); }
 		public TerminalNode COMMA(int i) {
 			return getToken(projectParser.COMMA, i);
@@ -1315,10 +1435,7 @@ public class projectParser extends Parser {
 		public TerminalNode IDENTIFIER(int i) {
 			return getToken(projectParser.IDENTIFIER, i);
 		}
-		public MoreIdentifiersContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_moreIdentifiers; }
+		public MoreIdentifiersASPContext(MoreIdentifiersContext ctx) { copyFrom(ctx); }
 	}
 
 	public final MoreIdentifiersContext moreIdentifiers() throws RecognitionException {
@@ -1326,6 +1443,7 @@ public class projectParser extends Parser {
 		enterRule(_localctx, 38, RULE_moreIdentifiers);
 		int _la;
 		try {
+			_localctx = new MoreIdentifiersASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(170);
@@ -1358,6 +1476,17 @@ public class projectParser extends Parser {
 	}
 
 	public static class HashLiteralContext extends ParserRuleContext {
+		public HashLiteralContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_hashLiteral; }
+	 
+		public HashLiteralContext() { }
+		public void copyFrom(HashLiteralContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class HashLiteralASPContext extends HashLiteralContext {
 		public TerminalNode LLAVEIZQ() { return getToken(projectParser.LLAVEIZQ, 0); }
 		public HashContentContext hashContent() {
 			return getRuleContext(HashContentContext.class,0);
@@ -1366,16 +1495,14 @@ public class projectParser extends Parser {
 			return getRuleContext(MoreHashContentContext.class,0);
 		}
 		public TerminalNode LLAVEDER() { return getToken(projectParser.LLAVEDER, 0); }
-		public HashLiteralContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_hashLiteral; }
+		public HashLiteralASPContext(HashLiteralContext ctx) { copyFrom(ctx); }
 	}
 
 	public final HashLiteralContext hashLiteral() throws RecognitionException {
 		HashLiteralContext _localctx = new HashLiteralContext(_ctx, getState());
 		enterRule(_localctx, 40, RULE_hashLiteral);
 		try {
+			_localctx = new HashLiteralASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(173);
@@ -1400,6 +1527,17 @@ public class projectParser extends Parser {
 	}
 
 	public static class HashContentContext extends ParserRuleContext {
+		public HashContentContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_hashContent; }
+	 
+		public HashContentContext() { }
+		public void copyFrom(HashContentContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class HashContentASPContext extends HashContentContext {
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -1407,16 +1545,14 @@ public class projectParser extends Parser {
 			return getRuleContext(ExpressionContext.class,i);
 		}
 		public TerminalNode DOSPUN() { return getToken(projectParser.DOSPUN, 0); }
-		public HashContentContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_hashContent; }
+		public HashContentASPContext(HashContentContext ctx) { copyFrom(ctx); }
 	}
 
 	public final HashContentContext hashContent() throws RecognitionException {
 		HashContentContext _localctx = new HashContentContext(_ctx, getState());
 		enterRule(_localctx, 42, RULE_hashContent);
 		try {
+			_localctx = new HashContentASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(178);
@@ -1439,6 +1575,17 @@ public class projectParser extends Parser {
 	}
 
 	public static class MoreHashContentContext extends ParserRuleContext {
+		public MoreHashContentContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_moreHashContent; }
+	 
+		public MoreHashContentContext() { }
+		public void copyFrom(MoreHashContentContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class MoreHashContentASPContext extends MoreHashContentContext {
 		public List<TerminalNode> COMMA() { return getTokens(projectParser.COMMA); }
 		public TerminalNode COMMA(int i) {
 			return getToken(projectParser.COMMA, i);
@@ -1449,10 +1596,7 @@ public class projectParser extends Parser {
 		public HashContentContext hashContent(int i) {
 			return getRuleContext(HashContentContext.class,i);
 		}
-		public MoreHashContentContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_moreHashContent; }
+		public MoreHashContentASPContext(MoreHashContentContext ctx) { copyFrom(ctx); }
 	}
 
 	public final MoreHashContentContext moreHashContent() throws RecognitionException {
@@ -1460,6 +1604,7 @@ public class projectParser extends Parser {
 		enterRule(_localctx, 44, RULE_moreHashContent);
 		int _la;
 		try {
+			_localctx = new MoreHashContentASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(186);
@@ -1492,16 +1637,27 @@ public class projectParser extends Parser {
 	}
 
 	public static class ExpressionListContext extends ParserRuleContext {
+		public ExpressionListContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_expressionList; }
+	 
+		public ExpressionListContext() { }
+		public void copyFrom(ExpressionListContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ExpressionListFContext extends ExpressionListContext {
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
 		public MoreExpressionsContext moreExpressions() {
 			return getRuleContext(MoreExpressionsContext.class,0);
 		}
-		public ExpressionListContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_expressionList; }
+		public ExpressionListFContext(ExpressionListContext ctx) { copyFrom(ctx); }
+	}
+	public static class ExpressionListEContext extends ExpressionListContext {
+		public ExpressionListEContext(ExpressionListContext ctx) { copyFrom(ctx); }
 	}
 
 	public final ExpressionListContext expressionList() throws RecognitionException {
@@ -1527,6 +1683,7 @@ public class projectParser extends Parser {
 			case STRING:
 			case INTEGER:
 			case IDENTIFIER:
+				_localctx = new ExpressionListFContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(189);
@@ -1537,6 +1694,7 @@ public class projectParser extends Parser {
 				break;
 			case PDER:
 			case PCDER:
+				_localctx = new ExpressionListEContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				}
@@ -1557,6 +1715,17 @@ public class projectParser extends Parser {
 	}
 
 	public static class MoreExpressionsContext extends ParserRuleContext {
+		public MoreExpressionsContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_moreExpressions; }
+	 
+		public MoreExpressionsContext() { }
+		public void copyFrom(MoreExpressionsContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class MoreExpressionsASPContext extends MoreExpressionsContext {
 		public List<TerminalNode> COMMA() { return getTokens(projectParser.COMMA); }
 		public TerminalNode COMMA(int i) {
 			return getToken(projectParser.COMMA, i);
@@ -1567,10 +1736,7 @@ public class projectParser extends Parser {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public MoreExpressionsContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_moreExpressions; }
+		public MoreExpressionsASPContext(MoreExpressionsContext ctx) { copyFrom(ctx); }
 	}
 
 	public final MoreExpressionsContext moreExpressions() throws RecognitionException {
@@ -1578,6 +1744,7 @@ public class projectParser extends Parser {
 		enterRule(_localctx, 48, RULE_moreExpressions);
 		int _la;
 		try {
+			_localctx = new MoreExpressionsASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(199);
@@ -1610,22 +1777,31 @@ public class projectParser extends Parser {
 	}
 
 	public static class PrintExpressionContext extends ParserRuleContext {
+		public PrintExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_printExpression; }
+	 
+		public PrintExpressionContext() { }
+		public void copyFrom(PrintExpressionContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class PrintExpressionASPContext extends PrintExpressionContext {
 		public TerminalNode PUTS() { return getToken(projectParser.PUTS, 0); }
 		public TerminalNode PIZQ() { return getToken(projectParser.PIZQ, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
 		public TerminalNode PDER() { return getToken(projectParser.PDER, 0); }
-		public PrintExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_printExpression; }
+		public PrintExpressionASPContext(PrintExpressionContext ctx) { copyFrom(ctx); }
 	}
 
 	public final PrintExpressionContext printExpression() throws RecognitionException {
 		PrintExpressionContext _localctx = new PrintExpressionContext(_ctx, getState());
 		enterRule(_localctx, 50, RULE_printExpression);
 		try {
+			_localctx = new PrintExpressionASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(202);
@@ -1650,6 +1826,17 @@ public class projectParser extends Parser {
 	}
 
 	public static class IfExpressionContext extends ParserRuleContext {
+		public IfExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_ifExpression; }
+	 
+		public IfExpressionContext() { }
+		public void copyFrom(IfExpressionContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class IfExpressionASPContext extends IfExpressionContext {
 		public TerminalNode IF() { return getToken(projectParser.IF, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
@@ -1661,16 +1848,14 @@ public class projectParser extends Parser {
 			return getRuleContext(BlockStatementContext.class,i);
 		}
 		public TerminalNode ELSE() { return getToken(projectParser.ELSE, 0); }
-		public IfExpressionContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_ifExpression; }
+		public IfExpressionASPContext(IfExpressionContext ctx) { copyFrom(ctx); }
 	}
 
 	public final IfExpressionContext ifExpression() throws RecognitionException {
 		IfExpressionContext _localctx = new IfExpressionContext(_ctx, getState());
 		enterRule(_localctx, 52, RULE_ifExpression);
 		try {
+			_localctx = new IfExpressionASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(207);
@@ -1743,6 +1928,17 @@ public class projectParser extends Parser {
 	}
 
 	public static class BlockStatementContext extends ParserRuleContext {
+		public BlockStatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_blockStatement; }
+	 
+		public BlockStatementContext() { }
+		public void copyFrom(BlockStatementContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class BlockStatementASPContext extends BlockStatementContext {
 		public TerminalNode LLAVEIZQ() { return getToken(projectParser.LLAVEIZQ, 0); }
 		public TerminalNode LLAVEDER() { return getToken(projectParser.LLAVEDER, 0); }
 		public List<StatementContext> statement() {
@@ -1751,10 +1947,7 @@ public class projectParser extends Parser {
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
 		}
-		public BlockStatementContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_blockStatement; }
+		public BlockStatementASPContext(BlockStatementContext ctx) { copyFrom(ctx); }
 	}
 
 	public final BlockStatementContext blockStatement() throws RecognitionException {
@@ -1762,6 +1955,7 @@ public class projectParser extends Parser {
 		enterRule(_localctx, 54, RULE_blockStatement);
 		int _la;
 		try {
+			_localctx = new BlockStatementASPContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(215);
