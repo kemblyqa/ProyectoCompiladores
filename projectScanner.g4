@@ -10,17 +10,6 @@ TRUE    : 'true';
 FALSE   : 'false';
 LET     : 'let';
 RETURN  : 'return';
-INTEGER : 'Integer';
-STRING  : 'String';
-IDENTIFIER : 'identifier';
-
-//accionesArray
-LEN     : 'len';
-FIRST   : 'first';
-LAST    : 'last';
-REST    : 'rest';
-PUSH    : 'push';
-FN      : 'fn';
 
 //caracteres
 PyCOMMA : ';';
@@ -31,12 +20,20 @@ PCIZQ: '[';
 PCDER: ']';
 LLAVEIZQ: '{';
 LLAVEDER: '}';
-PUTS    : 'puts';
-IF      : 'if';
-ELSE    : 'else';
 VIR : '~';
 DOSPUN  : ':';
 COMMA   : ',';
+
+//accionesArray
+LEN     : 'len';
+FIRST   : 'first';
+LAST    : 'last';
+REST    : 'rest';
+PUSH    : 'push';
+FN      : 'fn';
+PUTS    : 'puts';
+IF      : 'if';
+ELSE    : 'else';
 
 //OPERADORES
 SUM : '+';
@@ -50,10 +47,10 @@ MAYORIGUAL  : '>=';
 IGUAL       : '==';
 DISTINTO    : '!=';
 //cadenas
-ARRAY   : '[' (TyINTEGER | TySTRING) (',' (TyINTEGER | TySTRING))* ']';
-TySTRING  : '"' .*? '"';
-TyINTEGER : DIGIT+;
+ARRAY   : '[' (INTEGER | STRING) (',' (INTEGER | STRING))* ']';
+STRING  : '"' .*? '"';
+INTEGER : DIGIT+;
+IDENTIFIER  : LETTER (LETTER | DIGIT)*;
 //tipos
-LETTER  : [a-z A-Z _];
-DIGIT   : [0-9];
-ID      : LETTER {LETTER | DIGIT};
+fragment LETTER : 'a'..'z' | 'A'..'Z'| '_';
+fragment DIGIT : '0'..'9';
