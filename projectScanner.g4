@@ -47,7 +47,6 @@ MAYORIGUAL  : '>=';
 IGUAL       : '==';
 DISTINTO    : '!=';
 //cadenas
-ARRAY   : '[' (INTEGER | STRING) (',' (INTEGER | STRING))* ']';
 STRING  : '"' .*? '"';
 INTEGER : DIGIT+;
 IDENTIFIER  : LETTER (LETTER | DIGIT)*;

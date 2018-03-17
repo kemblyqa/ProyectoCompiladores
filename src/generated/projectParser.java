@@ -22,7 +22,7 @@ public class projectParser extends Parser {
 		LLAVEDER=15, VIR=16, DOSPUN=17, COMMA=18, LEN=19, FIRST=20, LAST=21, REST=22, 
 		PUSH=23, FN=24, PUTS=25, IF=26, ELSE=27, SUM=28, SUB=29, MUL=30, DIV=31, 
 		MENOR=32, MENORIGUAL=33, MAYOR=34, MAYORIGUAL=35, IGUAL=36, DISTINTO=37, 
-		ARRAY=38, STRING=39, INTEGER=40, IDENTIFIER=41;
+		STRING=38, INTEGER=39, IDENTIFIER=40;
 	public static final int
 		RULE_program = 0, RULE_statement = 1, RULE_letStatement = 2, RULE_returnStatement = 3, 
 		RULE_expressionStatement = 4, RULE_expression = 5, RULE_comparison = 6, 
@@ -55,8 +55,7 @@ public class projectParser extends Parser {
 		"PyCOMMA", "ASSIGN", "PIZQ", "PDER", "PCIZQ", "PCDER", "LLAVEIZQ", "LLAVEDER", 
 		"VIR", "DOSPUN", "COMMA", "LEN", "FIRST", "LAST", "REST", "PUSH", "FN", 
 		"PUTS", "IF", "ELSE", "SUM", "SUB", "MUL", "DIV", "MENOR", "MENORIGUAL", 
-		"MAYOR", "MAYORIGUAL", "IGUAL", "DISTINTO", "ARRAY", "STRING", "INTEGER", 
-		"IDENTIFIER"
+		"MAYOR", "MAYORIGUAL", "IGUAL", "DISTINTO", "STRING", "INTEGER", "IDENTIFIER"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -1990,7 +1989,7 @@ public class projectParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3+\u00e3\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3*\u00e3\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -2016,7 +2015,7 @@ public class projectParser extends Parser {
 		"\u00bc\3\2\2\2\60\u00c3\3\2\2\2\62\u00c9\3\2\2\2\64\u00cc\3\2\2\2\66\u00d1"+
 		"\3\2\2\28\u00d9\3\2\2\2:<\5\4\3\2;:\3\2\2\2<?\3\2\2\2=;\3\2\2\2=>\3\2"+
 		"\2\2>\3\3\2\2\2?=\3\2\2\2@A\7\b\2\2AF\5\6\4\2BC\7\t\2\2CF\5\b\5\2DF\5"+
-		"\n\6\2E@\3\2\2\2EB\3\2\2\2ED\3\2\2\2F\5\3\2\2\2GH\7+\2\2HI\7\13\2\2IL"+
+		"\n\6\2E@\3\2\2\2EB\3\2\2\2ED\3\2\2\2F\5\3\2\2\2GH\7*\2\2HI\7\13\2\2IL"+
 		"\5\f\7\2JM\7\n\2\2KM\3\2\2\2LJ\3\2\2\2LK\3\2\2\2M\7\3\2\2\2NQ\5\f\7\2"+
 		"OR\7\n\2\2PR\3\2\2\2QO\3\2\2\2QP\3\2\2\2R\t\3\2\2\2SV\5\f\7\2TW\7\n\2"+
 		"\2UW\3\2\2\2VT\3\2\2\2VU\3\2\2\2W\13\3\2\2\2XY\5\20\t\2YZ\5\16\b\2Z\r"+
@@ -2028,7 +2027,7 @@ public class projectParser extends Parser {
 		"\16\2x{\5\34\17\2y{\3\2\2\2zw\3\2\2\2zx\3\2\2\2zy\3\2\2\2{\31\3\2\2\2"+
 		"|}\7\16\2\2}~\5\f\7\2~\177\7\17\2\2\177\33\3\2\2\2\u0080\u0081\7\f\2\2"+
 		"\u0081\u0082\5\60\31\2\u0082\u0083\7\r\2\2\u0083\35\3\2\2\2\u0084\u0098"+
-		"\7*\2\2\u0085\u0098\7)\2\2\u0086\u0098\7+\2\2\u0087\u0098\7\6\2\2\u0088"+
+		"\7)\2\2\u0085\u0098\7(\2\2\u0086\u0098\7*\2\2\u0087\u0098\7\6\2\2\u0088"+
 		"\u0098\7\7\2\2\u0089\u008a\7\f\2\2\u008a\u008b\5\f\7\2\u008b\u008c\7\r"+
 		"\2\2\u008c\u0098\3\2\2\2\u008d\u0098\5\"\22\2\u008e\u008f\5 \21\2\u008f"+
 		"\u0090\7\f\2\2\u0090\u0091\5\60\31\2\u0091\u0092\7\r\2\2\u0092\u0098\3"+
@@ -2040,8 +2039,8 @@ public class projectParser extends Parser {
 		"\t\5\2\2\u009a!\3\2\2\2\u009b\u009c\7\16\2\2\u009c\u009d\5\60\31\2\u009d"+
 		"\u009e\7\17\2\2\u009e#\3\2\2\2\u009f\u00a0\7\32\2\2\u00a0\u00a1\7\f\2"+
 		"\2\u00a1\u00a2\5&\24\2\u00a2\u00a3\7\r\2\2\u00a3\u00a4\58\35\2\u00a4%"+
-		"\3\2\2\2\u00a5\u00a6\7+\2\2\u00a6\u00a7\5(\25\2\u00a7\'\3\2\2\2\u00a8"+
-		"\u00a9\7\24\2\2\u00a9\u00ab\7+\2\2\u00aa\u00a8\3\2\2\2\u00ab\u00ae\3\2"+
+		"\3\2\2\2\u00a5\u00a6\7*\2\2\u00a6\u00a7\5(\25\2\u00a7\'\3\2\2\2\u00a8"+
+		"\u00a9\7\24\2\2\u00a9\u00ab\7*\2\2\u00aa\u00a8\3\2\2\2\u00ab\u00ae\3\2"+
 		"\2\2\u00ac\u00aa\3\2\2\2\u00ac\u00ad\3\2\2\2\u00ad)\3\2\2\2\u00ae\u00ac"+
 		"\3\2\2\2\u00af\u00b0\7\20\2\2\u00b0\u00b1\5,\27\2\u00b1\u00b2\5.\30\2"+
 		"\u00b2\u00b3\7\21\2\2\u00b3+\3\2\2\2\u00b4\u00b5\5\f\7\2\u00b5\u00b6\7"+
