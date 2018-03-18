@@ -2,97 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="58dd7346-7c45-4214-aa4d-592e7d699025" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/miglayout-core-javadoc.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/miglayout-core-sources.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/miglayout-core.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/miglayout-swing-javadoc.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/miglayout-swing-sources.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/miglayout-swing.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Editor.form" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ThrowingErrorListener.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/Main.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/MiVisitor.java" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/generated/projectParser.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/generated/projectParser.tokens" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/generated/projectScanner.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/generated/projectScanner.tokens" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$AdditionExpressionASTContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$AdditionExpressionASTContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$AdditionExpressionContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$AdditionExpressionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$AdditionFactorASTContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$AdditionFactorASTContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$AdditionFactorContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$AdditionFactorContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ArrayFunctionsContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ArrayFunctionsContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ArrayLiteralASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ArrayLiteralASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ArrayLiteralContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ArrayLiteralContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$BlockStatementASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$BlockStatementASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$BlockStatementContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$BlockStatementContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$CallExpressionASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$CallExpressionASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$CallExpressionContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$CallExpressionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ComparisonASTContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ComparisonASTContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ComparisonContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ComparisonContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ElementAccessASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ElementAccessASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ElementAccessContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ElementAccessContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ElementExpressionASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ElementExpressionASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ElementExpressionContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ElementExpressionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionASTContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionASTContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionListContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionListContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionListEContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionListEContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionListFContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionListFContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionStatementASTContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionStatementASTContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionStatementContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ExpressionStatementContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$FunctionLiteralASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$FunctionLiteralASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$FunctionLiteralContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$FunctionLiteralContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$FunctionParametersASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$FunctionParametersASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$FunctionParametersContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$FunctionParametersContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$HashContentASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$HashContentASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$HashContentContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$HashContentContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$HashLiteralASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$HashLiteralASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$HashLiteralContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$HashLiteralContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$IfExpressionASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$IfExpressionASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$IfExpressionContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$IfExpressionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$LetStatementASTContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$LetStatementASTContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$LetStatementContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$LetStatementContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MoreExpressionsASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MoreExpressionsASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MoreExpressionsContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MoreExpressionsContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MoreHashContentASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MoreHashContentASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MoreHashContentContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MoreHashContentContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MoreIdentifiersASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MoreIdentifiersASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MoreIdentifiersContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MoreIdentifiersContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MultiplicationExpressionASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MultiplicationExpressionASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MultiplicationExpressionContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MultiplicationExpressionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MultiplicationFactorASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MultiplicationFactorASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MultiplicationFactorContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$MultiplicationFactorContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpArrayFuncASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpArrayFuncASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpArrayLitASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpArrayLitASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpFalseASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpFalseASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpFunLitASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpFunLitASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpHashLitASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpHashLitASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpIDASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpIDASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpIfASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpIfASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpParExpParASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpParExpParASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpPrintExpASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpPrintExpASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpStrASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpStrASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpTrueASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExpTrueASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExprIntASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PExprIntASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PrimitiveExpressionContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PrimitiveExpressionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PrintExpressionASPContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PrintExpressionASPContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PrintExpressionContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$PrintExpressionContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ProgASTContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ProgASTContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ProgramContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ProgramContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ReturnStatementASTContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ReturnStatementASTContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ReturnStatementContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$ReturnStatementContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$StExpressASTContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$StExpressASTContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$StLetASTContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$StLetASTContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$StReturnASTContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$StReturnASTContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$StatementContext.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser$StatementContext.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectScanner.class" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectScanner.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ProyectoCompiladores.iml" afterPath="$PROJECT_DIR$/ProyectoCompiladores.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser.tokens" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectParser.tokens" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectScanner.tokens" afterPath="$PROJECT_DIR$/out/production/ProyectoCompiladores/generated/projectScanner.tokens" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projectScanner.g4" afterPath="$PROJECT_DIR$/projectScanner.g4" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/projectParser.g4" afterPath="$PROJECT_DIR$/projectParser.g4" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -108,7 +22,7 @@
         <entry file="file://$PROJECT_DIR$/test.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
-              <caret line="10" column="18" lean-forward="true" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+              <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -118,8 +32,73 @@
         <entry file="file://$PROJECT_DIR$/projectParser.g4">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
-              <caret line="7" column="25" lean-forward="false" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+              <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="9" selection-end-column="62" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MiVisitor.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/MiVisitor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="64" lean-forward="false" selection-start-line="12" selection-start-column="64" selection-end-line="12" selection-end-column="64" />
+              <folding>
+                <element signature="e#4144#4145#0" expanded="true" />
+                <element signature="e#4171#4172#0" expanded="true" />
+                <element signature="e#4261#4262#0" expanded="true" />
+                <element signature="e#4288#4289#0" expanded="true" />
+                <element signature="e#4376#4377#0" expanded="true" />
+                <element signature="e#4403#4404#0" expanded="true" />
+                <element signature="e#4489#4490#0" expanded="true" />
+                <element signature="e#4516#4517#0" expanded="true" />
+                <element signature="e#4606#4607#0" expanded="true" />
+                <element signature="e#4633#4634#0" expanded="true" />
+                <element signature="e#4725#4726#0" expanded="true" />
+                <element signature="e#4752#4753#0" expanded="true" />
+                <element signature="e#4852#4853#0" expanded="true" />
+                <element signature="e#4879#4880#0" expanded="true" />
+                <element signature="e#4977#4978#0" expanded="true" />
+                <element signature="e#5004#5005#0" expanded="true" />
+                <element signature="e#5104#5105#0" expanded="true" />
+                <element signature="e#5131#5132#0" expanded="true" />
+                <element signature="e#5225#5226#0" expanded="true" />
+                <element signature="e#5252#5253#0" expanded="true" />
+                <element signature="e#5348#5349#0" expanded="true" />
+                <element signature="e#5375#5376#0" expanded="true" />
+                <element signature="e#5473#5474#0" expanded="true" />
+                <element signature="e#5500#5501#0" expanded="true" />
+                <element signature="e#5586#5587#0" expanded="true" />
+                <element signature="e#5613#5614#0" expanded="true" />
+                <element signature="e#5709#5710#0" expanded="true" />
+                <element signature="e#5736#5737#0" expanded="true" />
+                <element signature="e#5834#5835#0" expanded="true" />
+                <element signature="e#5861#5862#0" expanded="true" />
+                <element signature="e#5965#5966#0" expanded="true" />
+                <element signature="e#5992#5993#0" expanded="true" />
+                <element signature="e#6102#6103#0" expanded="true" />
+                <element signature="e#6129#6130#0" expanded="true" />
+                <element signature="e#6233#6234#0" expanded="true" />
+                <element signature="e#6260#6261#0" expanded="true" />
+                <element signature="e#6356#6357#0" expanded="true" />
+                <element signature="e#6383#6384#0" expanded="true" />
+                <element signature="e#6479#6480#0" expanded="true" />
+                <element signature="e#6506#6507#0" expanded="true" />
+                <element signature="e#6610#6611#0" expanded="true" />
+                <element signature="e#6637#6638#0" expanded="true" />
+                <element signature="e#6735#6736#0" expanded="true" />
+                <element signature="e#6762#6763#0" expanded="true" />
+                <element signature="e#6860#6861#0" expanded="true" />
+                <element signature="e#6887#6888#0" expanded="true" />
+                <element signature="e#6991#6992#0" expanded="true" />
+                <element signature="e#7018#7019#0" expanded="true" />
+                <element signature="e#7122#7123#0" expanded="true" />
+                <element signature="e#7149#7150#0" expanded="true" />
+                <element signature="e#7247#7248#0" expanded="true" />
+                <element signature="e#7274#7275#0" expanded="true" />
+                <element signature="e#7376#7377#0" expanded="true" />
+                <element signature="e#7403#7404#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,18 +106,18 @@
       <file leaf-file-name="projectScanner.g4" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/projectScanner.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="146">
+            <state relative-caret-position="254">
               <caret line="43" column="19" lean-forward="false" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Editor.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Editor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Editor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="80" column="11" lean-forward="true" selection-start-line="80" selection-start-column="11" selection-end-line="80" selection-end-column="11" />
+            <state relative-caret-position="27">
+              <caret line="80" column="11" lean-forward="false" selection-start-line="80" selection-start-column="11" selection-end-line="80" selection-end-column="11" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -149,21 +128,11 @@
       <file leaf-file-name="ThrowingErrorListener.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ThrowingErrorListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="85" lean-forward="true" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="85" />
+            <state relative-caret-position="68">
+              <caret line="7" column="85" lean-forward="false" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="85" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="projectParser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/generated/projectParser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="431">
-              <caret line="1216" column="20" lean-forward="true" selection-start-line="1216" selection-start-column="20" selection-end-line="1216" selection-end-column="20" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -197,7 +166,11 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>projec</find>
+      <find>return super.visit</find>
     </findStrings>
+    <replaceStrings>
+      <replace>return null;</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -214,7 +187,6 @@
         <option value="$PROJECT_DIR$/src/Editor.jfd" />
         <option value="$PROJECT_DIR$/src/Editor.form" />
         <option value="$PROJECT_DIR$/test.txt" />
-        <option value="$PROJECT_DIR$/projectParser.g4" />
         <option value="$PROJECT_DIR$/projectScanner.g4" />
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/customErrorListener.java" />
@@ -222,6 +194,8 @@
         <option value="$PROJECT_DIR$/src/ExceptionErrorStrategy.java" />
         <option value="$PROJECT_DIR$/src/ErrorListener.java" />
         <option value="$PROJECT_DIR$/src/Editor.java" />
+        <option value="$PROJECT_DIR$/projectParser.g4" />
+        <option value="$PROJECT_DIR$/src/MiVisitor.java" />
       </list>
     </option>
   </component>
@@ -273,20 +247,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="generated" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="ProyectoCompiladores" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ProyectoCompiladores" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Editor" type="e9f4de52:FormNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="AndroidView" />
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -320,7 +288,7 @@
     <property name="$PROJECT_DIR$/projectParser.g4::/package" value="generated" />
     <property name="$PROJECT_DIR$/projectParser.g4::/language" value="Java" />
     <property name="$PROJECT_DIR$/projectParser.g4::/gen-listener" value="false" />
-    <property name="$PROJECT_DIR$/projectParser.g4::/gen-visitor" value="false" />
+    <property name="$PROJECT_DIR$/projectParser.g4::/gen-visitor" value="true" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="299" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
@@ -473,11 +441,12 @@
       <workItem from="1521178892865" duration="2249000" />
       <workItem from="1521215858777" duration="7785000" />
       <workItem from="1521228804186" duration="15738000" />
+      <workItem from="1521315453411" duration="7343000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43927000" />
+    <option name="totallyTimeSpent" value="51270000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -497,9 +466,8 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18532526" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18835099" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.72307694" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -512,6 +480,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -565,14 +534,72 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
+    <entry file="file://$PROJECT_DIR$/test.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="28" column="42" lean-forward="false" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
+        <state relative-caret-position="170">
+          <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/projectParser.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="25" lean-forward="false" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/projectScanner.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="43" column="19" lean-forward="false" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ThrowingErrorListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="85" lean-forward="true" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="85" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/generated/projectParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20672">
+          <caret line="1216" column="20" lean-forward="true" selection-start-line="1216" selection-start-column="20" selection-end-line="1216" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/CharStream.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="9" column="24" lean-forward="false" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Editor.form">
+      <provider selected="true" editor-type-id="ui-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Editor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1360">
+          <caret line="80" column="11" lean-forward="true" selection-start-line="80" selection-start-column="11" selection-end-line="80" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java" />
     <entry file="file://$PROJECT_DIR$/projectParser.g4">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="629">
@@ -611,14 +638,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java" />
     <entry file="file://$PROJECT_DIR$/test.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -648,14 +668,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java" />
     <entry file="file://$PROJECT_DIR$/src/generated/_.txt" />
     <entry file="file://$PROJECT_DIR$/src/generated/_/txt.java" />
     <entry file="file://$PROJECT_DIR$/src/generated/_.txt" />
@@ -673,11 +686,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Editor.jfd">
-      <provider selected="true" editor-type-id="JFormDesigner">
-        <state paletteWidth="291" />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Editor.jfd" />
     <entry file="jar://$PROJECT_DIR$/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/CharStream.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -694,27 +703,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/projectScanner.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="43" column="19" lean-forward="false" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/projectParser.g4">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="25" lean-forward="false" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/antlr-4.7.1-complete.jar!/org/antlr/v4/gui/Trees.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -722,7 +714,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="139">
           <caret line="353" column="23" lean-forward="false" selection-start-line="353" selection-start-column="23" selection-end-line="353" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -731,71 +722,38 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/parserView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/parserView.form">
-      <provider selected="true" editor-type-id="ui-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/customErrorListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ExceptionErrorStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="63" lean-forward="true" selection-start-line="14" selection-start-column="63" selection-end-line="14" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parserView.java" />
+    <entry file="file://$PROJECT_DIR$/src/parserView.form" />
+    <entry file="file://$PROJECT_DIR$/src/customErrorListener.java" />
+    <entry file="file://$PROJECT_DIR$/src/ExceptionErrorStrategy.java" />
     <entry file="jar://$PROJECT_DIR$/antlr-4.7.1-complete.jar!/org/antlr/v4/runtime/Parser.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="338" column="0" lean-forward="false" selection-start-line="338" selection-start-column="0" selection-end-line="338" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/generated/projectParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="1216" column="20" lean-forward="true" selection-start-line="1216" selection-start-column="20" selection-end-line="1216" selection-end-column="20" />
+        <state relative-caret-position="18275">
+          <caret line="1216" column="20" lean-forward="false" selection-start-line="1216" selection-start-column="20" selection-end-line="1216" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="37" lean-forward="false" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java" />
     <entry file="file://$PROJECT_DIR$/test.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
-          <caret line="10" column="18" lean-forward="true" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+          <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ThrowingErrorListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="85" lean-forward="true" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="85" />
+        <state relative-caret-position="68">
+          <caret line="7" column="85" lean-forward="false" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="85" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -804,10 +762,89 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Editor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="80" column="11" lean-forward="true" selection-start-line="80" selection-start-column="11" selection-end-line="80" selection-end-column="11" />
+        <state relative-caret-position="27">
+          <caret line="80" column="11" lean-forward="false" selection-start-line="80" selection-start-column="11" selection-end-line="80" selection-end-column="11" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/projectScanner.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="43" column="19" lean-forward="false" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/projectParser.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="9" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MiVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="64" lean-forward="false" selection-start-line="12" selection-start-column="64" selection-end-line="12" selection-end-column="64" />
+          <folding>
+            <element signature="e#4144#4145#0" expanded="true" />
+            <element signature="e#4171#4172#0" expanded="true" />
+            <element signature="e#4261#4262#0" expanded="true" />
+            <element signature="e#4288#4289#0" expanded="true" />
+            <element signature="e#4376#4377#0" expanded="true" />
+            <element signature="e#4403#4404#0" expanded="true" />
+            <element signature="e#4489#4490#0" expanded="true" />
+            <element signature="e#4516#4517#0" expanded="true" />
+            <element signature="e#4606#4607#0" expanded="true" />
+            <element signature="e#4633#4634#0" expanded="true" />
+            <element signature="e#4725#4726#0" expanded="true" />
+            <element signature="e#4752#4753#0" expanded="true" />
+            <element signature="e#4852#4853#0" expanded="true" />
+            <element signature="e#4879#4880#0" expanded="true" />
+            <element signature="e#4977#4978#0" expanded="true" />
+            <element signature="e#5004#5005#0" expanded="true" />
+            <element signature="e#5104#5105#0" expanded="true" />
+            <element signature="e#5131#5132#0" expanded="true" />
+            <element signature="e#5225#5226#0" expanded="true" />
+            <element signature="e#5252#5253#0" expanded="true" />
+            <element signature="e#5348#5349#0" expanded="true" />
+            <element signature="e#5375#5376#0" expanded="true" />
+            <element signature="e#5473#5474#0" expanded="true" />
+            <element signature="e#5500#5501#0" expanded="true" />
+            <element signature="e#5586#5587#0" expanded="true" />
+            <element signature="e#5613#5614#0" expanded="true" />
+            <element signature="e#5709#5710#0" expanded="true" />
+            <element signature="e#5736#5737#0" expanded="true" />
+            <element signature="e#5834#5835#0" expanded="true" />
+            <element signature="e#5861#5862#0" expanded="true" />
+            <element signature="e#5965#5966#0" expanded="true" />
+            <element signature="e#5992#5993#0" expanded="true" />
+            <element signature="e#6102#6103#0" expanded="true" />
+            <element signature="e#6129#6130#0" expanded="true" />
+            <element signature="e#6233#6234#0" expanded="true" />
+            <element signature="e#6260#6261#0" expanded="true" />
+            <element signature="e#6356#6357#0" expanded="true" />
+            <element signature="e#6383#6384#0" expanded="true" />
+            <element signature="e#6479#6480#0" expanded="true" />
+            <element signature="e#6506#6507#0" expanded="true" />
+            <element signature="e#6610#6611#0" expanded="true" />
+            <element signature="e#6637#6638#0" expanded="true" />
+            <element signature="e#6735#6736#0" expanded="true" />
+            <element signature="e#6762#6763#0" expanded="true" />
+            <element signature="e#6860#6861#0" expanded="true" />
+            <element signature="e#6887#6888#0" expanded="true" />
+            <element signature="e#6991#6992#0" expanded="true" />
+            <element signature="e#7018#7019#0" expanded="true" />
+            <element signature="e#7122#7123#0" expanded="true" />
+            <element signature="e#7149#7150#0" expanded="true" />
+            <element signature="e#7247#7248#0" expanded="true" />
+            <element signature="e#7274#7275#0" expanded="true" />
+            <element signature="e#7376#7377#0" expanded="true" />
+            <element signature="e#7403#7404#0" expanded="true" />
           </folding>
         </state>
       </provider>

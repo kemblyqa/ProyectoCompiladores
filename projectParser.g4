@@ -17,7 +17,9 @@ additionExpression  : multiplicationExpression additionFactor   #additionExpress
 additionFactor     : ((SUM|SUB) multiplicationExpression)*  #additionFactorAST;
 multiplicationExpression    : elementExpression multiplicationFactor    #multiplicationExpressionASP;
 multiplicationFactor        : ((MUL|DIV) elementExpression)*    #multiplicationFactorASP;
-elementExpression           : primitiveExpression (elementAccess | callExpression | )   #elementExpressionASP;
+elementExpression           : primitiveExpression elementAccess     #eleExpEleAcc
+                            | primitiveExpression callExpression    #eleExpCall
+                            | primitiveExpression                   #eleExpPriOnly;
 elementAccess               : PCIZQ expression PCDER    #elementAccessASP;
 callExpression              : PIZQ expressionList PDER  #callExpressionASP;
 primitiveExpression         : INTEGER   #pExprIntASP
