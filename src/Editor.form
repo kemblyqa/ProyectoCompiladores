@@ -68,7 +68,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Generar Arbol"/>
+          <text value="Compilar + Generar Arbol"/>
         </properties>
       </component>
       <vspacer id="e4584">
