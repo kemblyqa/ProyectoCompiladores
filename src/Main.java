@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
@@ -38,14 +39,21 @@ public class Main {
     }
     public void compile() {
         try {
+            ThrowingErrorListener.errorList="";
             input = new ANTLRInputStream(mainView.codeEditor.getText());
             inst = new projectScanner(input);
+            inst.removeErrorListeners();
+            inst.addErrorListener(ThrowingErrorListener.INSTANCE);
             tokens = new CommonTokenStream(inst);
             parser = new projectParser(tokens);
             parser.removeErrorListeners();
             parser.addErrorListener(ThrowingErrorListener.INSTANCE);
             tree = parser.program();
-            mainView.compDetails.setText("Compilación Exitosa!!" );
+            if (Objects.equals(ThrowingErrorListener.errorList, ""))
+                mainView.compDetails.setText("Compilación Exitosa!!" );
+            else
+                mainView.compDetails.setText(ThrowingErrorListener.errorList);
+
         }
         catch(Exception exc){
             mainView.compDetails.setText("ERROR: "+exc.getMessage()+ "\nCAUSA: "+exc.getCause());
@@ -53,6 +61,8 @@ public class Main {
     }
     public void genTree() {
         compile();
+        if (!Objects.equals(ThrowingErrorListener.errorList, ""))
+                return;
         try {
             if (treeFrame!=null){
                 treeFrame.setVisible(false);
