@@ -1,9 +1,4 @@
 lexer grammar projectScanner;
-WS : [ \t\n\r]+ -> skip;
-
-//COMENTARIOS
-LINE_COMMENT : '//' ~[\r\n]* -> skip;
-FULL_COMMENT :  '/*' .*? '*/' -> skip;
 
 //palabras
 TRUE    : 'true';
@@ -23,6 +18,13 @@ LLAVEDER: '}';
 VIR : '~';
 DOSPUN  : ':';
 COMMA   : ',';
+COMILLA : '"';
+
+WS : [ \t\n\r]+ -> skip;
+
+//COMENTARIOS
+FULL_COMMENT : '/*' (FULL_COMMENT|.)*? '*/' -> skip ;
+LINE_COMMENT  : '//' .*? '\n' -> skip ;
 
 //accionesArray
 LEN     : 'len';
@@ -47,7 +49,7 @@ MAYORIGUAL  : '>=';
 IGUAL       : '==';
 DISTINTO    : '!=';
 //cadenas
-STRING  : '"' .*? '"';
+STRING  : COMILLA ( ~["\r\n] | '""' )* COMILLA ;
 INTEGER : DIGIT+;
 IDENTIFIER  : LETTER (LETTER | DIGIT)*;
 //tipos

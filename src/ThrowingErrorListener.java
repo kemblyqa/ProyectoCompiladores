@@ -14,6 +14,7 @@ public class ThrowingErrorListener extends BaseErrorListener {
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e)
     {
         //apilamiento de
+        System.out.println();
         errorList= errorList + ("\nlinea " + line + ":" + charPositionInLine + " " + msg);
     }
 }
