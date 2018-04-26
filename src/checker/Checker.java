@@ -1,8 +1,15 @@
+package checker;
+
 import generated.projectParser;
-public class MiVisitor extends generated.projectParserBaseVisitor{
+import generated.projectParserBaseVisitor;
+
+public class Checker extends projectParserBaseVisitor {
+    private SymbolTable tableIDs = null;
+    public Checker() { this.tableIDs = new SymbolTable(); }
+
     @Override
     public Object visitProgAST(projectParser.ProgASTContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
+        // System.out.println(ctx.getClass().getSimpleName()+"\n");
         for (projectParser.StatementContext ele : ctx.statement())
             visit(ele);
         return null;
@@ -10,51 +17,75 @@ public class MiVisitor extends generated.projectParserBaseVisitor{
 
     @Override
     public Object visitStLetAST(projectParser.StLetASTContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
+        // System.out.println(ctx.getClass().getSimpleName()+"\n");
         visit(ctx.letStatement());
         return null;
     }
 
     @Override
     public Object visitStReturnAST(projectParser.StReturnASTContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
+        // System.out.println(ctx.getClass().getSimpleName()+"\n");
         visit(ctx.returnStatement());
         return null;
     }
 
     @Override
     public Object visitStExpressAST(projectParser.StExpressASTContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
+        //System.out.println(ctx.getClass().getSimpleName()+"\n");
+        visit(ctx.expressionStatement());
         return null;
     }
 
     @Override
     public Object visitLetStatementAST(projectParser.LetStatementASTContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
+        //System.out.println(ctx.getClass().getSimpleName()+"\n");
+
+        /*
+         * identifier = expression ( ; | ε)
+         * */
+
+        visit(ctx.expression());
         return null;
     }
 
     @Override
     public Object visitReturnStatementAST(projectParser.ReturnStatementASTContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
+        //System.out.println(ctx.getClass().getSimpleName()+"\n");
+
+        /*
+         * expression ( ; | ε)
+         * */
+        visit(ctx.expression());
         return null;
     }
 
     @Override
     public Object visitExpressionStatementAST(projectParser.ExpressionStatementASTContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
+        //System.out.println(ctx.getClass().getSimpleName()+"\n");
+        /*
+         * expression ( ; | ε)
+         * */
+        visit(ctx.expression());
         return null;
     }
 
     @Override
     public Object visitExpressionAST(projectParser.ExpressionASTContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
+        //System.out.println(ctx.getClass().getSimpleName()+"\n");
+        /*
+         * additionExpression comparison
+         * */
+        visit(ctx.additionExpression());
+        visit(ctx.comparison());
         return null;
     }
 
     @Override
     public Object visitComparisonAST(projectParser.ComparisonASTContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
+        //System.out.println(ctx.getClass().getSimpleName()+"\n");
+        /*
+         * ((<|>|<=|>=|==) additionExpression)*
+         * */
         for (projectParser.AdditionExpressionContext ele : ctx.additionExpression())
             visit(ele);
         return null;
@@ -62,7 +93,7 @@ public class MiVisitor extends generated.projectParserBaseVisitor{
 
     @Override
     public Object visitAdditionExpressionAST(projectParser.AdditionExpressionASTContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
+        //System.out.println(ctx.getClass().getSimpleName()+"\n");
         visit(ctx.multiplicationExpression());
         visit(ctx.additionFactor());
         return null;
