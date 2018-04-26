@@ -9,7 +9,6 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitProgAST(projectParser.ProgASTContext ctx) {
-        // System.out.println(ctx.getClass().getSimpleName()+"\n");
         for (projectParser.StatementContext ele : ctx.statement())
             visit(ele);
         return null;
@@ -17,7 +16,6 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitStLetAST(projectParser.StLetASTContext ctx) {
-        // System.out.println(ctx.getClass().getSimpleName()+"\n");
         visit(ctx.letStatement());
         return null;
     }

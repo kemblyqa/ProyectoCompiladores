@@ -1,3 +1,4 @@
+import checker.Checker;
 import generated.projectParser;
 import generated.projectScanner;
 import org.antlr.v4.gui.TreeViewer;
@@ -56,6 +57,11 @@ public class Main {
             parser.addErrorListener(ThrowingErrorListener.INSTANCE);
             //obtencion del arbol de codigo
             tree = parser.program();
+
+            //checker
+            Checker v = new Checker();
+            v.visit(tree);
+
             //comprobacion de errores
             if (Objects.equals(ThrowingErrorListener.errorList, ""))
                 mainView.compDetails.setText("Compilación Exitosa!!");
