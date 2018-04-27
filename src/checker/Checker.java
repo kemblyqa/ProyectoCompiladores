@@ -91,34 +91,57 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitAdditionExpressionAST(projectParser.AdditionExpressionASTContext ctx) {
-        //System.out.println(ctx.getClass().getSimpleName()+"\n");
-        visit(ctx.multiplicationExpression());
-        visit(ctx.additionFactor());
-        return null;
-    }
-
-    @Override
-    public Object visitAdditionFactorAST(projectParser.AdditionFactorASTContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
-        for (projectParser.MultiplicationExpressionContext ele : ctx.multiplicationExpression())
-            visit(ele);
-        return null;
+        int type = (Integer) visit(ctx.multiplicationExpression(0));
+        if (type==-1) return -1;
+        if (type==-1 || (type==6 && ctx.ADDOPERATOR().size()>0)) return -1;
+        for (int x=1;x<ctx.multiplicationExpression().size();x++){
+            int nextType = (Integer) visit(ctx.multiplicationExpression(x));
+            if(type!=2 && ctx.ADDOPERATOR(x - 1).getText().equals("-"))
+                return -1;
+            if(type != nextType){
+                if(!ctx.ADDOPERATOR(x - 1).getText().equals(""))
+                    return -1;
+                else if(type==3 && nextType==2)
+                    type=4;
+                else if(type==4){
+                    if(nextType==2)
+                        type=4;
+                    else if(nextType==3)
+                        type=4;
+                    else return -1;
+                }
+                else
+                    return -1;
+            }
+        }
+        return type;
     }
 
     @Override
     public Object visitMultiplicationExpressionASP(projectParser.MultiplicationExpressionASPContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
-        visit(ctx.elementExpression());
-        visit(ctx.multiplicationFactor());
-        return null;
-    }
-
-    @Override
-    public Object visitMultiplicationFactorASP(projectParser.MultiplicationFactorASPContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
-        for (projectParser.ElementExpressionContext ele : ctx.elementExpression())
-            visit(ele);
-        return null;
+        int type = (Integer) visit(ctx.elementExpression(0));
+        if (type==-1 || (type==6 && ctx.MULOPERATOR().size()>0)) return -1;
+        for (int x=1;x<ctx.elementExpression().size();x++){
+            int nextType = (Integer) visit(ctx.elementExpression(x));
+            if(type!=2 && ctx.MULOPERATOR(x - 1).getText().equals("/"))
+                return -1;
+            if(type != nextType){
+                if(!ctx.MULOPERATOR(x - 1).getText().equals("-"))
+                    return -1;
+                else if(type==2)
+                    if(nextType==3)
+                        type=4;
+                    else if(nextType==4)
+                        type=4;
+                    else if(nextType==5)
+                        type=5;
+                    else
+                        return -1;
+                else
+                    return -1;
+            }
+        }
+        return type;
     }
 
     @Override

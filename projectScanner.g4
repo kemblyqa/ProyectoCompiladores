@@ -40,8 +40,10 @@ ELSE    : 'else';
 //OPERADORES
 SUM : '+';
 SUB : '-';
+ADDOPERATOR: (SUM | SUB);
 MUL : '*';
 DIV : '/';
+MULOPERATOR: (MUL | DIV);
 MENOR       : '<';
 MENORIGUAL  : '<=';
 MAYOR       : '>';

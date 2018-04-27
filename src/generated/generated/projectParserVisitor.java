@@ -81,26 +81,12 @@ public interface projectParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAdditionExpressionAST(projectParser.AdditionExpressionASTContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code additionFactorAST}
-	 * labeled alternative in {@link projectParser#additionFactor}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAdditionFactorAST(projectParser.AdditionFactorASTContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code multiplicationExpressionASP}
 	 * labeled alternative in {@link projectParser#multiplicationExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitMultiplicationExpressionASP(projectParser.MultiplicationExpressionASPContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code multiplicationFactorASP}
-	 * labeled alternative in {@link projectParser#multiplicationFactor}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMultiplicationFactorASP(projectParser.MultiplicationFactorASPContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code eleExpEleAcc}
 	 * labeled alternative in {@link projectParser#elementExpression}.
