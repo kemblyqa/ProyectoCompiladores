@@ -38,12 +38,8 @@ IF      : 'if';
 ELSE    : 'else';
 
 //OPERADORES
-SUM : '+';
-SUB : '-';
-ADDOPERATOR: (SUM | SUB);
-MUL : '*';
-DIV : '/';
-MULOPERATOR: (MUL | DIV);
+ADDOPERATOR: ('+' | '-');
+MULOPERATOR: ('*' | '/');
 MENOR       : '<';
 MENORIGUAL  : '<=';
 MAYOR       : '>';

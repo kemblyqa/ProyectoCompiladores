@@ -22,7 +22,7 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitStReturnAST(projectParser.StReturnASTContext ctx) {
-        // System.out.println(ctx.getClass().getSimpleName()+"\n");
+        System.out.println(ctx.getClass().getSimpleName()+"\n");
         visit(ctx.returnStatement());
         return null;
     }
@@ -210,9 +210,7 @@ public class Checker extends projectParserBaseVisitor {
     }
 
     @Override
-    public Object visitPExpArrayFuncASP(projectParser.PExpArrayFuncASPContext ctx) {
-        return null;
-    }
+    public Object visitPExpArrayFuncASP(projectParser.PExpArrayFuncASPContext ctx) { return null; }
 
     @Override
     public Object visitPExpFunLitASP(projectParser.PExpFunLitASPContext ctx) {
@@ -236,6 +234,7 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitArrayFunctions(projectParser.ArrayFunctionsContext ctx) {
+        System.out.println(ctx.getClass().getSimpleName());
         return null;
     }
 

@@ -59,8 +59,8 @@ public class Main {
             tree = parser.program();
 
             //checker
-            Checker v = new Checker();
-            v.visit(tree);
+//            Checker v = new Checker();
+//            v.visit(tree);
 
             //comprobacion de errores
             if (Objects.equals(ThrowingErrorListener.errorList, ""))

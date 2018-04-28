@@ -1,4 +1,4 @@
-// Generated from D:/ProyectoCompiladores\projectParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Alberth/Google Drive/Desktop/TEC/Compiladores/Proyecto\projectParser.g4 by ANTLR 4.7
 package generated;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -20,10 +20,9 @@ public class projectParser extends Parser {
 		TRUE=1, FALSE=2, LET=3, RETURN=4, PyCOMMA=5, ASSIGN=6, PIZQ=7, PDER=8, 
 		PCIZQ=9, PCDER=10, LLAVEIZQ=11, LLAVEDER=12, VIR=13, DOSPUN=14, COMMA=15, 
 		COMILLA=16, WS=17, FULL_COMMENT=18, LINE_COMMENT=19, LEN=20, FIRST=21, 
-		LAST=22, REST=23, PUSH=24, FN=25, PUTS=26, IF=27, ELSE=28, SUM=29, SUB=30, 
-		ADDOPERATOR=31, MUL=32, DIV=33, MULOPERATOR=34, MENOR=35, MENORIGUAL=36, 
-		MAYOR=37, MAYORIGUAL=38, IGUAL=39, DISTINTO=40, STRING=41, INTEGER=42, 
-		IDENTIFIER=43;
+		LAST=22, REST=23, PUSH=24, FN=25, PUTS=26, IF=27, ELSE=28, ADDOPERATOR=29, 
+		MULOPERATOR=30, MENOR=31, MENORIGUAL=32, MAYOR=33, MAYORIGUAL=34, IGUAL=35, 
+		DISTINTO=36, STRING=37, INTEGER=38, IDENTIFIER=39;
 	public static final int
 		RULE_program = 0, RULE_statement = 1, RULE_letStatement = 2, RULE_returnStatement = 3, 
 		RULE_expressionStatement = 4, RULE_expression = 5, RULE_comparison = 6, 
@@ -47,16 +46,15 @@ public class projectParser extends Parser {
 		null, "'true'", "'false'", "'let'", "'return'", "';'", "'='", "'('", "')'", 
 		"'['", "']'", "'{'", "'}'", "'~'", "':'", "','", "'\"'", null, null, null, 
 		"'len'", "'first'", "'last'", "'rest'", "'push'", "'fn'", "'puts'", "'if'", 
-		"'else'", "'+'", "'-'", null, "'*'", "'/'", null, "'<'", "'<='", "'>'", 
-		"'>='", "'=='", "'!='"
+		"'else'", null, null, "'<'", "'<='", "'>'", "'>='", "'=='", "'!='"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, "TRUE", "FALSE", "LET", "RETURN", "PyCOMMA", "ASSIGN", "PIZQ", "PDER", 
 		"PCIZQ", "PCDER", "LLAVEIZQ", "LLAVEDER", "VIR", "DOSPUN", "COMMA", "COMILLA", 
 		"WS", "FULL_COMMENT", "LINE_COMMENT", "LEN", "FIRST", "LAST", "REST", 
-		"PUSH", "FN", "PUTS", "IF", "ELSE", "SUM", "SUB", "ADDOPERATOR", "MUL", 
-		"DIV", "MULOPERATOR", "MENOR", "MENORIGUAL", "MAYOR", "MAYORIGUAL", "IGUAL", 
-		"DISTINTO", "STRING", "INTEGER", "IDENTIFIER"
+		"PUSH", "FN", "PUTS", "IF", "ELSE", "ADDOPERATOR", "MULOPERATOR", "MENOR", 
+		"MENORIGUAL", "MAYOR", "MAYORIGUAL", "IGUAL", "DISTINTO", "STRING", "INTEGER", 
+		"IDENTIFIER"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -2442,7 +2440,7 @@ public class projectParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3-\u00de\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3)\u00de\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -2459,7 +2457,7 @@ public class projectParser extends Parser {
 		"\n\27\3\30\3\30\7\30\u00c3\n\30\f\30\16\30\u00c6\13\30\3\31\3\31\3\31"+
 		"\3\31\3\31\3\32\3\32\3\32\3\32\3\32\3\32\5\32\u00d3\n\32\3\33\3\33\7\33"+
 		"\u00d7\n\33\f\33\16\33\u00da\13\33\3\33\3\33\3\33\2\2\34\2\4\6\b\n\f\16"+
-		"\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\2\4\4\2%%\')\3\2\26\32\2\u00df"+
+		"\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\2\4\4\2!!#%\3\2\26\32\2\u00df"+
 		"\29\3\2\2\2\4A\3\2\2\2\6C\3\2\2\2\bJ\3\2\2\2\nO\3\2\2\2\fT\3\2\2\2\16"+
 		"[\3\2\2\2\20^\3\2\2\2\22f\3\2\2\2\24u\3\2\2\2\26w\3\2\2\2\30{\3\2\2\2"+
 		"\32\u0092\3\2\2\2\34\u0094\3\2\2\2\36\u0096\3\2\2\2 \u009a\3\2\2\2\"\u00a0"+
@@ -2467,18 +2465,18 @@ public class projectParser extends Parser {
 		"\u00be\3\2\2\2.\u00c4\3\2\2\2\60\u00c7\3\2\2\2\62\u00cc\3\2\2\2\64\u00d4"+
 		"\3\2\2\2\668\5\4\3\2\67\66\3\2\2\28;\3\2\2\29\67\3\2\2\29:\3\2\2\2:\3"+
 		"\3\2\2\2;9\3\2\2\2<=\7\5\2\2=B\5\6\4\2>?\7\6\2\2?B\5\b\5\2@B\5\n\6\2A"+
-		"<\3\2\2\2A>\3\2\2\2A@\3\2\2\2B\5\3\2\2\2CD\7-\2\2DE\7\b\2\2EH\5\f\7\2"+
+		"<\3\2\2\2A>\3\2\2\2A@\3\2\2\2B\5\3\2\2\2CD\7)\2\2DE\7\b\2\2EH\5\f\7\2"+
 		"FI\7\7\2\2GI\3\2\2\2HF\3\2\2\2HG\3\2\2\2I\7\3\2\2\2JM\5\f\7\2KN\7\7\2"+
 		"\2LN\3\2\2\2MK\3\2\2\2ML\3\2\2\2N\t\3\2\2\2OR\5\f\7\2PS\7\7\2\2QS\3\2"+
 		"\2\2RP\3\2\2\2RQ\3\2\2\2S\13\3\2\2\2TU\5\20\t\2UV\5\16\b\2V\r\3\2\2\2"+
 		"WX\t\2\2\2XZ\5\20\t\2YW\3\2\2\2Z]\3\2\2\2[Y\3\2\2\2[\\\3\2\2\2\\\17\3"+
-		"\2\2\2][\3\2\2\2^c\5\22\n\2_`\7!\2\2`b\5\22\n\2a_\3\2\2\2be\3\2\2\2ca"+
-		"\3\2\2\2cd\3\2\2\2d\21\3\2\2\2ec\3\2\2\2fk\5\24\13\2gh\7$\2\2hj\5\24\13"+
-		"\2ig\3\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3\2\2\2l\23\3\2\2\2mk\3\2\2\2no\5\32"+
-		"\16\2op\5\26\f\2pv\3\2\2\2qr\5\32\16\2rs\5\30\r\2sv\3\2\2\2tv\5\32\16"+
-		"\2un\3\2\2\2uq\3\2\2\2ut\3\2\2\2v\25\3\2\2\2wx\7\13\2\2xy\5\f\7\2yz\7"+
-		"\f\2\2z\27\3\2\2\2{|\7\t\2\2|}\5,\27\2}~\7\n\2\2~\31\3\2\2\2\177\u0093"+
-		"\7,\2\2\u0080\u0093\7+\2\2\u0081\u0093\7-\2\2\u0082\u0093\7\3\2\2\u0083"+
+		"\2\2\2][\3\2\2\2^c\5\22\n\2_`\7\37\2\2`b\5\22\n\2a_\3\2\2\2be\3\2\2\2"+
+		"ca\3\2\2\2cd\3\2\2\2d\21\3\2\2\2ec\3\2\2\2fk\5\24\13\2gh\7 \2\2hj\5\24"+
+		"\13\2ig\3\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3\2\2\2l\23\3\2\2\2mk\3\2\2\2no"+
+		"\5\32\16\2op\5\26\f\2pv\3\2\2\2qr\5\32\16\2rs\5\30\r\2sv\3\2\2\2tv\5\32"+
+		"\16\2un\3\2\2\2uq\3\2\2\2ut\3\2\2\2v\25\3\2\2\2wx\7\13\2\2xy\5\f\7\2y"+
+		"z\7\f\2\2z\27\3\2\2\2{|\7\t\2\2|}\5,\27\2}~\7\n\2\2~\31\3\2\2\2\177\u0093"+
+		"\7(\2\2\u0080\u0093\7\'\2\2\u0081\u0093\7)\2\2\u0082\u0093\7\3\2\2\u0083"+
 		"\u0093\7\4\2\2\u0084\u0085\7\t\2\2\u0085\u0086\5\f\7\2\u0086\u0087\7\n"+
 		"\2\2\u0087\u0093\3\2\2\2\u0088\u0093\5\36\20\2\u0089\u008a\5\34\17\2\u008a"+
 		"\u008b\7\t\2\2\u008b\u008c\5,\27\2\u008c\u008d\7\n\2\2\u008d\u0093\3\2"+
@@ -2490,8 +2488,8 @@ public class projectParser extends Parser {
 		"\t\3\2\2\u0095\35\3\2\2\2\u0096\u0097\7\13\2\2\u0097\u0098\5,\27\2\u0098"+
 		"\u0099\7\f\2\2\u0099\37\3\2\2\2\u009a\u009b\7\33\2\2\u009b\u009c\7\t\2"+
 		"\2\u009c\u009d\5\"\22\2\u009d\u009e\7\n\2\2\u009e\u009f\5\64\33\2\u009f"+
-		"!\3\2\2\2\u00a0\u00a1\7-\2\2\u00a1\u00a2\5$\23\2\u00a2#\3\2\2\2\u00a3"+
-		"\u00a4\7\21\2\2\u00a4\u00a6\7-\2\2\u00a5\u00a3\3\2\2\2\u00a6\u00a9\3\2"+
+		"!\3\2\2\2\u00a0\u00a1\7)\2\2\u00a1\u00a2\5$\23\2\u00a2#\3\2\2\2\u00a3"+
+		"\u00a4\7\21\2\2\u00a4\u00a6\7)\2\2\u00a5\u00a3\3\2\2\2\u00a6\u00a9\3\2"+
 		"\2\2\u00a7\u00a5\3\2\2\2\u00a7\u00a8\3\2\2\2\u00a8%\3\2\2\2\u00a9\u00a7"+
 		"\3\2\2\2\u00aa\u00ab\7\r\2\2\u00ab\u00ac\5(\25\2\u00ac\u00ad\5*\26\2\u00ad"+
 		"\u00ae\7\16\2\2\u00ae\'\3\2\2\2\u00af\u00b0\5\f\7\2\u00b0\u00b1\7\20\2"+
