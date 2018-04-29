@@ -1,4 +1,4 @@
-// Generated from C:/Users/Alberth/Google Drive/Desktop/TEC/Compiladores/Proyecto\projectParser.g4 by ANTLR 4.7
+// Generated from C:/Users/kembl/Desktop/ProyectoCompiladores\projectParser.g4 by ANTLR 4.7
 package generated;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -449,30 +449,6 @@ public interface projectParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpressionListF(projectParser.ExpressionListFContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code expressionListE}
-	 * labeled alternative in {@link projectParser#expressionList}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionListE(projectParser.ExpressionListEContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code expressionListE}
-	 * labeled alternative in {@link projectParser#expressionList}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionListE(projectParser.ExpressionListEContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code moreExpressionsASP}
-	 * labeled alternative in {@link projectParser#moreExpressions}.
-	 * @param ctx the parse tree
-	 */
-	void enterMoreExpressionsASP(projectParser.MoreExpressionsASPContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code moreExpressionsASP}
-	 * labeled alternative in {@link projectParser#moreExpressions}.
-	 * @param ctx the parse tree
-	 */
-	void exitMoreExpressionsASP(projectParser.MoreExpressionsASPContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code printExpressionASP}
 	 * labeled alternative in {@link projectParser#printExpression}.

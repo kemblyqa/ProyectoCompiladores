@@ -16,90 +16,78 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitStLetAST(projectParser.StLetASTContext ctx) {
+        System.out.println("let");
         visit(ctx.letStatement());
         return null;
     }
 
     @Override
     public Object visitStReturnAST(projectParser.StReturnASTContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
+        System.out.println("ret");
         visit(ctx.returnStatement());
         return null;
     }
 
     @Override
     public Object visitStExpressAST(projectParser.StExpressASTContext ctx) {
-        //System.out.println(ctx.getClass().getSimpleName()+"\n");
         visit(ctx.expressionStatement());
         return null;
     }
 
     @Override
     public Object visitLetStatementAST(projectParser.LetStatementASTContext ctx) {
-        //System.out.println(ctx.getClass().getSimpleName()+"\n");
-
-        /*
-         * identifier = expression ( ; | ε)
-         * */
-
         visit(ctx.expression());
         return null;
     }
 
     @Override
     public Object visitReturnStatementAST(projectParser.ReturnStatementASTContext ctx) {
-        //System.out.println(ctx.getClass().getSimpleName()+"\n");
-
-        /*
-         * expression ( ; | ε)
-         * */
         visit(ctx.expression());
         return null;
     }
 
     @Override
     public Object visitExpressionStatementAST(projectParser.ExpressionStatementASTContext ctx) {
-        //System.out.println(ctx.getClass().getSimpleName()+"\n");
-        /*
-         * expression ( ; | ε)
-         * */
         visit(ctx.expression());
         return null;
     }
 
     @Override
     public Object visitExpressionAST(projectParser.ExpressionASTContext ctx) {
-        //System.out.println(ctx.getClass().getSimpleName()+"\n");
-        /*
-         * additionExpression comparison
-         * */
-        visit(ctx.additionExpression());
-        visit(ctx.comparison());
-        return null;
+        String addExpType = (String) visit(ctx.additionExpression());
+        if(addExpType.equals("err")) return addExpType;
+        String comp = (String) visit(ctx.comparison());
+
+        if(comp.equals("err") || !comp.equals(addExpType)){
+            return "err";
+        } else {
+            return addExpType;
+        }
     }
 
     @Override
     public Object visitComparisonAST(projectParser.ComparisonASTContext ctx) {
-        //System.out.println(ctx.getClass().getSimpleName()+"\n");
-        /*
-         * ((<|>|<=|>=|==) additionExpression)*
-         * */
+        /**SOLO ENTEROS SE COMPARAN, EL == ES CON CUALQUIER TIPO BASICO**/
+        String addExpType = (String) visit(ctx.additionExpression(0));
+        if(addExpType.equals("err")) return addExpType;
         for (projectParser.AdditionExpressionContext ele : ctx.additionExpression())
-            visit(ele);
-        return null;
+            if(visit(ele).equals(addExpType)){
+                return "err";
+            }
+        return addExpType;
     }
 
     @Override
     public Object visitAdditionExpressionAST(projectParser.AdditionExpressionASTContext ctx) {
         int type = (Integer) visit(ctx.multiplicationExpression(0));
         if (type==-1) return -1;
-        if (type==-1 || (type==6 && ctx.ADDOPERATOR().size()>0)) return -1;
+        if (type==-1 || (type==7 && ctx.ADDOPERATOR().size()>0)) return -1;
         for (int x=1;x<ctx.multiplicationExpression().size();x++){
             int nextType = (Integer) visit(ctx.multiplicationExpression(x));
             if(type!=2 && ctx.ADDOPERATOR(x - 1).getText().equals("-"))
                 return -1;
             if(type != nextType){
-                if(!ctx.ADDOPERATOR(x - 1).getText().equals(""))
+                if(!ctx.ADDOPERATOR(x - 1).getText().equals("-"))
                     return -1;
                 else if(type==3 && nextType==2)
                     type=4;
@@ -126,7 +114,7 @@ public class Checker extends projectParserBaseVisitor {
             if(type!=2 && ctx.MULOPERATOR(x - 1).getText().equals("/"))
                 return -1;
             if(type != nextType){
-                if(!ctx.MULOPERATOR(x - 1).getText().equals("-"))
+                if(!ctx.MULOPERATOR(x - 1).getText().equals("/"))
                     return -1;
                 else if(type==2)
                     if(nextType==3)
@@ -146,95 +134,121 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitEleExpEleAcc(projectParser.EleExpEleAccContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
-        return null;
+        String primExpType = (String) visit(ctx.primitiveExpression());
+        if(primExpType.equals("err")) return primExpType;
+
+        if(primExpType.equals("list") || primExpType.equals("hash")){
+            String elAccType = (String) visit(ctx.elementAccess());
+            if (elAccType.equals("int")){
+                return primExpType;
+            } else {
+                return "err";
+            }
+        } else {
+            return "err";
+        }
     }
 
     @Override
     public Object visitEleExpCall(projectParser.EleExpCallContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
-        return null;
+        /**DUDA EN SI SERA NECESARIO DEVOLVER ALGO MAS**/
+        String primExpType = (String) visit(ctx.primitiveExpression());
+        if(primExpType.equals("err")) return primExpType;
+
+        if(primExpType.equals("func")){ //func en callexp
+            visit(ctx.callExpression());
+            return primExpType;
+        } else {
+            return "err";
+        }
     }
 
     @Override
     public Object visitEleExpPriOnly(projectParser.EleExpPriOnlyContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
         visit(ctx.primitiveExpression());
         return null;
     }
 
     @Override
     public Object visitElementAccessASP(projectParser.ElementAccessASPContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName()+"\n");
-        return null;
+        return visit(ctx.expression());
     }
 
     @Override
     public Object visitCallExpressionASP(projectParser.CallExpressionASPContext ctx) {
+        //todavia no se sabe a ciencia cierta el tipo
+        visit(ctx.expressionList());
         return null;
     }
 
     @Override
     public Object visitPExprIntASP(projectParser.PExprIntASPContext ctx) {
-        return null;
+        System.out.println("int");
+        return "int";
     }
 
     @Override
     public Object visitPExpStrASP(projectParser.PExpStrASPContext ctx) {
-        return null;
+        System.out.println("str");
+        return "str";
     }
 
     @Override
     public Object visitPExpIDASP(projectParser.PExpIDASPContext ctx) {
+        //buscar en tabla
         return null;
     }
 
     @Override
     public Object visitPExpTrueASP(projectParser.PExpTrueASPContext ctx) {
-        return null;
+        return "bool";
     }
 
     @Override
     public Object visitPExpFalseASP(projectParser.PExpFalseASPContext ctx) {
-        return null;
+        return "bool";
     }
 
     @Override
     public Object visitPExpParExpParASP(projectParser.PExpParExpParASPContext ctx) {
-        return null;
+        return visit(ctx.expression());
     }
 
     @Override
     public Object visitPExpArrayLitASP(projectParser.PExpArrayLitASPContext ctx) {
-        return null;
+        return "list";
     }
 
     @Override
-    public Object visitPExpArrayFuncASP(projectParser.PExpArrayFuncASPContext ctx) { return null; }
+    public Object visitPExpArrayFuncASP(projectParser.PExpArrayFuncASPContext ctx) {
+        return visit(ctx.arrayFunctions());
+    }
 
     @Override
     public Object visitPExpFunLitASP(projectParser.PExpFunLitASPContext ctx) {
-        return null;
+        return "func";
     }
 
     @Override
     public Object visitPExpHashLitASP(projectParser.PExpHashLitASPContext ctx) {
-        return null;
+        return "hash";
     }
 
     @Override
     public Object visitPExpPrintExpASP(projectParser.PExpPrintExpASPContext ctx) {
-        return null;
+        visit(ctx.printExpression());
+        return "void";
     }
 
     @Override
     public Object visitPExpIfASP(projectParser.PExpIfASPContext ctx) {
-        return null;
+        visit(ctx.ifExpression());
+        return "void";
     }
 
     @Override
     public Object visitArrayFunctions(projectParser.ArrayFunctionsContext ctx) {
-        System.out.println(ctx.getClass().getSimpleName());
+        // switch con token
         return null;
     }
 
@@ -275,18 +289,12 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitExpressionListF(projectParser.ExpressionListFContext ctx) {
+        for(projectParser.ExpressionContext ele: ctx.expression()){
+            visit(ele);
+        }
         return null;
     }
 
-    @Override
-    public Object visitExpressionListE(projectParser.ExpressionListEContext ctx) {
-        return null;
-    }
-
-    @Override
-    public Object visitMoreExpressionsASP(projectParser.MoreExpressionsASPContext ctx) {
-        return null;
-    }
 
     @Override
     public Object visitPrintExpressionASP(projectParser.PrintExpressionASPContext ctx) {

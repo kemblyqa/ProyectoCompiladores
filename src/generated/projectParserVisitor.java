@@ -1,4 +1,4 @@
-// Generated from C:/Users/Alberth/Google Drive/Desktop/TEC/Compiladores/Proyecto\projectParser.g4 by ANTLR 4.7
+// Generated from C:/Users/kembl/Desktop/ProyectoCompiladores\projectParser.g4 by ANTLR 4.7
 package generated;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -268,20 +268,6 @@ public interface projectParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpressionListF(projectParser.ExpressionListFContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code expressionListE}
-	 * labeled alternative in {@link projectParser#expressionList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionListE(projectParser.ExpressionListEContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code moreExpressionsASP}
-	 * labeled alternative in {@link projectParser#moreExpressions}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMoreExpressionsASP(projectParser.MoreExpressionsASPContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code printExpressionASP}
 	 * labeled alternative in {@link projectParser#printExpression}.
