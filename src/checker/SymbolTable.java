@@ -4,104 +4,92 @@ import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class SymbolTable {
-    private LinkedList<Ident> tabla;
-    private int nivelActual;
-
-    public class Ident{
-        int nivel;
+    private ArrayList<Element> tabla;
+    private Integer nivel;
+    public static SymbolTable actual;
+    private SymbolTable parent;
+    private SymbolTable child;
+    public class Element{
         Token tok;
-        int type; //forma simple de identificar un tipo del lenguaje [0--> Entero] NO ES TAN CECESARIO EN ESTE LENGUAJE ALPHA PUESTO QUE SOLO ACEPTA NUMEROS
-        ParserRuleContext decl; //por si fuera necesario saber más acerca del contexto del identificador en el árbol
-
-        public Ident(int n, Token t, int ty, ParserRuleContext d) {
-            nivel = n;
+        String type;
+        ParserRuleContext decl;
+        public Element(Token t, String ty, ParserRuleContext d) {
             tok = t;
             type = ty;
             decl = d;
         }
-
+        public Token getToken(){
+            return tok;
+        }
+        public String getType(){
+            return type;
+        }
         public String toString(){
-            return this.tok.getText() + "," + this.nivel;
+            return this.tok.getText() + "," + this.decl.getText();
         }
     }
 
-    public SymbolTable()
+    public SymbolTable(SymbolTable parent)
     {
-        this.nivelActual = -1;
-        this.tabla = new LinkedList<Ident>();
+        if(SymbolTable.actual==null) {
+            SymbolTable.actual = this;
+            this.nivel=0;
+        }
+        else {
+            this.nivel=parent.nivel+1;
+        }
+        this.tabla = new ArrayList<>();
+        this.parent = parent;
     }
 
-    public Ident insertar(String nombre, int tipo, ParserRuleContext declaracion)
+    public Element insertar(String nombre, String type, ParserRuleContext declaracion)
     {
         Token token = new CommonToken(0,nombre);
-        Ident i = new Ident(nivelActual,token,tipo,declaracion);
-        int j = 0;
-        while (j < this.tabla.size() && this.tabla.get(j).nivel == nivelActual) {
-            if (this.tabla.get(j).tok.getText().equals(nombre)) {
+        Element i = new Element(token,type,declaracion);
+        for(int j=0;j<this.tabla.size();j++){
+            if(this.tabla.get(j).tok.getText().equals(token.getText())){
                 System.out.println("El identificador \"" + nombre + "\" ya ha sido declarado!!!");
                 return null;
             }
-            j++;
         }
-        this.tabla.push(i); //deben ser una tabla estilo pila
-        return this.tabla.get(0);
-    }
-
-    public Ident insertar(Token token, int tipo, ParserRuleContext declaracion)
-    {
-        Ident i = new Ident(nivelActual,token,tipo,declaracion);
-        int j = 0;
-        while (j < this.tabla.size() && this.tabla.get(j).nivel == nivelActual) {
-            if (this.tabla.get(j).tok.getText().equals(token.getText())) {
-                System.out.println("El identificador \"" + token.getText() + "\" ya ha sido declarado. Line " + token.getLine() + ":" + token.getCharPositionInLine());
-                return null;
-            }
-            j++;
-        }
-        tabla.push(i); //deben ser una tabla estilo pila
-        return this.tabla.get(0);
-
+        this.tabla.add(i);
+        return this.tabla.get(this.tabla.size()-1);
     }
 
     public void openScope(){
-        this.nivelActual++;
+        this.child = new SymbolTable(this);
+        SymbolTable.actual=this.child;
     }
 
     public void closeScope(){
-        Ident element = this.tabla.get(0);
-        while (element != null && element.nivel == nivelActual){
-            tabla.pop();
-            if(!this.tabla.isEmpty())
-                element = this.tabla.get(0);
-            else
-                element= null;
-        }
-        this.nivelActual--;
+        SymbolTable.actual=this.parent;
+        this.parent.child=null;
     }
 
-    public Ident buscar(String nombre)
+    public Element buscar(String nombre)
     {
-        Ident temp=null;
-        for(Ident id : this.tabla)
+        Element temp=null;
+        for(Element id : this.tabla) {
             if (id.tok.getText().equals(nombre)) {
                 temp = id;
                 break;
             }
+        }
+        if(temp==null && this.parent!=null)
+            temp=this.parent.buscar(nombre);
         return temp;
     }
 
     public void imprimir() {
-        System.out.println("****** ESTADO DE TABLA DE SÍMBOLOS ******");
+        if (this.parent!=null)
+            this.parent.imprimir();
+        System.out.println("****** ESTADO DE TABLA DE SÍMBOLOS DE NIVEL " + this.nivel + " ******");
         if (!this.tabla.isEmpty()) {
-            for (Ident i : this.tabla) {
-                String nivel = "";
-                for (int j = 0; j < i.nivel; j++) {
-                    nivel += "\t";
-                }
-                System.out.println(nivel + "Nombre: " + i.tok.getText() + " - Nivel: " + i.nivel);
+            for (Element i : this.tabla) {
+                System.out.println(nivel + "Nombre: " + i.tok.getText());
             }
             System.out.println("------------------------------------------");
         }
@@ -109,7 +97,7 @@ public class SymbolTable {
             System.out.println("Tabla vacía");
     }
 
-    public LinkedList<Ident> getTabla() {
+    public ArrayList<Element> getTabla() {
         return this.tabla;
     }
 }

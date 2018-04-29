@@ -3,10 +3,12 @@ package checker;
 import generated.projectParser;
 import generated.projectParserBaseVisitor;
 
+import java.util.ArrayList;
+
 public class Checker extends projectParserBaseVisitor {
     private SymbolTable tableIDs = null;
-    public Checker() { this.tableIDs = new SymbolTable(); }
-
+    public String errorList="";
+    public Checker() { this.tableIDs = new SymbolTable(null); }
     @Override
     public Object visitProgAST(projectParser.ProgASTContext ctx) {
         for (projectParser.StatementContext ele : ctx.statement())
@@ -36,7 +38,11 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitLetStatementAST(projectParser.LetStatementASTContext ctx) {
-        visit(ctx.expression());
+        String tipo = (String) visit(ctx.expression());
+        if (tipo=="err")
+            this.errorList+="Error de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida";
+        if (SymbolTable.actual.insertar((String) visit(ctx.IDENTIFIER()),tipo,ctx)==null)
+            this.errorList+="Error de asignación, en linea " + ctx.IDENTIFIER().getSymbol().getLine() + ", columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador ya existe en este contexto";
         return null;
     }
 
@@ -81,7 +87,7 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitAdditionExpressionAST(projectParser.AdditionExpressionASTContext ctx) {
         int type = (Integer) visit(ctx.multiplicationExpression(0));
         if (type==-1) return -1;
-        if (type==-1 || (type==7 && ctx.ADDOPERATOR().size()>0)) return -1;
+        if (type==-1 || ((type==7 || type==6) && ctx.ADDOPERATOR().size()>0)) return -1;
         for (int x=1;x<ctx.multiplicationExpression().size();x++){
             int nextType = (Integer) visit(ctx.multiplicationExpression(x));
             if(type!=2 && ctx.ADDOPERATOR(x - 1).getText().equals("-"))
@@ -108,7 +114,7 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitMultiplicationExpressionASP(projectParser.MultiplicationExpressionASPContext ctx) {
         int type = (Integer) visit(ctx.elementExpression(0));
-        if (type==-1 || (type==6 && ctx.MULOPERATOR().size()>0)) return -1;
+        if (type==-1 || ((type==7 || type==6) && ctx.MULOPERATOR().size()>0)) return -1;
         for (int x=1;x<ctx.elementExpression().size();x++){
             int nextType = (Integer) visit(ctx.elementExpression(x));
             if(type!=2 && ctx.MULOPERATOR(x - 1).getText().equals("/"))
@@ -195,8 +201,10 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpIDASP(projectParser.PExpIDASPContext ctx) {
-        //buscar en tabla
-        return null;
+        SymbolTable.Element resul = SymbolTable.actual.buscar(ctx.IDENTIFIER().getText());
+        if (resul!=null)
+            return resul.type;
+        return "err";
     }
 
     @Override
@@ -210,7 +218,7 @@ public class Checker extends projectParserBaseVisitor {
     }
 
     @Override
-    public Object visitPExpParExpParASP(projectParser.PExpParExpParASPContext ctx) {
+    public Object visitPExpParExpParASP(projectParser.PExpParExpParASPContext ctx){
         return visit(ctx.expression());
     }
 
