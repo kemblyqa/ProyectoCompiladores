@@ -23,7 +23,7 @@ callExpression              : PIZQ expressionList PDER  #callExpressionASP;
 primitiveExpression         : INTEGER   #pExprIntASP
                             | STRING    #pExpStrASP
                             | IDENTIFIER #pExpIDASP
-                            |TRUE           #pExpTrueASP
+                            | TRUE           #pExpTrueASP
                             | FALSE         #pExpFalseASP
                             | PIZQ expression PDER  #pExpParExpParASP
                             | arrayLiteral          #pExpArrayLitASP
