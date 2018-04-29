@@ -38,10 +38,10 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitLetStatementAST(projectParser.LetStatementASTContext ctx) {
-        String tipo = (String) visit(ctx.expression());
-        if (tipo=="err")
+        int tipo = (Integer) visit(ctx.expression());
+        if (tipo==-1)
             this.errorList+="Error de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida";
-        if (SymbolTable.actual.insertar((String) visit(ctx.IDENTIFIER()),tipo,ctx)==null)
+        if (SymbolTable.actual.insertar(ctx.IDENTIFIER().getText(),tipo,ctx)==null)
             this.errorList+="Error de asignación, en linea " + ctx.IDENTIFIER().getSymbol().getLine() + ", columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador ya existe en este contexto";
         return null;
     }
@@ -60,12 +60,12 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitExpressionAST(projectParser.ExpressionASTContext ctx) {
-        String addExpType = (String) visit(ctx.additionExpression());
-        if(addExpType.equals("err")) return addExpType;
-        String comp = (String) visit(ctx.comparison());
+        Integer addExpType = (Integer) visit(ctx.additionExpression());
+        if(addExpType==-1) return addExpType;
+        Integer comp = (Integer) visit(ctx.comparison());
 
-        if(comp.equals("err") || !comp.equals(addExpType)){
-            return "err";
+        if(comp==-1 || comp!=addExpType){
+            return -1;
         } else {
             return addExpType;
         }
@@ -74,11 +74,11 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitComparisonAST(projectParser.ComparisonASTContext ctx) {
         /**SOLO ENTEROS SE COMPARAN, EL == ES CON CUALQUIER TIPO BASICO**/
-        String addExpType = (String) visit(ctx.additionExpression(0));
-        if(addExpType.equals("err")) return addExpType;
+        Integer addExpType = (Integer) visit(ctx.additionExpression(0));
+        if(addExpType==-1) return addExpType;
         for (projectParser.AdditionExpressionContext ele : ctx.additionExpression())
             if(visit(ele).equals(addExpType)){
-                return "err";
+                return -1;
             }
         return addExpType;
     }
@@ -90,18 +90,14 @@ public class Checker extends projectParserBaseVisitor {
         if (type==-1 || ((type==7 || type==6) && ctx.ADDOPERATOR().size()>0)) return -1;
         for (int x=1;x<ctx.multiplicationExpression().size();x++){
             int nextType = (Integer) visit(ctx.multiplicationExpression(x));
-            if(type!=2 && ctx.ADDOPERATOR(x - 1).getText().equals("-"))
+            if(!(type==2 || type==-2) && ctx.ADDOPERATOR(x - 1).getText().equals("-"))
                 return -1;
             if(type != nextType){
-                if(!ctx.ADDOPERATOR(x - 1).getText().equals("-"))
+                if(!ctx.ADDOPERATOR(x - 1).getText().equals("-") && !(nextType==2 || nextType==-2))
                     return -1;
-                else if(type==3 && nextType==2)
-                    type=4;
-                else if(type==4){
-                    if(nextType==2)
-                        type=4;
-                    else if(nextType==3)
-                        type=4;
+                else if(type==2){
+                    if(nextType==3)
+                        type=3;
                     else return -1;
                 }
                 else
@@ -117,18 +113,16 @@ public class Checker extends projectParserBaseVisitor {
         if (type==-1 || ((type==7 || type==6) && ctx.MULOPERATOR().size()>0)) return -1;
         for (int x=1;x<ctx.elementExpression().size();x++){
             int nextType = (Integer) visit(ctx.elementExpression(x));
-            if(type!=2 && ctx.MULOPERATOR(x - 1).getText().equals("/"))
+            if(!(type==2 || type==-2) && ctx.MULOPERATOR(x - 1).getText().equals("/"))
                 return -1;
             if(type != nextType){
-                if(!ctx.MULOPERATOR(x - 1).getText().equals("/"))
+                if(!ctx.MULOPERATOR(x - 1).getText().equals("/") && !(nextType==2 || nextType==-2))
                     return -1;
                 else if(type==2)
                     if(nextType==3)
                         type=4;
                     else if(nextType==4)
                         type=4;
-                    else if(nextType==5)
-                        type=5;
                     else
                         return -1;
                 else
@@ -140,32 +134,32 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitEleExpEleAcc(projectParser.EleExpEleAccContext ctx) {
-        String primExpType = (String) visit(ctx.primitiveExpression());
-        if(primExpType.equals("err")) return primExpType;
+        Integer primExpType = (Integer) visit(ctx.primitiveExpression());
+        if(primExpType==-1) return primExpType;
 
-        if(primExpType.equals("list") || primExpType.equals("hash")){
+        if(primExpType.equals(4) || primExpType.equals(5)){
             String elAccType = (String) visit(ctx.elementAccess());
-            if (elAccType.equals("int")){
+            if (elAccType.equals(2)){
                 return primExpType;
             } else {
-                return "err";
+                return -1;
             }
         } else {
-            return "err";
+            return -1;
         }
     }
 
     @Override
     public Object visitEleExpCall(projectParser.EleExpCallContext ctx) {
         /**DUDA EN SI SERA NECESARIO DEVOLVER ALGO MAS**/
-        String primExpType = (String) visit(ctx.primitiveExpression());
-        if(primExpType.equals("err")) return primExpType;
+        Integer primExpType = (Integer) visit(ctx.primitiveExpression());
+        if(primExpType==-1) return primExpType;
 
-        if(primExpType.equals("func")){ //func en callexp
+        if(primExpType.equals(6)){ //func en callexp
             visit(ctx.callExpression());
             return primExpType;
         } else {
-            return "err";
+            return -1;
         }
     }
 
@@ -189,32 +183,32 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExprIntASP(projectParser.PExprIntASPContext ctx) {
-        System.out.println("int");
-        return "int";
+        System.out.println(2);
+        return 2;
     }
 
     @Override
     public Object visitPExpStrASP(projectParser.PExpStrASPContext ctx) {
-        System.out.println("str");
-        return "str";
+        System.out.println(3);
+        return 3;
     }
 
     @Override
     public Object visitPExpIDASP(projectParser.PExpIDASPContext ctx) {
         SymbolTable.Element resul = SymbolTable.actual.buscar(ctx.IDENTIFIER().getText());
         if (resul!=null)
-            return resul.type;
-        return "err";
+            return resul.getType();
+        return -1;
     }
 
     @Override
     public Object visitPExpTrueASP(projectParser.PExpTrueASPContext ctx) {
-        return "bool";
+        return 1;
     }
 
     @Override
     public Object visitPExpFalseASP(projectParser.PExpFalseASPContext ctx) {
-        return "bool";
+        return 1;
     }
 
     @Override
@@ -224,7 +218,7 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpArrayLitASP(projectParser.PExpArrayLitASPContext ctx) {
-        return "list";
+        return 4;
     }
 
     @Override
@@ -234,12 +228,12 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpFunLitASP(projectParser.PExpFunLitASPContext ctx) {
-        return "func";
+        return 6;
     }
 
     @Override
     public Object visitPExpHashLitASP(projectParser.PExpHashLitASPContext ctx) {
-        return "hash";
+        return 5;
     }
 
     @Override

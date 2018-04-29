@@ -14,18 +14,16 @@ public class SymbolTable {
     private SymbolTable child;
     public class Element{
         Token tok;
-        String type;
         ParserRuleContext decl;
-        public Element(Token t, String ty, ParserRuleContext d) {
+        public Element(Token t, ParserRuleContext d) {
             tok = t;
-            type = ty;
             decl = d;
         }
         public Token getToken(){
             return tok;
         }
-        public String getType(){
-            return type;
+        public int getType(){
+            return tok.getType();
         }
         public String toString(){
             return this.tok.getText() + "," + this.decl.getText();
@@ -45,10 +43,10 @@ public class SymbolTable {
         this.parent = parent;
     }
 
-    public Element insertar(String nombre, String type, ParserRuleContext declaracion)
+    public Element insertar(String nombre, int type, ParserRuleContext declaracion)
     {
-        Token token = new CommonToken(0,nombre);
-        Element i = new Element(token,type,declaracion);
+        Token token = new CommonToken(type,nombre);
+        Element i = new Element(token,declaracion);
         for(int j=0;j<this.tabla.size();j++){
             if(this.tabla.get(j).tok.getText().equals(token.getText())){
                 System.out.println("El identificador \"" + nombre + "\" ya ha sido declarado!!!");
