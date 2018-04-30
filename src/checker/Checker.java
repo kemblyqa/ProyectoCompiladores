@@ -13,25 +13,25 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitProgAST(projectParser.ProgASTContext ctx) {
         for (projectParser.StatementContext ele : ctx.statement())
             visit(ele);
-        return null;
+        return makeElement(0,ctx);
     }
 
     @Override
     public Object visitStLetAST(projectParser.StLetASTContext ctx) {
         visit(ctx.letStatement());
-        return null;
+        return makeElement(0,ctx);
     }
 
     @Override
     public Object visitStReturnAST(projectParser.StReturnASTContext ctx) {
         visit(ctx.returnStatement());
-        return null;
+        return makeElement(0,ctx);
     }
 
     @Override
     public Object visitStExpressAST(projectParser.StExpressASTContext ctx) {
         visit(ctx.expressionStatement());
-        return null;
+        return makeElement(0,ctx);
     }
 
     @Override
@@ -41,19 +41,19 @@ public class Checker extends projectParserBaseVisitor {
             this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida";
         if (SymbolTable.actual.insertar(ctx.IDENTIFIER().getText(),tipo,ctx)==null)
             this.errorList+="\nError de asignación, en linea " + ctx.IDENTIFIER().getSymbol().getLine() + ", columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador ya existe en este contexto";
-        return null;
+        return makeElement(0,ctx);
     }
 
     @Override
     public Object visitReturnStatementAST(projectParser.ReturnStatementASTContext ctx) {
         visit(ctx.expression());
-        return null;
+        return makeElement(0,ctx);
     }
 
     @Override
     public Object visitExpressionStatementAST(projectParser.ExpressionStatementASTContext ctx) {
         visit(ctx.expression());
-        return null;
+        return makeElement(0,ctx);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitAdditionExpressionAST(projectParser.AdditionExpressionASTContext ctx) {
         int type = getElementType(ctx.multiplicationExpression(0));
         if (type==-1) return makeElement(-1,ctx);
-        if (type==-1 || ((type==7 || type==6) && ctx.ADDOPERATOR().size()>0)) return -1;
+        if (type==-1 || ((type==7 || type==6) && ctx.ADDOPERATOR().size()>0)) return makeElement(-1,ctx);
         for (Integer x=1;x<ctx.multiplicationExpression().size();x++){
             int nextType = getElementType(ctx.multiplicationExpression(x));
             if(!(type==2 || type==-2) && ctx.ADDOPERATOR(x - 1).getText().equals("-"))
@@ -108,7 +108,7 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitMultiplicationExpressionASP(projectParser.MultiplicationExpressionASPContext ctx) {
         int type = getElementType(ctx.elementExpression(0));
-        if (type==-1 || ((type==7 || type==6) && ctx.MULOPERATOR().size()>0)) return -1;
+        if (type==-1 || ((type==7 || type==6) && ctx.MULOPERATOR().size()>0)) return makeElement(-1,ctx);
         for (Integer x=1;x<ctx.elementExpression().size();x++){
             int nextType = getElementType(ctx.elementExpression(x));
             if(!(type==2 || type==-2) && ctx.MULOPERATOR(x - 1).getText().equals("/"))
@@ -133,7 +133,7 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitEleExpEleAcc(projectParser.EleExpEleAccContext ctx) {
         int primExpType = getElementType(ctx.primitiveExpression());
-        if(primExpType!=4 && primExpType!=5 && primExpType!=-2) return -1;
+        if(primExpType!=4 && primExpType!=5 && primExpType!=-2) return makeElement(-1,ctx);
 
         Integer elAccType = getElementType(ctx.elementAccess());
         if (elAccType.equals(2)){
@@ -146,7 +146,7 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitEleExpCall(projectParser.EleExpCallContext ctx) {
         int primExpType = getElementType(ctx.primitiveExpression());
-        if(primExpType!=6 && primExpType!=-2) return -1;
+        if(primExpType!=6 && primExpType!=-2) return makeElement(-1,ctx);
 
         Integer elAccType = getElementType(ctx.callExpression());
         return null;
@@ -217,7 +217,7 @@ public class Checker extends projectParserBaseVisitor {
             case "rest":
                 return makeElement(4,ctx);
             case "push":
-                return null;
+                return makeElement(0,ctx);
         }
         return makeElement(-1,ctx);
     }
@@ -244,7 +244,7 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitArrayFunctions(projectParser.ArrayFunctionsContext ctx) {
-        return null;
+        return makeElement(0,ctx);
     }
 
     @Override
@@ -259,19 +259,19 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitFunctionParametersASP(projectParser.FunctionParametersASPContext ctx) {
-        return null;
+        return makeElement(0,ctx);
     }
     @Override
     public Object visitHashLiteralASP(projectParser.HashLiteralASPContext ctx) {
         for(projectParser.HashContentContext ele : ctx.hashContent()){
             Integer hashContType = getElementType(ele);
         }
-        return null;
+        return makeElement(0,ctx);
     }
 
     @Override
     public Object visitHashContentASP(projectParser.HashContentASPContext ctx) {
-        return null;
+        return makeElement(0,ctx);
     }
 
     @Override
@@ -280,23 +280,23 @@ public class Checker extends projectParserBaseVisitor {
             Integer expType = (Integer) visit(ele);
             if(expType == -1) return expType;
         }
-        return null;
+        return makeElement(0,ctx);
     }
 
 
     @Override
     public Object visitPrintExpressionASP(projectParser.PrintExpressionASPContext ctx) {
-        return null;
+        return makeElement(0,ctx);
     }
 
     @Override
     public Object visitIfExpressionASP(projectParser.IfExpressionASPContext ctx) {
-        return null;
+        return makeElement(0,ctx);
     }
 
     @Override
     public Object visitBlockStatementASP(projectParser.BlockStatementASPContext ctx) {
-        return null;
+        return makeElement(0,ctx);
     }
     public SymbolTable.Element makeElement(int type, ParserRuleContext ctx){
         return new SymbolTable.Element(new CommonToken(type,""),ctx);
