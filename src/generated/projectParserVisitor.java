@@ -1,4 +1,4 @@
-// Generated from C:/Users/kembl/Desktop/ProyectoCompiladores\projectParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Alberth/Google Drive/Desktop/TEC/Compiladores/Proyecto\projectParser.g4 by ANTLR 4.7
 package generated;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -233,13 +233,6 @@ public interface projectParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionParametersASP(projectParser.FunctionParametersASPContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code moreIdentifiersASP}
-	 * labeled alternative in {@link projectParser#moreIdentifiers}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMoreIdentifiersASP(projectParser.MoreIdentifiersASPContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code hashLiteralASP}
 	 * labeled alternative in {@link projectParser#hashLiteral}.

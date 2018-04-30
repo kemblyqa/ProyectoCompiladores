@@ -1,4 +1,4 @@
-// Generated from C:/Users/kembl/Desktop/ProyectoCompiladores\projectParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Alberth/Google Drive/Desktop/TEC/Compiladores/Proyecto\projectParser.g4 by ANTLR 4.7
 package generated;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -389,18 +389,6 @@ public interface projectParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionParametersASP(projectParser.FunctionParametersASPContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code moreIdentifiersASP}
-	 * labeled alternative in {@link projectParser#moreIdentifiers}.
-	 * @param ctx the parse tree
-	 */
-	void enterMoreIdentifiersASP(projectParser.MoreIdentifiersASPContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code moreIdentifiersASP}
-	 * labeled alternative in {@link projectParser#moreIdentifiers}.
-	 * @param ctx the parse tree
-	 */
-	void exitMoreIdentifiersASP(projectParser.MoreIdentifiersASPContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code hashLiteralASP}
 	 * labeled alternative in {@link projectParser#hashLiteral}.

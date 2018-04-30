@@ -35,11 +35,9 @@ primitiveExpression         : INTEGER   #pExprIntASP
 arrayFunctions              : LEN | FIRST | LAST | REST | PUSH  #arrayFunctionsASP;
 arrayLiteral                : PCIZQ expressionList PCDER    #arrayLiteralASP;
 functionLiteral             : FN PIZQ functionParameters PDER blockStatement    #functionLiteralASP;
-functionParameters          : IDENTIFIER moreIdentifiers    #functionParametersASP;
-moreIdentifiers             : (COMMA IDENTIFIER)*   #moreIdentifiersASP;
-hashLiteral                 : LLAVEIZQ hashContent moreHashContent LLAVEDER #hashLiteralASP;
+functionParameters          : IDENTIFIER (COMMA IDENTIFIER)*    #functionParametersASP;
+hashLiteral                 : LLAVEIZQ hashContent (COMMA hashContent)* LLAVEDER #hashLiteralASP;
 hashContent                 : expression DOSPUN expression  #hashContentASP;
-moreHashContent             : (COMMA hashContent)*  #moreHashContentASP;
 expressionList              : expression (COMMA expression)* #expressionListF;
 printExpression             : PUTS PIZQ expression PDER #printExpressionASP;
 ifExpression                : IF expression blockStatement (ELSE blockStatement | ) #ifExpressionASP;

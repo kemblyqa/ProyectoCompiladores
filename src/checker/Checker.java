@@ -2,6 +2,8 @@ package checker;
 
 import generated.projectParser;
 import generated.projectParserBaseVisitor;
+import org.antlr.v4.runtime.CommonToken;
+import org.antlr.v4.runtime.Token;
 
 import java.util.ArrayList;
 
@@ -38,11 +40,11 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitLetStatementAST(projectParser.LetStatementASTContext ctx) {
-        int tipo = (Integer) visit(ctx.expression());
+        Integer tipo = (Integer) visit(ctx.expression());
         if (tipo==-1)
-            this.errorList+="Error de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida";
+            this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida";
         if (SymbolTable.actual.insertar(ctx.IDENTIFIER().getText(),tipo,ctx)==null)
-            this.errorList+="Error de asignación, en linea " + ctx.IDENTIFIER().getSymbol().getLine() + ", columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador ya existe en este contexto";
+            this.errorList+="\nError de asignación, en linea " + ctx.IDENTIFIER().getSymbol().getLine() + ", columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador ya existe en este contexto";
         return null;
     }
 
@@ -85,11 +87,11 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitAdditionExpressionAST(projectParser.AdditionExpressionASTContext ctx) {
-        int type = (Integer) visit(ctx.multiplicationExpression(0));
+        Integer type = (Integer) visit(ctx.multiplicationExpression(0));
         if (type==-1) return -1;
         if (type==-1 || ((type==7 || type==6) && ctx.ADDOPERATOR().size()>0)) return -1;
-        for (int x=1;x<ctx.multiplicationExpression().size();x++){
-            int nextType = (Integer) visit(ctx.multiplicationExpression(x));
+        for (Integer x=1;x<ctx.multiplicationExpression().size();x++){
+            Integer nextType = (Integer) visit(ctx.multiplicationExpression(x));
             if(!(type==2 || type==-2) && ctx.ADDOPERATOR(x - 1).getText().equals("-"))
                 return -1;
             if(type != nextType){
@@ -109,10 +111,10 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitMultiplicationExpressionASP(projectParser.MultiplicationExpressionASPContext ctx) {
-        int type = (Integer) visit(ctx.elementExpression(0));
+        Integer type = (Integer) visit(ctx.elementExpression(0));
         if (type==-1 || ((type==7 || type==6) && ctx.MULOPERATOR().size()>0)) return -1;
-        for (int x=1;x<ctx.elementExpression().size();x++){
-            int nextType = (Integer) visit(ctx.elementExpression(x));
+        for (Integer x=1;x<ctx.elementExpression().size();x++){
+            Integer nextType = (Integer) visit(ctx.elementExpression(x));
             if(!(type==2 || type==-2) && ctx.MULOPERATOR(x - 1).getText().equals("/"))
                 return -1;
             if(type != nextType){
@@ -223,7 +225,19 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpArrayFuncASP(projectParser.PExpArrayFuncASPContext ctx) {
-        return visit(ctx.arrayFunctions());
+        switch (ctx.arrayFunctions().getText()){
+            case "len":
+                return 2;
+            case "first":
+                return -2;
+            case "last":
+                return -2;
+            case "rest":
+                return 4;
+            case "push":
+                return null;
+        }
+        return -1;
     }
 
     @Override
@@ -250,30 +264,23 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitArrayFunctions(projectParser.ArrayFunctionsContext ctx) {
-        // switch con token
         return null;
     }
 
     @Override
     public Object visitArrayLiteralASP(projectParser.ArrayLiteralASPContext ctx) {
-        return null;
+        return 4;
     }
 
     @Override
     public Object visitFunctionLiteralASP(projectParser.FunctionLiteralASPContext ctx) {
-        return null;
+        return new SymbolTable.Element(new CommonToken(6,""),ctx);
     }
 
     @Override
     public Object visitFunctionParametersASP(projectParser.FunctionParametersASPContext ctx) {
         return null;
     }
-
-    @Override
-    public Object visitMoreIdentifiersASP(projectParser.MoreIdentifiersASPContext ctx) {
-        return null;
-    }
-
     @Override
     public Object visitHashLiteralASP(projectParser.HashLiteralASPContext ctx) {
         return null;
