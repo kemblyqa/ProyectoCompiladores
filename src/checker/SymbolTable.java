@@ -12,6 +12,7 @@ public class SymbolTable {
     public static SymbolTable actual;
     private SymbolTable parent;
     private SymbolTable child;
+
     public class Element{
         Token tok;
         ParserRuleContext decl;

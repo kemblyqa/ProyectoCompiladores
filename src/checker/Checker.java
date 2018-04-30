@@ -3,6 +3,7 @@ package checker;
 import generated.projectParser;
 import generated.projectParserBaseVisitor;
 
+import java.net.Inet4Address;
 import java.util.ArrayList;
 
 public class Checker extends projectParserBaseVisitor {
@@ -18,14 +19,12 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitStLetAST(projectParser.StLetASTContext ctx) {
-        System.out.println("let");
         visit(ctx.letStatement());
         return null;
     }
 
     @Override
     public Object visitStReturnAST(projectParser.StReturnASTContext ctx) {
-        System.out.println("ret");
         visit(ctx.returnStatement());
         return null;
     }
@@ -135,15 +134,11 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitEleExpEleAcc(projectParser.EleExpEleAccContext ctx) {
         Integer primExpType = (Integer) visit(ctx.primitiveExpression());
-        if(primExpType==-1) return primExpType;
+        if(!primExpType.equals(4) && !primExpType.equals(5) && !primExpType.equals(-2)) return -1;
 
-        if(primExpType.equals(4) || primExpType.equals(5)){
-            String elAccType = (String) visit(ctx.elementAccess());
-            if (elAccType.equals(2)){
-                return primExpType;
-            } else {
-                return -1;
-            }
+        Integer elAccType = (Integer) visit(ctx.elementAccess());
+        if (elAccType.equals(2)){
+            return -2;
         } else {
             return -1;
         }
@@ -151,22 +146,16 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitEleExpCall(projectParser.EleExpCallContext ctx) {
-        /**DUDA EN SI SERA NECESARIO DEVOLVER ALGO MAS**/
         Integer primExpType = (Integer) visit(ctx.primitiveExpression());
-        if(primExpType==-1) return primExpType;
+        if(!primExpType.equals(6) && !primExpType.equals(-2)) return -1;
 
-        if(primExpType.equals(6)){ //func en callexp
-            visit(ctx.callExpression());
-            return primExpType;
-        } else {
-            return -1;
-        }
+        Integer elAccType = (Integer) visit(ctx.callExpression());
+        return null;
     }
 
     @Override
     public Object visitEleExpPriOnly(projectParser.EleExpPriOnlyContext ctx) {
-        visit(ctx.primitiveExpression());
-        return null;
+        return visit(ctx.primitiveExpression());
     }
 
     @Override
@@ -176,20 +165,16 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitCallExpressionASP(projectParser.CallExpressionASPContext ctx) {
-        //todavia no se sabe a ciencia cierta el tipo
-        visit(ctx.expressionList());
-        return null;
+        return visit(ctx.expressionList());
     }
 
     @Override
     public Object visitPExprIntASP(projectParser.PExprIntASPContext ctx) {
-        System.out.println(2);
         return 2;
     }
 
     @Override
     public Object visitPExpStrASP(projectParser.PExpStrASPContext ctx) {
-        System.out.println(3);
         return 3;
     }
 
@@ -239,13 +224,13 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitPExpPrintExpASP(projectParser.PExpPrintExpASPContext ctx) {
         visit(ctx.printExpression());
-        return "void";
+        return null;
     }
 
     @Override
     public Object visitPExpIfASP(projectParser.PExpIfASPContext ctx) {
         visit(ctx.ifExpression());
-        return "void";
+        return null;
     }
 
     @Override
@@ -276,6 +261,9 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitHashLiteralASP(projectParser.HashLiteralASPContext ctx) {
+        for(projectParser.HashContentContext ele : ctx.hashContent()){
+            Integer hashContType = (Integer) visit(ele);
+        }
         return null;
     }
 
@@ -285,14 +273,10 @@ public class Checker extends projectParserBaseVisitor {
     }
 
     @Override
-    public Object visitMoreHashContentASP(projectParser.MoreHashContentASPContext ctx) {
-        return null;
-    }
-
-    @Override
     public Object visitExpressionListF(projectParser.ExpressionListFContext ctx) {
         for(projectParser.ExpressionContext ele: ctx.expression()){
-            visit(ele);
+            Integer expType = (Integer) visit(ele);
+            if(expType == -1) return expType;
         }
         return null;
     }
