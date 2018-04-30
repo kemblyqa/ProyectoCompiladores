@@ -248,13 +248,6 @@ public interface projectParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitHashContentASP(projectParser.HashContentASPContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code moreHashContentASP}
-	 * labeled alternative in {@link projectParser#moreHashContent}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMoreHashContentASP(projectParser.MoreHashContentASPContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code expressionListF}
 	 * labeled alternative in {@link projectParser#expressionList}.
 	 * @param ctx the parse tree
