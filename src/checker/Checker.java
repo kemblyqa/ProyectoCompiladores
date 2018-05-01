@@ -24,11 +24,15 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitStLetAST(projectParser.StLetASTContext ctx) {
-        return makeElement(getElementType(ctx.letStatement()),ctx);
+        if (getElementType(ctx.letStatement())==-1)
+            return makeElement(-1,ctx);
+        return makeElement(0,ctx);
     }
 
     @Override
     public Object visitStReturnAST(projectParser.StReturnASTContext ctx) {
+        if(getElementType(ctx.returnStatement())==-1)
+            return makeElement(-1,ctx);
         return makeElement(getElementType(ctx.returnStatement()),ctx);
     }
 
