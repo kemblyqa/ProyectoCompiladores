@@ -159,11 +159,13 @@ public class Checker extends projectParserBaseVisitor {
             if(elAccExpSize == funcParamsSize){
                 return makeElement(0,ctx);
             } else {
+                this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; No se tiene la cantidad de parámetros requeridos.";
                 return makeElement(-1, ctx);
             }
         } else {
             int callExp = getElementType(ctx.callExpression());
             if (callExp == -1){
+                this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Error en datos expression";
                 return makeElement(-1,ctx);
             } else {
                 return makeElement(0,ctx);
