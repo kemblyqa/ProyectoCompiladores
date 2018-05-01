@@ -149,8 +149,29 @@ public class Checker extends projectParserBaseVisitor {
         int primExpType = getElementType(ctx.primitiveExpression());
         if(primExpType!=6 && primExpType!=-2) return makeElement(-1,ctx);
 
-        Integer elAccType = getElementType(ctx.callExpression());
-        return null;
+        if(primExpType == 6){
+            projectParser.CallExpressionASPContext elCallExp =(projectParser.CallExpressionASPContext) ((SymbolTable.Element) visit(ctx.callExpression())).decl;
+            int elAccExpSize = ((projectParser.ExpressionListFContext) elCallExp.expressionList().getRuleContext()).expression().size();
+
+            projectParser.PExpFunLitASPContext funcLitExp = (projectParser.PExpFunLitASPContext) ((SymbolTable.Element) visit(ctx.primitiveExpression())).decl;
+            projectParser.FunctionParametersASPContext funcParamsEpx = ((projectParser.FunctionParametersASPContext)((projectParser.FunctionLiteralASPContext) funcLitExp.functionLiteral().getRuleContext()).functionParameters());
+            int funcParamsSize = funcParamsEpx.IDENTIFIER().size();
+
+            if(elAccExpSize == funcParamsSize){
+                return makeElement(0,ctx);
+            } else {
+                this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; No se tiene la cantidad de parámetros requeridos.";
+                return makeElement(-1, ctx);
+            }
+        } else {
+            int callExp = getElementType(ctx.callExpression());
+            if (callExp == -1){
+                this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Error en datos expression";
+                return makeElement(-1,ctx);
+            } else {
+                return makeElement(0,ctx);
+            }
+        }
     }
 
     @Override
@@ -160,12 +181,18 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitElementAccessASP(projectParser.ElementAccessASPContext ctx) {
-        return visit(ctx.expression());
+        if(getElementType(ctx.expression()) == -1){
+            return makeElement(-1,ctx);
+        }
+        return makeElement(0,ctx);
     }
 
     @Override
     public Object visitCallExpressionASP(projectParser.CallExpressionASPContext ctx) {
-        return visit(ctx.expressionList());
+        if(getElementType(ctx.expressionList()) == -1){
+            return makeElement(-1,ctx);
+        }
+        return makeElement(0,ctx);
     }
 
     @Override
@@ -280,7 +307,8 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitHashLiteralASP(projectParser.HashLiteralASPContext ctx) {
         for(projectParser.HashContentContext ele : ctx.hashContent()){
-            Integer hashContType = getElementType(ele);
+            int hashContType = getElementType(ele);
+            if(hashContType == -1) return makeElement(hashContType, ctx);
         }
         return makeElement(0,ctx);
     }
@@ -301,8 +329,11 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitExpressionListF(projectParser.ExpressionListFContext ctx) {
         for(projectParser.ExpressionContext ele: ctx.expression()){
-            Integer expType =getElementType(ele);
-            if(expType == -1) return makeElement(-1,ctx);
+            int expType = getElementType(ele);
+            if(expType == -1) {
+                this.errorList+="\nError de expresión, en linea " + ele.getStart().getLine() + ", columna " + ele.getStart().getCharPositionInLine() + "; Expresión invalida";
+                return makeElement(expType, ctx);
+            }
         }
         return makeElement(0,ctx);
     }
@@ -334,12 +365,20 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitBlockStatementASP(projectParser.BlockStatementASPContext ctx) {
-        return makeElement(0,ctx);
+        for(projectParser.StatementContext ele : ctx.statement()){
+            int stType = getElementType(ele);
+            if(stType == -1){
+                this.errorList+="\nError de expresión, en linea " + ele.getStart().getLine() + ", columna " + ele.getStart().getCharPositionInLine() + "; Expresión invalida en statement";
+                return makeElement(stType,ctx);
+            }
+        }
+        return makeElement(0, ctx);
     }
-    public SymbolTable.Element makeElement(int type, ParserRuleContext ctx){
+
+    private SymbolTable.Element makeElement(int type, ParserRuleContext ctx){
         return new SymbolTable.Element(new CommonToken(type,""),ctx);
     }
-    public int getElementType(ParserRuleContext ctx){
+    private int getElementType(ParserRuleContext ctx){
         return ((SymbolTable.Element) visit(ctx)).getType();
     }
 }
