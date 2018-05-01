@@ -21,8 +21,7 @@ public class projectParser extends Parser {
 		PCIZQ=9, PCDER=10, LLAVEIZQ=11, LLAVEDER=12, VIR=13, DOSPUN=14, COMMA=15, 
 		COMILLA=16, WS=17, FULL_COMMENT=18, LINE_COMMENT=19, LEN=20, FIRST=21, 
 		LAST=22, REST=23, PUSH=24, FN=25, PUTS=26, IF=27, ELSE=28, ADDOPERATOR=29, 
-		MULOPERATOR=30, MENOR=31, MENORIGUAL=32, MAYOR=33, MAYORIGUAL=34, IGUAL=35, 
-		DISTINTO=36, STRING=37, INTEGER=38, IDENTIFIER=39;
+		MULOPERATOR=30, COMPARATOR=31, STRING=32, INTEGER=33, IDENTIFIER=34;
 	public static final int
 		RULE_program = 0, RULE_statement = 1, RULE_letStatement = 2, RULE_returnStatement = 3, 
 		RULE_expressionStatement = 4, RULE_expression = 5, RULE_comparison = 6, 
@@ -45,15 +44,14 @@ public class projectParser extends Parser {
 		null, "'true'", "'false'", "'let'", "'return'", "';'", "'='", "'('", "')'", 
 		"'['", "']'", "'{'", "'}'", "'~'", "':'", "','", "'\"'", null, null, null, 
 		"'len'", "'first'", "'last'", "'rest'", "'push'", "'fn'", "'puts'", "'if'", 
-		"'else'", null, null, "'<'", "'<='", "'>'", "'>='", "'=='", "'!='"
+		"'else'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, "TRUE", "FALSE", "LET", "RETURN", "PyCOMMA", "ASSIGN", "PIZQ", "PDER", 
 		"PCIZQ", "PCDER", "LLAVEIZQ", "LLAVEDER", "VIR", "DOSPUN", "COMMA", "COMILLA", 
 		"WS", "FULL_COMMENT", "LINE_COMMENT", "LEN", "FIRST", "LAST", "REST", 
-		"PUSH", "FN", "PUTS", "IF", "ELSE", "ADDOPERATOR", "MULOPERATOR", "MENOR", 
-		"MENORIGUAL", "MAYOR", "MAYORIGUAL", "IGUAL", "DISTINTO", "STRING", "INTEGER", 
-		"IDENTIFIER"
+		"PUSH", "FN", "PUTS", "IF", "ELSE", "ADDOPERATOR", "MULOPERATOR", "COMPARATOR", 
+		"STRING", "INTEGER", "IDENTIFIER"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -652,27 +650,15 @@ public class projectParser extends Parser {
 		}
 	}
 	public static class ComparisonASTContext extends ComparisonContext {
+		public List<TerminalNode> COMPARATOR() { return getTokens(projectParser.COMPARATOR); }
+		public TerminalNode COMPARATOR(int i) {
+			return getToken(projectParser.COMPARATOR, i);
+		}
 		public List<AdditionExpressionContext> additionExpression() {
 			return getRuleContexts(AdditionExpressionContext.class);
 		}
 		public AdditionExpressionContext additionExpression(int i) {
 			return getRuleContext(AdditionExpressionContext.class,i);
-		}
-		public List<TerminalNode> MENOR() { return getTokens(projectParser.MENOR); }
-		public TerminalNode MENOR(int i) {
-			return getToken(projectParser.MENOR, i);
-		}
-		public List<TerminalNode> MAYOR() { return getTokens(projectParser.MAYOR); }
-		public TerminalNode MAYOR(int i) {
-			return getToken(projectParser.MAYOR, i);
-		}
-		public List<TerminalNode> MAYORIGUAL() { return getTokens(projectParser.MAYORIGUAL); }
-		public TerminalNode MAYORIGUAL(int i) {
-			return getToken(projectParser.MAYORIGUAL, i);
-		}
-		public List<TerminalNode> IGUAL() { return getTokens(projectParser.IGUAL); }
-		public TerminalNode IGUAL(int i) {
-			return getToken(projectParser.IGUAL, i);
 		}
 		public ComparisonASTContext(ComparisonContext ctx) { copyFrom(ctx); }
 		@Override
@@ -701,19 +687,11 @@ public class projectParser extends Parser {
 			setState(83);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MENOR) | (1L << MAYOR) | (1L << MAYORIGUAL) | (1L << IGUAL))) != 0)) {
+			while (_la==COMPARATOR) {
 				{
 				{
 				setState(79);
-				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MENOR) | (1L << MAYOR) | (1L << MAYORIGUAL) | (1L << IGUAL))) != 0)) ) {
-				_errHandler.recoverInline(this);
-				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
+				match(COMPARATOR);
 				setState(80);
 				additionExpression();
 				}
@@ -2125,10 +2103,7 @@ public class projectParser extends Parser {
 			case IF:
 			case ADDOPERATOR:
 			case MULOPERATOR:
-			case MENOR:
-			case MAYOR:
-			case MAYORIGUAL:
-			case IGUAL:
+			case COMPARATOR:
 			case STRING:
 			case INTEGER:
 			case IDENTIFIER:
@@ -2227,7 +2202,7 @@ public class projectParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3)\u00d0\4\2\t\2\4"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$\u00d0\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\3\2\7\2\62"+
@@ -2243,37 +2218,37 @@ public class projectParser extends Parser {
 		"\3\25\3\25\3\25\7\25\u00b5\n\25\f\25\16\25\u00b8\13\25\3\26\3\26\3\26"+
 		"\3\26\3\26\3\27\3\27\3\27\3\27\3\27\3\27\5\27\u00c5\n\27\3\30\3\30\7\30"+
 		"\u00c9\n\30\f\30\16\30\u00cc\13\30\3\30\3\30\3\30\2\2\31\2\4\6\b\n\f\16"+
-		"\20\22\24\26\30\32\34\36 \"$&(*,.\2\4\4\2!!#%\3\2\26\32\2\u00d3\2\63\3"+
-		"\2\2\2\4;\3\2\2\2\6=\3\2\2\2\bD\3\2\2\2\nI\3\2\2\2\fN\3\2\2\2\16U\3\2"+
-		"\2\2\20X\3\2\2\2\22`\3\2\2\2\24o\3\2\2\2\26q\3\2\2\2\30u\3\2\2\2\32\u008c"+
-		"\3\2\2\2\34\u008e\3\2\2\2\36\u0090\3\2\2\2 \u0094\3\2\2\2\"\u009a\3\2"+
-		"\2\2$\u00a2\3\2\2\2&\u00ad\3\2\2\2(\u00b1\3\2\2\2*\u00b9\3\2\2\2,\u00be"+
-		"\3\2\2\2.\u00c6\3\2\2\2\60\62\5\4\3\2\61\60\3\2\2\2\62\65\3\2\2\2\63\61"+
+		"\20\22\24\26\30\32\34\36 \"$&(*,.\2\3\3\2\26\32\2\u00d3\2\63\3\2\2\2\4"+
+		";\3\2\2\2\6=\3\2\2\2\bD\3\2\2\2\nI\3\2\2\2\fN\3\2\2\2\16U\3\2\2\2\20X"+
+		"\3\2\2\2\22`\3\2\2\2\24o\3\2\2\2\26q\3\2\2\2\30u\3\2\2\2\32\u008c\3\2"+
+		"\2\2\34\u008e\3\2\2\2\36\u0090\3\2\2\2 \u0094\3\2\2\2\"\u009a\3\2\2\2"+
+		"$\u00a2\3\2\2\2&\u00ad\3\2\2\2(\u00b1\3\2\2\2*\u00b9\3\2\2\2,\u00be\3"+
+		"\2\2\2.\u00c6\3\2\2\2\60\62\5\4\3\2\61\60\3\2\2\2\62\65\3\2\2\2\63\61"+
 		"\3\2\2\2\63\64\3\2\2\2\64\3\3\2\2\2\65\63\3\2\2\2\66\67\7\5\2\2\67<\5"+
 		"\6\4\289\7\6\2\29<\5\b\5\2:<\5\n\6\2;\66\3\2\2\2;8\3\2\2\2;:\3\2\2\2<"+
-		"\5\3\2\2\2=>\7)\2\2>?\7\b\2\2?B\5\f\7\2@C\7\7\2\2AC\3\2\2\2B@\3\2\2\2"+
+		"\5\3\2\2\2=>\7$\2\2>?\7\b\2\2?B\5\f\7\2@C\7\7\2\2AC\3\2\2\2B@\3\2\2\2"+
 		"BA\3\2\2\2C\7\3\2\2\2DG\5\f\7\2EH\7\7\2\2FH\3\2\2\2GE\3\2\2\2GF\3\2\2"+
 		"\2H\t\3\2\2\2IL\5\f\7\2JM\7\7\2\2KM\3\2\2\2LJ\3\2\2\2LK\3\2\2\2M\13\3"+
-		"\2\2\2NO\5\20\t\2OP\5\16\b\2P\r\3\2\2\2QR\t\2\2\2RT\5\20\t\2SQ\3\2\2\2"+
+		"\2\2\2NO\5\20\t\2OP\5\16\b\2P\r\3\2\2\2QR\7!\2\2RT\5\20\t\2SQ\3\2\2\2"+
 		"TW\3\2\2\2US\3\2\2\2UV\3\2\2\2V\17\3\2\2\2WU\3\2\2\2X]\5\22\n\2YZ\7\37"+
 		"\2\2Z\\\5\22\n\2[Y\3\2\2\2\\_\3\2\2\2][\3\2\2\2]^\3\2\2\2^\21\3\2\2\2"+
 		"_]\3\2\2\2`e\5\24\13\2ab\7 \2\2bd\5\24\13\2ca\3\2\2\2dg\3\2\2\2ec\3\2"+
 		"\2\2ef\3\2\2\2f\23\3\2\2\2ge\3\2\2\2hi\5\32\16\2ij\5\26\f\2jp\3\2\2\2"+
 		"kl\5\32\16\2lm\5\30\r\2mp\3\2\2\2np\5\32\16\2oh\3\2\2\2ok\3\2\2\2on\3"+
 		"\2\2\2p\25\3\2\2\2qr\7\13\2\2rs\5\f\7\2st\7\f\2\2t\27\3\2\2\2uv\7\t\2"+
-		"\2vw\5(\25\2wx\7\n\2\2x\31\3\2\2\2y\u008d\7(\2\2z\u008d\7\'\2\2{\u008d"+
-		"\7)\2\2|\u008d\7\3\2\2}\u008d\7\4\2\2~\177\7\t\2\2\177\u0080\5\f\7\2\u0080"+
+		"\2vw\5(\25\2wx\7\n\2\2x\31\3\2\2\2y\u008d\7#\2\2z\u008d\7\"\2\2{\u008d"+
+		"\7$\2\2|\u008d\7\3\2\2}\u008d\7\4\2\2~\177\7\t\2\2\177\u0080\5\f\7\2\u0080"+
 		"\u0081\7\n\2\2\u0081\u008d\3\2\2\2\u0082\u008d\5\36\20\2\u0083\u0084\5"+
 		"\34\17\2\u0084\u0085\7\t\2\2\u0085\u0086\5(\25\2\u0086\u0087\7\n\2\2\u0087"+
 		"\u008d\3\2\2\2\u0088\u008d\5 \21\2\u0089\u008d\5$\23\2\u008a\u008d\5*"+
 		"\26\2\u008b\u008d\5,\27\2\u008cy\3\2\2\2\u008cz\3\2\2\2\u008c{\3\2\2\2"+
 		"\u008c|\3\2\2\2\u008c}\3\2\2\2\u008c~\3\2\2\2\u008c\u0082\3\2\2\2\u008c"+
 		"\u0083\3\2\2\2\u008c\u0088\3\2\2\2\u008c\u0089\3\2\2\2\u008c\u008a\3\2"+
-		"\2\2\u008c\u008b\3\2\2\2\u008d\33\3\2\2\2\u008e\u008f\t\3\2\2\u008f\35"+
+		"\2\2\u008c\u008b\3\2\2\2\u008d\33\3\2\2\2\u008e\u008f\t\2\2\2\u008f\35"+
 		"\3\2\2\2\u0090\u0091\7\13\2\2\u0091\u0092\5(\25\2\u0092\u0093\7\f\2\2"+
 		"\u0093\37\3\2\2\2\u0094\u0095\7\33\2\2\u0095\u0096\7\t\2\2\u0096\u0097"+
 		"\5\"\22\2\u0097\u0098\7\n\2\2\u0098\u0099\5.\30\2\u0099!\3\2\2\2\u009a"+
-		"\u009f\7)\2\2\u009b\u009c\7\21\2\2\u009c\u009e\7)\2\2\u009d\u009b\3\2"+
+		"\u009f\7$\2\2\u009b\u009c\7\21\2\2\u009c\u009e\7$\2\2\u009d\u009b\3\2"+
 		"\2\2\u009e\u00a1\3\2\2\2\u009f\u009d\3\2\2\2\u009f\u00a0\3\2\2\2\u00a0"+
 		"#\3\2\2\2\u00a1\u009f\3\2\2\2\u00a2\u00a3\7\r\2\2\u00a3\u00a8\5&\24\2"+
 		"\u00a4\u00a5\7\21\2\2\u00a5\u00a7\5&\24\2\u00a6\u00a4\3\2\2\2\u00a7\u00aa"+

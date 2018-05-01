@@ -82,6 +82,18 @@ public class SymbolTable {
         return temp;
     }
 
+    public Element buscarLocal(String nombre)
+    {
+        Element temp=null;
+        for(Element id : this.tabla) {
+            if (id.tok.getText().equals(nombre)) {
+                temp = id;
+                break;
+            }
+        }
+        return temp;
+    }
+
     public void imprimir() {
         if (this.parent!=null)
             this.parent.imprimir();

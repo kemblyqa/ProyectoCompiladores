@@ -12,7 +12,7 @@ letStatement: IDENTIFIER ASSIGN expression (PyCOMMA | ) #letStatementAST;
 returnStatement: expression (PyCOMMA | ) #returnStatementAST;
 expressionStatement: expression (PyCOMMA | ) #expressionStatementAST;
 expression : additionExpression comparison #expressionAST;
-comparison : ((MENOR|MAYOR|MAYORIGUAL|MAYORIGUAL|IGUAL) additionExpression)* #comparisonAST;
+comparison : (COMPARATOR additionExpression)* #comparisonAST;
 additionExpression  : multiplicationExpression (ADDOPERATOR multiplicationExpression)*  #additionExpressionAST;
 multiplicationExpression    : elementExpression (MULOPERATOR elementExpression)*    #multiplicationExpressionASP;
 elementExpression           : primitiveExpression elementAccess     #eleExpEleAcc

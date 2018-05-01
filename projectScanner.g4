@@ -40,12 +40,7 @@ ELSE    : 'else';
 //OPERADORES
 ADDOPERATOR: ('+' | '-');
 MULOPERATOR: ('*' | '/');
-MENOR       : '<';
-MENORIGUAL  : '<=';
-MAYOR       : '>';
-MAYORIGUAL  : '>=';
-IGUAL       : '==';
-DISTINTO    : '!=';
+COMPARATOR :  ('<' | '>' | '<=' | '>=' | '==' | '!=');
 //cadenas
 STRING  : COMILLA ( ~["\r\n] | '""' )* COMILLA ;
 INTEGER : DIGIT+;

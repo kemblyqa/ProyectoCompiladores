@@ -12,73 +12,98 @@ public class Checker extends projectParserBaseVisitor {
     public Checker() { this.tableIDs = new SymbolTable(null); }
     @Override
     public Object visitProgAST(projectParser.ProgASTContext ctx) {
-        for (projectParser.StatementContext ele : ctx.statement())
-            visit(ele);
-        return makeElement(0,ctx);
+        Integer type = 0;
+        for (projectParser.StatementContext ele : ctx.statement()){
+            if (getElementType(ele)==-1){
+                type=-1;
+                this.errorList+="\nError de Statement encontrado";
+            }
+        }
+        return makeElement(type,ctx);
     }
 
     @Override
     public Object visitStLetAST(projectParser.StLetASTContext ctx) {
-        visit(ctx.letStatement());
-        return makeElement(0,ctx);
+        return makeElement(getElementType(ctx.letStatement()),ctx);
     }
 
     @Override
     public Object visitStReturnAST(projectParser.StReturnASTContext ctx) {
-        visit(ctx.returnStatement());
-        return makeElement(0,ctx);
+        return makeElement(getElementType(ctx.returnStatement()),ctx);
     }
 
     @Override
     public Object visitStExpressAST(projectParser.StExpressASTContext ctx) {
-        visit(ctx.expressionStatement());
-        return makeElement(0,ctx);
+        return makeElement(getElementType(ctx.expressionStatement()),ctx);
     }
 
     @Override
     public Object visitLetStatementAST(projectParser.LetStatementASTContext ctx) {
         int tipo = getElementType(ctx.expression());
-        if (tipo==-1)
+        if (tipo==-1){
             this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida";
-        if (SymbolTable.actual.insertar(ctx.IDENTIFIER().getText(),tipo,ctx)==null)
+            return makeElement(-1,ctx);
+        }
+        else if (SymbolTable.actual.insertar(ctx.IDENTIFIER().getText(),tipo,ctx)==null){
             this.errorList+="\nError de asignación, en linea " + ctx.IDENTIFIER().getSymbol().getLine() + ", columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador ya existe en este contexto";
+            return makeElement(-1,ctx);
+        }
         return makeElement(0,ctx);
     }
 
     @Override
     public Object visitReturnStatementAST(projectParser.ReturnStatementASTContext ctx) {
-        visit(ctx.expression());
-        return makeElement(0,ctx);
+        return makeElement(getElementType(ctx.expression()),ctx);
     }
 
     @Override
     public Object visitExpressionStatementAST(projectParser.ExpressionStatementASTContext ctx) {
-        visit(ctx.expression());
-        return makeElement(0,ctx);
+        return makeElement(getElementType(ctx.expression()),ctx);
     }
 
     @Override
     public Object visitExpressionAST(projectParser.ExpressionASTContext ctx) {
         int addExpType = getElementType(ctx.additionExpression());
         if(addExpType==-1) return addExpType;
-        int comp = getElementType(ctx.comparison());
-
-        if(comp==-1 || comp!=addExpType){
-            return makeElement(-1,ctx);
-        } else {
-            return makeElement(addExpType,ctx);
+        SymbolTable.Element comp = (SymbolTable.Element) visit(ctx.comparison());
+        if (comp.getType()==0){
+            addExpType=-1;
         }
+        else if(comp.getType()==-1){
+            addExpType=-1;
+        }
+        else if (comp.getType()!=addExpType){
+            this.errorList+="\nError linea " + ctx.getStart() + " comparación entre tipos distintos";
+            addExpType=-1;
+        }
+        else if (!((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("==") && addExpType!=2) {
+            this.errorList+="\nError linea " + ctx.getStart() + " comparación invalida entre tipos no numericos";
+            addExpType=-1;
+        }
+        return makeElement(addExpType,ctx);
     }
 
     @Override
     public Object visitComparisonAST(projectParser.ComparisonASTContext ctx) {
         /**SOLO ENTEROS SE COMPARAN, EL == ES CON CUALQUIER TIPO BASICO**/
+        if(ctx.additionExpression().size()==0){
+            return makeElement(0,ctx);
+        }
         int addExpType = getElementType(ctx.additionExpression(0));
-        if(addExpType==-1) return makeElement(-1,ctx);
-        for (projectParser.AdditionExpressionContext ele : ctx.additionExpression())
-            if(getElementType(ele)==(addExpType)){
+        if(addExpType==-1 ||addExpType==0) {
+            this.errorList+="\nError linea " + ctx.getStart() + " comparación invalida";
+            return makeElement(-1, ctx);
+        }
+        for (int x=1;x<ctx.additionExpression().size();x++) {
+            if(getElementType(ctx.additionExpression(x))!=(addExpType)){
+                this.errorList+="\nError linea " + ctx.getStart() + " comparación entre tipos distintos";
                 return makeElement(-1,ctx);
             }
+            if(!ctx.COMPARATOR(x-1).getSymbol().getText().equals("==") && addExpType!=2){
+                this.errorList+="\nError linea " + ctx.getStart() + " comparación invalida entre tipos no numericos";
+                return makeElement(-1,ctx);
+            }
+        }
         return makeElement(addExpType,ctx);
     }
 
@@ -86,7 +111,7 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitAdditionExpressionAST(projectParser.AdditionExpressionASTContext ctx) {
         int type = getElementType(ctx.multiplicationExpression(0));
         if (type==-1) return makeElement(-1,ctx);
-        if (type==-1 || ((type==7 || type==6) && ctx.ADDOPERATOR().size()>0)) return makeElement(-1,ctx);
+        if ((type == 7 || type == 6) && ctx.ADDOPERATOR().size() > 0) return makeElement(-1,ctx);
         for (Integer x=1;x<ctx.multiplicationExpression().size();x++){
             int nextType = getElementType(ctx.multiplicationExpression(x));
             if(!(type==2 || type==-2) && ctx.ADDOPERATOR(x - 1).getText().equals("-"))
@@ -207,6 +232,35 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpIDASP(projectParser.PExpIDASPContext ctx) {
+        switch (ctx.IDENTIFIER().getSymbol().getText()){
+            case "len":
+                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
+                return makeElement(-1,ctx);
+            case "first":
+                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
+                return makeElement(-1,ctx);
+            case "last":
+                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
+                return makeElement(-1,ctx);
+            case "rest":
+                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
+                return makeElement(-1,ctx);
+            case "push":
+                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
+                return makeElement(-1,ctx);
+            case "fn":
+                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
+                return makeElement(-1,ctx);
+            case "puts":
+                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
+                return makeElement(-1,ctx);
+            case "if":
+                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
+                return makeElement(-1,ctx);
+            case "else":
+                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
+                return makeElement(-1,ctx);
+        }
         SymbolTable.Element resul = SymbolTable.actual.buscar(ctx.IDENTIFIER().getText());
         if (resul!=null)
             return makeElement(resul.getType(),resul.decl);
@@ -235,7 +289,8 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpArrayFuncASP(projectParser.PExpArrayFuncASPContext ctx) {
-        switch (ctx.arrayFunctions().getText()){
+        System.out.println(ctx.arrayFunctions().getStart().getText());
+        switch (ctx.arrayFunctions().getStart().getText()){
             case "len":
                 return makeElement(2,ctx);
             case "first":
