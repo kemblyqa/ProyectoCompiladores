@@ -9,6 +9,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 public class Checker extends projectParserBaseVisitor {
     private SymbolTable tableIDs = null;
     public String errorList="";
+    private boolean isInsideFuncLit = false;
+
     public Checker() { this.tableIDs = new SymbolTable(null); }
     @Override
     public Object visitProgAST(projectParser.ProgASTContext ctx) {
@@ -24,15 +26,11 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitStLetAST(projectParser.StLetASTContext ctx) {
-        if (getElementType(ctx.letStatement())==-1)
-            return makeElement(-1,ctx);
-        return makeElement(0,ctx);
+        return makeElement(getElementType(ctx.letStatement()),ctx);
     }
 
     @Override
     public Object visitStReturnAST(projectParser.StReturnASTContext ctx) {
-        if(getElementType(ctx.returnStatement())==-1)
-            return makeElement(-1,ctx);
         return makeElement(getElementType(ctx.returnStatement()),ctx);
     }
 
@@ -45,11 +43,11 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitLetStatementAST(projectParser.LetStatementASTContext ctx) {
         int tipo = getElementType(ctx.expression());
         if (tipo==-1){
-            this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida";
+            this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida.";
             return makeElement(-1,ctx);
         }
         else if (SymbolTable.actual.insertar(ctx.IDENTIFIER().getText(),tipo,ctx)==null){
-            this.errorList+="\nError de asignación, en linea " + ctx.IDENTIFIER().getSymbol().getLine() + ", columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador ya existe en este contexto";
+            this.errorList+="\nError de asignación, en linea " + ctx.IDENTIFIER().getSymbol().getLine() + ", columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador ya existe en este contexto.";
             return makeElement(-1,ctx);
         }
         return makeElement(0,ctx);
@@ -57,12 +55,24 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitReturnStatementAST(projectParser.ReturnStatementASTContext ctx) {
-        return makeElement(getElementType(ctx.expression()),ctx);
+        if(isInsideFuncLit){
+            int type = getElementType(ctx.expression());
+            if(type != 0 && type != -1){
+                return makeElement(type,ctx);
+            }
+        }
+        this.errorList+="\nError de asignación, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; return debe estar dentro de una función.";
+        return makeElement(-1,ctx);
     }
 
     @Override
     public Object visitExpressionStatementAST(projectParser.ExpressionStatementASTContext ctx) {
-        return makeElement(getElementType(ctx.expression()),ctx);
+        int type = getElementType(ctx.expression());
+        if(type != 0){
+            this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Expresión invalida, debe estar contenida en una variable o expresión correcta.";
+            return makeElement(-1,ctx);
+        }
+        return makeElement(0, ctx);
     }
 
     @Override
@@ -165,8 +175,7 @@ public class Checker extends projectParserBaseVisitor {
         int primExpType = getElementType(ctx.primitiveExpression());
         if(primExpType!=4 && primExpType!=5 && primExpType!=-2) return makeElement(-1,ctx);
 
-        Integer elAccType = getElementType(ctx.elementAccess());
-        if (elAccType.equals(2)){
+        if (getElementType(ctx.elementAccess()) == 2){
             return makeElement(-2,ctx);
         } else {
             return makeElement(-1,ctx);
@@ -178,8 +187,9 @@ public class Checker extends projectParserBaseVisitor {
         int primExpType = getElementType(ctx.primitiveExpression());
         if(primExpType!=6 && primExpType!=-2) return makeElement(-1,ctx);
 
+        projectParser.CallExpressionASPContext elCallExp =(projectParser.CallExpressionASPContext) ((SymbolTable.Element) visit(ctx.callExpression())).decl;
+
         if(primExpType == 6){
-            projectParser.CallExpressionASPContext elCallExp =(projectParser.CallExpressionASPContext) ((SymbolTable.Element) visit(ctx.callExpression())).decl;
             int elAccExpSize = ((projectParser.ExpressionListFContext) elCallExp.expressionList().getRuleContext()).expression().size();
 
             projectParser.PExpFunLitASPContext funcLitExp = (projectParser.PExpFunLitASPContext) ((SymbolTable.Element) visit(ctx.primitiveExpression())).decl;
@@ -193,8 +203,7 @@ public class Checker extends projectParserBaseVisitor {
                 return makeElement(-1, ctx);
             }
         } else {
-            int callExp = getElementType(ctx.callExpression());
-            if (callExp == -1){
+            if (getElementType(elCallExp) == -1){
                 this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Error en datos expression";
                 return makeElement(-1,ctx);
             } else {
@@ -205,15 +214,21 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitEleExpPriOnly(projectParser.EleExpPriOnlyContext ctx) {
-        return visit(ctx.primitiveExpression());
+        int type = getElementType(ctx.primitiveExpression());
+        if(type != 0){
+            return makeElement(-1,ctx);
+        }
+        return makeElement(0, ctx);
     }
 
     @Override
     public Object visitElementAccessASP(projectParser.ElementAccessASPContext ctx) {
-        if(getElementType(ctx.expression()) == -1){
+        int expType = getElementType(ctx.expression());
+        if(expType != 2){
+            this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Los índices solo aceptan enteros.";
             return makeElement(-1,ctx);
         }
-        return makeElement(0,ctx);
+        return makeElement(2,ctx);
     }
 
     @Override
@@ -283,6 +298,7 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpParExpParASP(projectParser.PExpParExpParASPContext ctx){
+        //que acepta esta expresion
         return visit(ctx.expression());
     }
 
@@ -311,12 +327,12 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpFunLitASP(projectParser.PExpFunLitASPContext ctx) {
-        return makeElement(6,ctx);
+        return visit(ctx.functionLiteral());
     }
 
     @Override
     public Object visitPExpHashLitASP(projectParser.PExpHashLitASPContext ctx) {
-        return makeElement(5,ctx);
+        return visit(ctx.hashLiteral());
     }
 
     @Override
@@ -326,7 +342,14 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpIfASP(projectParser.PExpIfASPContext ctx) {
-        return visit(ctx.ifExpression());
+        this.tableIDs.openScope();
+        int ifType = getElementType(ctx.ifExpression());
+        this.tableIDs.closeScope();
+
+        if(ifType == -1){
+            return makeElement(-1, ctx);
+        }
+        return makeElement(0, ctx);
     }
 
     @Override
@@ -343,10 +366,14 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitFunctionLiteralASP(projectParser.FunctionLiteralASPContext ctx) {
-        if(getElementType(ctx.functionParameters())==-1){
-            return makeElement(-1,ctx);
-        }
-        else if(getElementType(ctx.blockStatement())==-1){
+        this.tableIDs.openScope();
+        isInsideFuncLit = true;
+        int paramsFunc = getElementType(ctx.functionParameters());
+        int blockSt = getElementType(ctx.blockStatement());
+        isInsideFuncLit = false;
+        this.tableIDs.closeScope();
+
+        if(paramsFunc == -1 || blockSt == -1){
             return makeElement(-1,ctx);
         }
         return makeElement(6,ctx);
@@ -356,26 +383,32 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitFunctionParametersASP(projectParser.FunctionParametersASPContext ctx) {
         Integer error=0;
         for(TerminalNode ele : ctx.IDENTIFIER()){
-            if(((SymbolTable.Element)visit(ele)).getType()!=-1){
-                this.errorList+="\nError: parametros de función, linea " +ele.getSymbol().getLine() + " columna " +ele.getSymbol().getCharPositionInLine() + " parametro invalido";
+            int paramType = ((SymbolTable.Element)visit(ele)).getType();
+            if(paramType == -1){
+                this.errorList+="\nError: parametros de función, linea " +ele.getSymbol().getLine() + " columna " +ele.getSymbol().getCharPositionInLine() + " parametro invalido.";
                 error=-1;
+            } else {
+                this.tableIDs.insertar(ele.getSymbol().getText(),-2,ctx);
             }
         }
         return makeElement(error,ctx);
     }
     @Override
     public Object visitHashLiteralASP(projectParser.HashLiteralASPContext ctx) {
+        int type = 5;
         for(projectParser.HashContentContext ele : ctx.hashContent()){
             int hashContType = getElementType(ele);
-            if(hashContType == -1) return makeElement(hashContType, ctx);
+            if(hashContType == -1) {
+                type = -1;
+            }
         }
-        return makeElement(0,ctx);
+        return makeElement(type,ctx);
     }
 
     @Override
     public Object visitHashContentASP(projectParser.HashContentASPContext ctx) {
         if (getElementType(ctx.expression(0))!=2){
-            this.errorList+="\nError en la linea " + ctx.DOSPUN().getSymbol().getLine() + ", columna " + ctx.DOSPUN().getSymbol().getCharPositionInLine() + "; Error, la clave especificada no es de tipo numerico";
+            this.errorList+="\nError en la linea " + ctx.DOSPUN().getSymbol().getLine() + ", columna " + ctx.DOSPUN().getSymbol().getCharPositionInLine() + "; Error, la clave especificada no es de tipo numerico.";
             makeElement(-1,ctx);
         }
         else if(getElementType(ctx.expression(1))==-1 || getElementType(ctx.expression(0))==0){
@@ -387,14 +420,15 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitExpressionListF(projectParser.ExpressionListFContext ctx) {
+        int type = 0;
         for(projectParser.ExpressionContext ele: ctx.expression()){
             int expType = getElementType(ele);
             if(expType == -1) {
                 this.errorList+="\nError de expresión, en linea " + ele.getStart().getLine() + ", columna " + ele.getStart().getCharPositionInLine() + "; Expresión invalida";
-                return makeElement(expType, ctx);
+                type = -1;
             }
         }
-        return makeElement(0,ctx);
+        return makeElement(type,ctx);
     }
 
 
@@ -424,14 +458,15 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitBlockStatementASP(projectParser.BlockStatementASPContext ctx) {
+        int typeErr = 0;
         for(projectParser.StatementContext ele : ctx.statement()){
             int stType = getElementType(ele);
             if(stType == -1){
                 this.errorList+="\nError de expresión, en linea " + ele.getStart().getLine() + ", columna " + ele.getStart().getCharPositionInLine() + "; Expresión invalida en statement";
-                return makeElement(stType,ctx);
+                typeErr = -1;
             }
         }
-        return makeElement(0, ctx);
+        return makeElement(typeErr, ctx);
     }
 
     private SymbolTable.Element makeElement(int type, ParserRuleContext ctx){
