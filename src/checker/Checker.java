@@ -78,7 +78,7 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitExpressionAST(projectParser.ExpressionASTContext ctx) {
         int addExpType = getElementType(ctx.additionExpression());
-        if(addExpType==-1) return addExpType;
+        if(addExpType==-1) return makeElement(addExpType, ctx);
         SymbolTable.Element comp = (SymbolTable.Element) visit(ctx.comparison());
         if (comp.getType()==0){
             addExpType=-1;
@@ -142,7 +142,7 @@ public class Checker extends projectParserBaseVisitor {
                     return makeElement(-1,ctx);
             }
         }
-        return type;
+        return makeElement(type, ctx);
     }
 
     @Override
@@ -472,7 +472,7 @@ public class Checker extends projectParserBaseVisitor {
     private SymbolTable.Element makeElement(int type, ParserRuleContext ctx){
         return new SymbolTable.Element(new CommonToken(type,""),ctx);
     }
-    private int getElementType(ParserRuleContext ctx){
+    private Integer getElementType(ParserRuleContext ctx){
         return ((SymbolTable.Element) visit(ctx)).getType();
     }
 }
