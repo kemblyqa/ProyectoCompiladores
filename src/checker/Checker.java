@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 public class Checker extends projectParserBaseVisitor {
     private SymbolTable tableIDs = null;
     public String errorList="";
-    private boolean isInsideFuncLit = false;
+    private int isInsideFuncLit = 0;
 
     public Checker() { this.tableIDs = new SymbolTable(null); }
     @Override
@@ -46,7 +46,7 @@ public class Checker extends projectParserBaseVisitor {
             this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida.";
             return makeElement(-1,ctx);
         }else if(tipo == 0){
-            this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; La variable a asignar no existe en el contexto.";
+            this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; La expresión a asignar no existe en el contexto.";
             return makeElement(-1,ctx);
         }
         else if (SymbolTable.actual.insertar(ctx.IDENTIFIER().getText(),tipo,ctx)==null){
@@ -58,7 +58,7 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitReturnStatementAST(projectParser.ReturnStatementASTContext ctx) {
-        if(isInsideFuncLit){
+        if(isInsideFuncLit > 0){
             int type = getElementType(ctx.expression());
             if(type != 0 && type != -1){
                 return makeElement(type,ctx);
@@ -297,7 +297,7 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitPExpParExpParASP(projectParser.PExpParExpParASPContext ctx){
         //que acepta esta expresion
-        return visit(ctx.expression());
+        return makeElement(getElementType(ctx.expression()),ctx);
     }
 
     @Override
@@ -325,17 +325,17 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpFunLitASP(projectParser.PExpFunLitASPContext ctx) {
-        return visit(ctx.functionLiteral());
+        return makeElement(getElementType(ctx.functionLiteral()),ctx);
     }
 
     @Override
     public Object visitPExpHashLitASP(projectParser.PExpHashLitASPContext ctx) {
-        return visit(ctx.hashLiteral());
+        return makeElement(getElementType(ctx.hashLiteral()),ctx);
     }
 
     @Override
     public Object visitPExpPrintExpASP(projectParser.PExpPrintExpASPContext ctx) {
-        return visit(ctx.printExpression());
+        return makeElement(getElementType(ctx.printExpression()),ctx);
     }
 
     @Override
@@ -365,10 +365,10 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitFunctionLiteralASP(projectParser.FunctionLiteralASPContext ctx) {
         this.tableIDs.openScope();
-        isInsideFuncLit = true;
+        isInsideFuncLit++;
         int paramsFunc = getElementType(ctx.functionParameters());
         int blockSt = getElementType(ctx.blockStatement());
-        isInsideFuncLit = false;
+        isInsideFuncLit--;
         this.tableIDs.closeScope();
 
         if(paramsFunc == -1 || blockSt == -1){
@@ -394,6 +394,11 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitHashLiteralASP(projectParser.HashLiteralASPContext ctx) {
         int type = 5;
+        System.out.println(ctx.hashContent().size());
+        if(ctx.hashContent().size() == 0){
+            this.errorList+="\nError en la linea " + ctx.LLAVEIZQ().getSymbol().getLine() + ", columna " + ctx.LLAVEIZQ().getSymbol().getCharPositionInLine() + "; Error, hash sin contenido.";
+            makeElement(-1,ctx);
+        }
         for(projectParser.HashContentContext ele : ctx.hashContent()){
             int hashContType = getElementType(ele);
             if(hashContType == -1) {
@@ -405,6 +410,10 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitHashContentASP(projectParser.HashContentASPContext ctx) {
+        if(ctx.expression().size() == 0){
+            this.errorList+="\nError en la linea " + ctx.DOSPUN().getSymbol().getLine() + ", columna " + ctx.DOSPUN().getSymbol().getCharPositionInLine() + "; Error, no se puede declarar un elemento hash vacío.";
+            return makeElement(-1,ctx);
+        }
         if (getElementType(ctx.expression(0))!=2){
             this.errorList+="\nError en la linea " + ctx.DOSPUN().getSymbol().getLine() + ", columna " + ctx.DOSPUN().getSymbol().getCharPositionInLine() + "; Error, la clave especificada no es de tipo numerico.";
             makeElement(-1,ctx);
