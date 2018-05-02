@@ -61,6 +61,7 @@ public class Main {
             //checker
             Checker v = new Checker();
             v.visit(tree);
+            ThrowingErrorListener.errorList = v.errorList;
 
             //comprobacion de errores
             if (Objects.equals(ThrowingErrorListener.errorList, ""))
