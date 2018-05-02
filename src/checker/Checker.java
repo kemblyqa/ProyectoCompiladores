@@ -62,9 +62,12 @@ public class Checker extends projectParserBaseVisitor {
             int type = getElementType(ctx.expression());
             if(type != 0 && type != -1){
                 return makeElement(type,ctx);
+            } else {
+                this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Error, la expresión a retornar no tiene tipo.";
+                return makeElement(-1,ctx);
             }
         }
-        this.errorList+="\nError de asignación, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; return debe estar dentro de una función.";
+        this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Error, return debe estar dentro de una función.";
         return makeElement(-1,ctx);
     }
 
@@ -471,6 +474,8 @@ public class Checker extends projectParserBaseVisitor {
             if(stType == -1){
                 this.errorList+="\nError de expresión, en linea " + ele.getStart().getLine() + ", columna " + ele.getStart().getCharPositionInLine() + "; Expresión invalida en statement";
                 typeErr = -1;
+            } else if(stType != 0){
+                typeErr = -2;
             }
         }
         return makeElement(typeErr, ctx);
