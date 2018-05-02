@@ -45,8 +45,8 @@ public class Checker extends projectParserBaseVisitor {
         if (tipo==-1){
             this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida.";
             return makeElement(-1,ctx);
-        } else if(tipo == 0){
-            this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; El identificador a asignar no ha sido declarado.";
+        }else if(tipo == 0){
+            this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; La variable a asignar no existe en el contexto.";
             return makeElement(-1,ctx);
         }
         else if (SymbolTable.actual.insertar(ctx.IDENTIFIER().getText(),tipo,ctx)==null){
@@ -84,7 +84,7 @@ public class Checker extends projectParserBaseVisitor {
         if(addExpType==-1) return makeElement(addExpType, ctx);
         SymbolTable.Element comp = (SymbolTable.Element) visit(ctx.comparison());
         if (comp.getType()==0){
-            addExpType=-1;
+            return makeElement(addExpType,ctx);
         }
         else if(comp.getType()==-1){
             addExpType=-1;
@@ -102,7 +102,6 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitComparisonAST(projectParser.ComparisonASTContext ctx) {
-        /**SOLO ENTEROS SE COMPARAN, EL == ES CON CUALQUIER TIPO BASICO**/
         if(ctx.additionExpression().size()==0){
             return makeElement(0,ctx);
         }
@@ -217,11 +216,7 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitEleExpPriOnly(projectParser.EleExpPriOnlyContext ctx) {
-        int type = getElementType(ctx.primitiveExpression());
-        if(type != 0){
-            return makeElement(-1,ctx);
-        }
-        return makeElement(0, ctx);
+        return makeElement(getElementType(ctx.primitiveExpression()),ctx);
     }
 
     @Override
