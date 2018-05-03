@@ -93,11 +93,11 @@ public class Checker extends projectParserBaseVisitor {
         else if(comp.getType()==-1){
             addExpType=-1;
         }
-        else if (comp.getType()!=addExpType){
+        else if (comp.getType()!=addExpType && !(addExpType==-2 || comp.getType()==-2)){
             this.errorList+="\nError linea " + ctx.getStart() + " comparación entre tipos distintos";
             addExpType=-1;
         }
-        else if (!((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("==") && addExpType!=2) {
+        else if (!((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("==") && (addExpType!=2 && addExpType!=-2)) {
             this.errorList+="\nError linea " + ctx.getStart() + " comparación invalida entre tipos no numericos";
             addExpType=-1;
         }
@@ -115,14 +115,17 @@ public class Checker extends projectParserBaseVisitor {
             return makeElement(-1, ctx);
         }
         for (int x=1;x<ctx.additionExpression().size();x++) {
-            if(getElementType(ctx.additionExpression(x))!=(addExpType)){
+            int temporalType = getElementType(ctx.additionExpression(x));
+            if(temporalType!=(addExpType) && !(addExpType==-2 || temporalType==-2)){
                 this.errorList+="\nError linea " + ctx.getStart() + " comparación entre tipos distintos";
                 return makeElement(-1,ctx);
             }
-            if(!ctx.COMPARATOR(x-1).getSymbol().getText().equals("==") && addExpType!=2){
+            if(!ctx.COMPARATOR(x-1).getSymbol().getText().equals("==") && addExpType!=2 && addExpType!=-2){
                 this.errorList+="\nError linea " + ctx.getStart() + " comparación invalida entre tipos no numericos";
                 return makeElement(-1,ctx);
             }
+            if(addExpType==-2 && temporalType!=-2)
+                addExpType=temporalType;
         }
         return makeElement(addExpType,ctx);
     }
@@ -181,7 +184,7 @@ public class Checker extends projectParserBaseVisitor {
         int primExpType = getElementType(ctx.primitiveExpression());
         if(primExpType!=4 && primExpType!=5 && primExpType!=-2) return makeElement(-1,ctx);
 
-        if (getElementType(ctx.elementAccess()) == 2){
+        if (getElementType(ctx.elementAccess()) != -1){
             return makeElement(-2,ctx);
         } else {
             return makeElement(-1,ctx);
@@ -195,26 +198,17 @@ public class Checker extends projectParserBaseVisitor {
 
         projectParser.CallExpressionASPContext elCallExp =(projectParser.CallExpressionASPContext) ((SymbolTable.Element) visit(ctx.callExpression())).decl;
 
-        if(primExpType == 6){
-            int elAccExpSize = ((projectParser.ExpressionListFContext) elCallExp.expressionList().getRuleContext()).expression().size();
+        int elAccExpSize = ((projectParser.ExpressionListFContext) elCallExp.expressionList().getRuleContext()).expression().size();
 
-            projectParser.PExpFunLitASPContext funcLitExp = (projectParser.PExpFunLitASPContext) ((SymbolTable.Element) visit(ctx.primitiveExpression())).decl;
-            projectParser.FunctionParametersASPContext funcParamsEpx = ((projectParser.FunctionParametersASPContext)((projectParser.FunctionLiteralASPContext) funcLitExp.functionLiteral().getRuleContext()).functionParameters());
-            int funcParamsSize = funcParamsEpx.IDENTIFIER().size();
+        projectParser.PExpFunLitASPContext funcLitExp = (projectParser.PExpFunLitASPContext) ((SymbolTable.Element) visit(ctx.primitiveExpression())).decl;
+        projectParser.FunctionParametersASPContext funcParamsEpx = ((projectParser.FunctionParametersASPContext)((projectParser.FunctionLiteralASPContext) funcLitExp.functionLiteral().getRuleContext()).functionParameters());
+        int funcParamsSize = funcParamsEpx.IDENTIFIER().size();
 
-            if(elAccExpSize == funcParamsSize){
-                return makeElement(0,ctx);
-            } else {
-                this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; No se tiene la cantidad de parámetros requeridos.";
-                return makeElement(-1, ctx);
-            }
+        if(elAccExpSize == funcParamsSize){
+            return makeElement(0,ctx);
         } else {
-            if (getElementType(elCallExp) == -1){
-                this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Error en datos expression";
-                return makeElement(-1,ctx);
-            } else {
-                return makeElement(0,ctx);
-            }
+            this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; No se tiene la cantidad de parámetros requeridos.";
+            return makeElement(-1, ctx);
         }
     }
 
@@ -226,11 +220,11 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitElementAccessASP(projectParser.ElementAccessASPContext ctx) {
         int expType = getElementType(ctx.expression());
-        if(expType != 2){
+        if(expType != 2 && expType!=-2){
             this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Los índices solo aceptan enteros.";
             return makeElement(-1,ctx);
         }
-        return makeElement(2,ctx);
+        return makeElement(expType,ctx);
     }
 
     @Override
