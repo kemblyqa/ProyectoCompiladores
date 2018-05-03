@@ -458,10 +458,8 @@ public class Checker extends projectParserBaseVisitor {
             this.errorList+="\nError IF() linea " + ctx.expression().getStart().getLine() + " columna " + ctx.expression().getStart().getCharPositionInLine() + " la expresión debe ser booleano";
             return makeElement(-1,ctx);
         }
-        else if (getElementType(ctx.blockStatement(0))==-1)
-            return visit(ctx.blockStatement(0));
-        else if (getElementType(ctx.blockStatement(ctx.blockStatement().size()-1))==-1)
-            return visit(ctx.blockStatement(1));
+        else if (getElementType(ctx.blockStatement(0))==-1 || getElementType(ctx.blockStatement(ctx.blockStatement().size()-1))==-1)
+            return makeElement(-1,ctx);
         else
             return makeElement(0,ctx);
     }
