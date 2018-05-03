@@ -33,13 +33,8 @@ public class SymbolTable {
 
     public SymbolTable(SymbolTable parent)
     {
-        if(SymbolTable.actual==null) {
-            SymbolTable.actual = this;
-            this.nivel=0;
-        }
-        else {
-            this.nivel=parent.nivel+1;
-        }
+        SymbolTable.actual = this;
+        this.nivel=0;
         this.tabla = new ArrayList<>();
         this.parent = parent;
     }
@@ -50,8 +45,9 @@ public class SymbolTable {
         Element i = new Element(token,declaracion);
         for(int j=0;j<this.tabla.size();j++){
             if(this.tabla.get(j).tok.getText().equals(token.getText())){
-                System.out.println("El identificador \"" + nombre + "\" ya ha sido declarado!!!");
-                return null;
+                this.tabla.remove(j);
+                System.out.println("El identificador " + nombre + " ya ha sido declarado, pero le cayó encima");
+                break;
             }
         }
         this.tabla.add(i);

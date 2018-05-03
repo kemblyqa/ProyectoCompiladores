@@ -6,15 +6,13 @@ import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Checker extends projectParserBaseVisitor {
-    private SymbolTable tableIDs = null;
     public String errorList="";
     private int isInsideFuncLit = 0;
 
-    public Checker() { this.tableIDs = new SymbolTable(null); }
+    public Checker() {
+        SymbolTable tableIDs = new SymbolTable(null);
+    }
     @Override
     public Object visitProgAST(projectParser.ProgASTContext ctx) {
         Integer type = 0;
@@ -318,9 +316,9 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpIfASP(projectParser.PExpIfASPContext ctx) {
-        this.tableIDs.openScope();
+        SymbolTable.actual.openScope();
         int ifType = getElementType(ctx.ifExpression());
-        this.tableIDs.closeScope();
+        SymbolTable.actual.closeScope();
 
         if(ifType == -1){
             return makeElement(-1, ctx);
@@ -355,20 +353,17 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitFunctionParametersASP(projectParser.FunctionParametersASPContext ctx) {
-        Integer error=0;
+        Integer status=0;
         for(TerminalNode ele : ctx.IDENTIFIER()){
-            if (!checkID(ele))
-                return makeElement(-1,ctx);
-            SymbolTable.Element inserted = this.tableIDs.insertar(ele.getSymbol().getText(),-2,ctx);
-            if(inserted == null){
-                this.errorList+="\nError: parametros de función, linea " +ele.getSymbol().getLine() + " columna " +ele.getSymbol().getCharPositionInLine() + " parametro invalido.";
-                error=-1;
-            } else {
-                //wut
-                this.tableIDs.insertar(ele.getSymbol().getText(),-2,ctx);
+            if (!checkID(ele) || SymbolTable.actual.buscarLocal(ele.getSymbol().getText())!=null) {
+                this.errorList+="\nError: parametros de función, linea " +ele.getSymbol().getLine() + " columna " +ele.getSymbol().getCharPositionInLine() + " parametro invalido o duplicado.";
+                status=-1;
+            }
+            else {
+                SymbolTable.actual.insertar(ele.getSymbol().getText(),-2,ctx);
             }
         }
-        return makeElement(error,ctx);
+        return makeElement(status,ctx);
     }
     @Override
     public Object visitHashLiteralASP(projectParser.HashLiteralASPContext ctx) {
