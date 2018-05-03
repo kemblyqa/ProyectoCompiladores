@@ -44,19 +44,17 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitLetStatementAST(projectParser.LetStatementASTContext ctx) {
-        int tipo = getElementType(ctx.expression());
-        if (tipo==-1){
+        if(!checkID(ctx.IDENTIFIER())) return makeElement(-1,ctx);
+        int expType = getElementType(ctx.expression());
+
+        if (expType == -1 || expType == 0){
             this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida.";
             return makeElement(-1,ctx);
-        }else if(tipo == 0){
-            this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; La expresión a asignar no existe en el contexto.";
-            return makeElement(-1,ctx);
+
+        } else {
+            SymbolTable.actual.insertar(ctx.IDENTIFIER().getSymbol().getText(), expType,ctx);
+            return makeElement(0,ctx);
         }
-        else if (SymbolTable.actual.insertar(ctx.IDENTIFIER().getText(),tipo,ctx)==null){
-            this.errorList+="\nError de asignación, en linea " + ctx.IDENTIFIER().getSymbol().getLine() + ", columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador ya existe en este contexto.";
-            return makeElement(-1,ctx);
-        }
-        return makeElement(0,ctx);
     }
 
     @Override
@@ -260,6 +258,7 @@ public class Checker extends projectParserBaseVisitor {
         SymbolTable.Element resul = SymbolTable.actual.buscar(ctx.IDENTIFIER().getSymbol().getText());
         if (resul!=null)
             return makeElement(resul.getType(),resul.decl);
+        this.errorList+="\nError de asignación, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Variable no existe en este contexto.";
         return makeElement(-1,ctx);
     }
 
@@ -343,12 +342,10 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitFunctionLiteralASP(projectParser.FunctionLiteralASPContext ctx) {
-        this.tableIDs.openScope();
-        isInsideFuncLit++;
+        this.tableIDs.openScope();isInsideFuncLit++;
         int paramsFunc = getElementType(ctx.functionParameters());
         int blockSt = getElementType(ctx.blockStatement());
-        isInsideFuncLit--;
-        this.tableIDs.closeScope();
+        this.tableIDs.closeScope();isInsideFuncLit--;
 
         if(paramsFunc == -1 || blockSt == -1){
             return makeElement(-1,ctx);
@@ -367,6 +364,7 @@ public class Checker extends projectParserBaseVisitor {
                 this.errorList+="\nError: parametros de función, linea " +ele.getSymbol().getLine() + " columna " +ele.getSymbol().getCharPositionInLine() + " parametro invalido.";
                 error=-1;
             } else {
+                //wut
                 this.tableIDs.insertar(ele.getSymbol().getText(),-2,ctx);
             }
         }
