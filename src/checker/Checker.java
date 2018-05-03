@@ -42,19 +42,19 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitLetStatementAST(projectParser.LetStatementASTContext ctx) {
-        int tipo = getElementType(ctx.expression());
-        if (tipo==-1){
+        if(!checkID(ctx.IDENTIFIER())) return makeElement(-1,ctx);
+        int expType = getElementType(ctx.expression());
+
+        System.out.println("assign .. "+ctx.IDENTIFIER().getSymbol().getText()+" let exp -- " + expType);
+
+        if (expType == -1){
             this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida.";
             return makeElement(-1,ctx);
-        }else if(tipo == 0){
-            this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; La expresión a asignar no existe en el contexto.";
-            return makeElement(-1,ctx);
+
+        } else {
+            SymbolTable.actual.insertar(ctx.IDENTIFIER().getSymbol().getText(), expType,ctx);
+            return makeElement(0,ctx);
         }
-        else if (SymbolTable.actual.insertar(ctx.IDENTIFIER().getText(),tipo,ctx)==null){
-            this.errorList+="\nError de asignación, en linea " + ctx.IDENTIFIER().getSymbol().getLine() + ", columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador ya existe en este contexto.";
-            return makeElement(-1,ctx);
-        }
-        return makeElement(0,ctx);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class Checker extends projectParserBaseVisitor {
         if(isInsideFuncLit > 0){
             int type = getElementType(ctx.expression());
             if(type != 0 && type != -1){
-                return makeElement(type,ctx);
+                return makeElement(-2,ctx);
             } else {
                 this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Error, la expresión a retornar no tiene tipo.";
                 return makeElement(-1,ctx);
@@ -86,9 +86,25 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitExpressionAST(projectParser.ExpressionASTContext ctx) {
         int addExpType = getElementType(ctx.additionExpression());
         if(addExpType==-1) return makeElement(addExpType, ctx);
+
         SymbolTable.Element comp = (SymbolTable.Element) visit(ctx.comparison());
         if (comp.getType()==0){
             return makeElement(addExpType,ctx);
+        } else {
+            if(comp.getType()==-1){
+                addExpType=-1;
+            }
+            else if (comp.getType()!=addExpType){
+                this.errorList+="\nError linea " + ctx.getStart().getLine() + " comparación entre tipos distintos";
+                addExpType=-1;
+            }
+            else if (!((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("==") && addExpType!=2
+                    && !((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("!=") && addExpType!=2) {
+                this.errorList+="\nError linea " + ctx.getStart().getLine() + " comparación inválida entre tipos no numéricos";
+                addExpType=-1;
+            } else {
+                addExpType=1;
+            }
         }
         else if(comp.getType()==-1){
             addExpType=-1;
@@ -252,6 +268,7 @@ public class Checker extends projectParserBaseVisitor {
         SymbolTable.Element resul = SymbolTable.actual.buscar(ctx.IDENTIFIER().getSymbol().getText());
         if (resul!=null)
             return makeElement(resul.getType(),resul.decl);
+        this.errorList+="\nError de asignación, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Variable no existe en este contexto.";
         return makeElement(-1,ctx);
     }
 
@@ -311,10 +328,7 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpIfASP(projectParser.PExpIfASPContext ctx) {
-        SymbolTable.actual.openScope();
         int ifType = getElementType(ctx.ifExpression());
-        SymbolTable.actual.closeScope();
-
         if(ifType == -1){
             return makeElement(-1, ctx);
         }
@@ -335,17 +349,13 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitFunctionLiteralASP(projectParser.FunctionLiteralASPContext ctx) {
-        SymbolTable.actual.openScope();
-        isInsideFuncLit++;
+        SymbolTable.actual.openScope();isInsideFuncLit++;
         int paramsFunc = getElementType(ctx.functionParameters());
         int blockSt = getElementType(ctx.blockStatement());
-        isInsideFuncLit--;
-        SymbolTable.actual.closeScope();
+        SymbolTable.actual.closeScope();isInsideFuncLit--;
 
-        if(paramsFunc == -1 || blockSt == -1){
-            return makeElement(-1,ctx);
-        }
-        return makeElement(6,ctx);
+        if(paramsFunc == -1 || blockSt == -1) return makeElement(-1,ctx);
+        return makeElement(blockSt,ctx);
     }
 
     @Override
@@ -354,7 +364,7 @@ public class Checker extends projectParserBaseVisitor {
         for(TerminalNode ele : ctx.IDENTIFIER()){
             if (!checkID(ele) || SymbolTable.actual.buscarLocal(ele.getSymbol().getText())!=null) {
                 this.errorList+="\nError: parametros de función, linea " +ele.getSymbol().getLine() + " columna " +ele.getSymbol().getCharPositionInLine() + " parametro invalido o duplicado.";
-                status=-1;
+                return makeElement(-1,ctx);
             }
             else {
                 SymbolTable.actual.insertar(ele.getSymbol().getText(),-2,ctx);
@@ -373,7 +383,7 @@ public class Checker extends projectParserBaseVisitor {
         for(projectParser.HashContentContext ele : ctx.hashContent()){
             int hashContType = getElementType(ele);
             if(hashContType == -1) {
-                type = -1;
+                makeElement(-1,ctx);
             }
         }
         return makeElement(type,ctx);
@@ -403,7 +413,7 @@ public class Checker extends projectParserBaseVisitor {
             int expType = getElementType(ele);
             if(expType == -1) {
                 this.errorList+="\nError de expresión, en linea " + ele.getStart().getLine() + ", columna " + ele.getStart().getCharPositionInLine() + "; Expresión invalida";
-                type = -1;
+                makeElement(-1,ctx);
             }
         }
         return makeElement(type,ctx);
@@ -414,7 +424,7 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitPrintExpressionASP(projectParser.PrintExpressionASPContext ctx) {
         Integer type = getElementType(ctx.expression());
         if (type == 0 || type ==-1){
-            this.errorList+="\nError: PUTS() linea " + ctx.PIZQ().getSymbol().getLine() + " columna " + ctx.PIZQ().getSymbol().getCharPositionInLine() + " expresión";
+            this.errorList+="\nError: PUTS() linea " + ctx.PIZQ().getSymbol().getLine() + " columna " + ctx.PIZQ().getSymbol().getCharPositionInLine() + " expresión inválida para método puts()";
             return makeElement(-1,ctx);
         }
         return makeElement(0,ctx);
@@ -439,10 +449,10 @@ public class Checker extends projectParserBaseVisitor {
             int stType = getElementType(ele);
             if(stType == -1){
                 this.errorList+="\nError de expresión, en linea " + ele.getStart().getLine() + ", columna " + ele.getStart().getCharPositionInLine() + "; Expresión invalida en statement";
-                typeErr = -1;
-            } else if(stType != 0){
-                typeErr = -2;
+                return makeElement(-1,ctx);
             }
+            if(stType != 0) typeErr = stType;
+
         }
         return makeElement(typeErr, ctx);
     }
