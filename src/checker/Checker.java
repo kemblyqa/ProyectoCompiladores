@@ -47,7 +47,7 @@ public class Checker extends projectParserBaseVisitor {
 
         System.out.println("assign .. "+ctx.IDENTIFIER().getSymbol().getText()+" let exp -- " + expType);
 
-        if (expType == -1 || expType == 0){
+        if (expType == -1){
             this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida.";
             return makeElement(-1,ctx);
 
@@ -62,7 +62,7 @@ public class Checker extends projectParserBaseVisitor {
         if(isInsideFuncLit > 0){
             int type = getElementType(ctx.expression());
             if(type != 0 && type != -1){
-                return makeElement(type,ctx);
+                return makeElement(-2,ctx);
             } else {
                 this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Error, la expresión a retornar no tiene tipo.";
                 return makeElement(-1,ctx);
@@ -98,9 +98,9 @@ public class Checker extends projectParserBaseVisitor {
                 this.errorList+="\nError linea " + ctx.getStart().getLine() + " comparación entre tipos distintos";
                 addExpType=-1;
             }
-            else if (((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("==") && addExpType==2
-                    || ((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("!=") && addExpType==2) {
-                this.errorList+="\nError linea " + ctx.getStart().getLine() + " comparación inválida entre tipos numéricos";
+            else if (!((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("==") && addExpType!=2
+                    && !((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("!=") && addExpType!=2) {
+                this.errorList+="\nError linea " + ctx.getStart().getLine() + " comparación inválida entre tipos no numéricos";
                 addExpType=-1;
             } else {
                 addExpType=1;
@@ -323,10 +323,7 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpIfASP(projectParser.PExpIfASPContext ctx) {
-        SymbolTable.actual.openScope();
         int ifType = getElementType(ctx.ifExpression());
-        SymbolTable.actual.closeScope();
-
         if(ifType == -1){
             return makeElement(-1, ctx);
         }
@@ -352,12 +349,8 @@ public class Checker extends projectParserBaseVisitor {
         int blockSt = getElementType(ctx.blockStatement());
         SymbolTable.actual.closeScope();isInsideFuncLit--;
 
-        System.out.println("ret b "+ blockSt);
-
         if(paramsFunc == -1 || blockSt == -1) return makeElement(-1,ctx);
-
-        if(blockSt == 0) return makeElement(6,ctx);
-        else return makeElement(blockSt,ctx);
+        return makeElement(blockSt,ctx);
     }
 
     @Override
@@ -366,7 +359,7 @@ public class Checker extends projectParserBaseVisitor {
         for(TerminalNode ele : ctx.IDENTIFIER()){
             if (!checkID(ele) || SymbolTable.actual.buscarLocal(ele.getSymbol().getText())!=null) {
                 this.errorList+="\nError: parametros de función, linea " +ele.getSymbol().getLine() + " columna " +ele.getSymbol().getCharPositionInLine() + " parametro invalido o duplicado.";
-                status=-1;
+                return makeElement(-1,ctx);
             }
             else {
                 SymbolTable.actual.insertar(ele.getSymbol().getText(),-2,ctx);
@@ -385,7 +378,7 @@ public class Checker extends projectParserBaseVisitor {
         for(projectParser.HashContentContext ele : ctx.hashContent()){
             int hashContType = getElementType(ele);
             if(hashContType == -1) {
-                type = -1;
+                makeElement(-1,ctx);
             }
         }
         return makeElement(type,ctx);
@@ -415,7 +408,7 @@ public class Checker extends projectParserBaseVisitor {
             int expType = getElementType(ele);
             if(expType == -1) {
                 this.errorList+="\nError de expresión, en linea " + ele.getStart().getLine() + ", columna " + ele.getStart().getCharPositionInLine() + "; Expresión invalida";
-                type = -1;
+                makeElement(-1,ctx);
             }
         }
         return makeElement(type,ctx);
@@ -446,13 +439,15 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitBlockStatementASP(projectParser.BlockStatementASPContext ctx) {
-        int typeErr = -2;
+        int typeErr = 0;
         for(projectParser.StatementContext ele : ctx.statement()){
             int stType = getElementType(ele);
             if(stType == -1){
                 this.errorList+="\nError de expresión, en linea " + ele.getStart().getLine() + ", columna " + ele.getStart().getCharPositionInLine() + "; Expresión invalida en statement";
+                return makeElement(-1,ctx);
             }
-            typeErr = stType;
+            if(stType != 0) typeErr = stType;
+
         }
         return makeElement(typeErr, ctx);
     }
