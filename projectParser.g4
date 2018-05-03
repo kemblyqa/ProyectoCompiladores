@@ -13,7 +13,7 @@ returnStatement: expression (PyCOMMA | ) #returnStatementAST;
 expressionStatement: expression (PyCOMMA | ) #expressionStatementAST;
 expression : additionExpression comparison #expressionAST;
 comparison : (COMPARATOR additionExpression)* #comparisonAST;
-additionExpression  : multiplicationExpression (ADDOPERATOR multiplicationExpression)*  #additionExpressionAST;
+additionExpression  :ADDOPERATOR* multiplicationExpression (ADDOPERATOR multiplicationExpression)*  #additionExpressionAST;
 multiplicationExpression    : elementExpression (MULOPERATOR elementExpression)*    #multiplicationExpressionASP;
 elementExpression           : primitiveExpression elementAccess     #eleExpEleAcc
                             | primitiveExpression callExpression    #eleExpCall

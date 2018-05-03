@@ -84,20 +84,25 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitExpressionAST(projectParser.ExpressionASTContext ctx) {
         int addExpType = getElementType(ctx.additionExpression());
         if(addExpType==-1) return makeElement(addExpType, ctx);
+
         SymbolTable.Element comp = (SymbolTable.Element) visit(ctx.comparison());
         if (comp.getType()==0){
             return makeElement(addExpType,ctx);
-        }
-        else if(comp.getType()==-1){
-            addExpType=-1;
-        }
-        else if (comp.getType()!=addExpType){
-            this.errorList+="\nError linea " + ctx.getStart() + " comparación entre tipos distintos";
-            addExpType=-1;
-        }
-        else if (!((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("==") && addExpType!=2) {
-            this.errorList+="\nError linea " + ctx.getStart() + " comparación invalida entre tipos no numericos";
-            addExpType=-1;
+        } else {
+            if(comp.getType()==-1){
+                addExpType=-1;
+            }
+            else if (comp.getType()!=addExpType){
+                this.errorList+="\nError linea " + ctx.getStart().getLine() + " comparación entre tipos distintos";
+                addExpType=-1;
+            }
+            else if (((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("==") && addExpType==2
+                    || ((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("!=") && addExpType==2) {
+                this.errorList+="\nError linea " + ctx.getStart().getLine() + " comparación inválida entre tipos numéricos";
+                addExpType=-1;
+            } else {
+                addExpType=1;
+            }
         }
         return makeElement(addExpType,ctx);
     }
@@ -340,10 +345,10 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitFunctionLiteralASP(projectParser.FunctionLiteralASPContext ctx) {
-        this.tableIDs.openScope();isInsideFuncLit++;
+        SymbolTable.actual.openScope();isInsideFuncLit++;
         int paramsFunc = getElementType(ctx.functionParameters());
         int blockSt = getElementType(ctx.blockStatement());
-        this.tableIDs.closeScope();isInsideFuncLit--;
+        SymbolTable.actual.closeScope();isInsideFuncLit--;
 
         if(paramsFunc == -1 || blockSt == -1){
             return makeElement(-1,ctx);
