@@ -45,6 +45,8 @@ public class Checker extends projectParserBaseVisitor {
         if(!checkID(ctx.IDENTIFIER())) return makeElement(-1,ctx);
         int expType = getElementType(ctx.expression());
 
+        System.out.println("assign .. "+ctx.IDENTIFIER().getSymbol().getText()+" let exp -- " + expType);
+
         if (expType == -1 || expType == 0){
             this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida.";
             return makeElement(-1,ctx);
@@ -350,10 +352,12 @@ public class Checker extends projectParserBaseVisitor {
         int blockSt = getElementType(ctx.blockStatement());
         SymbolTable.actual.closeScope();isInsideFuncLit--;
 
-        if(paramsFunc == -1 || blockSt == -1){
-            return makeElement(-1,ctx);
-        }
-        return makeElement(6,ctx);
+        System.out.println("ret b "+ blockSt);
+
+        if(paramsFunc == -1 || blockSt == -1) return makeElement(-1,ctx);
+
+        if(blockSt == 0) return makeElement(6,ctx);
+        else return makeElement(blockSt,ctx);
     }
 
     @Override
@@ -422,7 +426,7 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitPrintExpressionASP(projectParser.PrintExpressionASPContext ctx) {
         Integer type = getElementType(ctx.expression());
         if (type == 0 || type ==-1){
-            this.errorList+="\nError: PUTS() linea " + ctx.PIZQ().getSymbol().getLine() + " columna " + ctx.PIZQ().getSymbol().getCharPositionInLine() + " expresión";
+            this.errorList+="\nError: PUTS() linea " + ctx.PIZQ().getSymbol().getLine() + " columna " + ctx.PIZQ().getSymbol().getCharPositionInLine() + " expresión inválida para método puts()";
             return makeElement(-1,ctx);
         }
         return makeElement(0,ctx);
@@ -442,15 +446,13 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitBlockStatementASP(projectParser.BlockStatementASPContext ctx) {
-        int typeErr = 0;
+        int typeErr = -2;
         for(projectParser.StatementContext ele : ctx.statement()){
             int stType = getElementType(ele);
             if(stType == -1){
                 this.errorList+="\nError de expresión, en linea " + ele.getStart().getLine() + ", columna " + ele.getStart().getCharPositionInLine() + "; Expresión invalida en statement";
-                typeErr = -1;
-            } else if(stType != 0){
-                typeErr = -2;
             }
+            typeErr = stType;
         }
         return makeElement(typeErr, ctx);
     }
