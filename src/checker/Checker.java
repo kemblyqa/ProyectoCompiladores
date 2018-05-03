@@ -6,6 +6,9 @@ import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Checker extends projectParserBaseVisitor {
     private SymbolTable tableIDs = null;
     public String errorList="";
@@ -249,39 +252,12 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpIDASP(projectParser.PExpIDASPContext ctx) {
-        switch (ctx.IDENTIFIER().getSymbol().getText()){
-            case "len":
-                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
-                return makeElement(-1,ctx);
-            case "first":
-                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
-                return makeElement(-1,ctx);
-            case "last":
-                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
-                return makeElement(-1,ctx);
-            case "rest":
-                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
-                return makeElement(-1,ctx);
-            case "push":
-                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
-                return makeElement(-1,ctx);
-            case "fn":
-                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
-                return makeElement(-1,ctx);
-            case "puts":
-                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
-                return makeElement(-1,ctx);
-            case "if":
-                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
-                return makeElement(-1,ctx);
-            case "else":
-                this.errorList+="\nError de identificador, en la linea " + ctx.IDENTIFIER().getSymbol().getLine() + " columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
-                return makeElement(-1,ctx);
-        }
-        SymbolTable.Element resul = SymbolTable.actual.buscar(ctx.IDENTIFIER().getText());
+        if (!checkID(ctx.IDENTIFIER()))
+            return makeElement(-1,ctx);
+        SymbolTable.Element resul = SymbolTable.actual.buscar(ctx.IDENTIFIER().getSymbol().getText());
         if (resul!=null)
             return makeElement(resul.getType(),resul.decl);
-        return makeElement(0,ctx);
+        return makeElement(-1,ctx);
     }
 
     @Override
@@ -381,8 +357,10 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitFunctionParametersASP(projectParser.FunctionParametersASPContext ctx) {
         Integer error=0;
         for(TerminalNode ele : ctx.IDENTIFIER()){
-            int paramType = ((SymbolTable.Element)visit(ele)).getType();
-            if(paramType == -1){
+            if (!checkID(ele))
+                return makeElement(-1,ctx);
+            SymbolTable.Element inserted = this.tableIDs.insertar(ele.getSymbol().getText(),-2,ctx);
+            if(inserted == null){
                 this.errorList+="\nError: parametros de función, linea " +ele.getSymbol().getLine() + " columna " +ele.getSymbol().getCharPositionInLine() + " parametro invalido.";
                 error=-1;
             } else {
@@ -481,5 +459,12 @@ public class Checker extends projectParserBaseVisitor {
     }
     private Integer getElementType(ParserRuleContext ctx){
         return ((SymbolTable.Element) visit(ctx)).getType();
+    }
+    private boolean checkID(TerminalNode ID){
+        if (ID.getSymbol().getText().matches("len|first|last|rest|push|fn|puts|if|else")) {
+            this.errorList+="\nError de identificador, en la linea " +ID.getSymbol().getLine() + " columna " + ID.getSymbol().getCharPositionInLine() + "; El identificador no puede ser una palabra reservada";
+            return false;
+        }
+        return true;
     }
 }

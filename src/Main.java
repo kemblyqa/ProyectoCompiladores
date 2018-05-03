@@ -17,6 +17,8 @@ import java.util.Scanner;
 public class Main {
     //declaracion del parser
     private static projectParser parser = null;
+    //declaracion del scanner
+    private static projectScanner scanner = null;
     //declaracion del arbol
     private static ParseTree tree = null;
     //declaracion de la vista
@@ -44,17 +46,16 @@ public class Main {
             ThrowingErrorListener.errorList = "";
             //obtiene la cadena de texto del editor
             ANTLRInputStream input = new ANTLRInputStream(mainView.codeEditor.getText());
-            //declaracion del scanner
-            projectScanner inst = new projectScanner(input);
             //añadir un listener de errores personalizado
-            inst.removeErrorListeners();
-            inst.addErrorListener(ThrowingErrorListener.INSTANCE);
+            scanner =  new projectScanner(input);
+//            scanner.removeErrorListeners();
+//            scanner.addErrorListener(ThrowingErrorListener.INSTANCE);
             //declaracion de la cadena de tokens
-            CommonTokenStream tokens = new CommonTokenStream(inst);
+            CommonTokenStream tokens = new CommonTokenStream(scanner);
             //declaracion del parser y cambiar el listener de errores
             parser = new projectParser(tokens);
-            parser.removeErrorListeners();
-            parser.addErrorListener(ThrowingErrorListener.INSTANCE);
+//            parser.removeErrorListeners();
+//            parser.addErrorListener(ThrowingErrorListener.INSTANCE);
             //obtencion del arbol de codigo
             tree = parser.program();
 

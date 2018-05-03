@@ -17,4 +17,5 @@ public class ThrowingErrorListener extends BaseErrorListener {
         System.out.println();
         errorList= errorList + ("\nlinea " + line + ":" + charPositionInLine + " " + msg);
     }
+
 }
