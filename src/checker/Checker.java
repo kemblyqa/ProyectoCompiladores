@@ -44,15 +44,13 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitLetStatementAST(projectParser.LetStatementASTContext ctx) {
         if(!checkID(ctx.IDENTIFIER())) return makeElement(-1,ctx);
         int expType = getElementType(ctx.expression());
-
-        System.out.println("assign .. "+ctx.IDENTIFIER().getSymbol().getText()+" let exp -- " + expType);
-
         if (expType == -1){
             this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida.";
             return makeElement(-1,ctx);
 
         } else {
             SymbolTable.actual.insertar(ctx.IDENTIFIER().getSymbol().getText(), expType,ctx);
+            SymbolTable.actual.imprimir();
             return makeElement(0,ctx);
         }
     }
@@ -279,7 +277,6 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpParExpParASP(projectParser.PExpParExpParASPContext ctx){
-        //que acepta esta expresion
         return makeElement(getElementType(ctx.expression()),ctx);
     }
 
