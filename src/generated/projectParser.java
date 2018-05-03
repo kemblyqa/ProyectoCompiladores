@@ -1,4 +1,4 @@
-// Generated from C:/Users/Alberth/Google Drive/Desktop/TEC/Compiladores/Proyecto\projectParser.g4 by ANTLR 4.7
+// Generated from C:/Users/kembl/Desktop/ProyectoCompiladores\projectParser.g4 by ANTLR 4.7
 package generated;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -2073,10 +2073,12 @@ public class projectParser extends Parser {
 			switch (_input.LA(1)) {
 			case ELSE:
 				{
+				{
 				setState(191);
 				match(ELSE);
 				setState(192);
 				blockStatement();
+				}
 				}
 				break;
 			case EOF:

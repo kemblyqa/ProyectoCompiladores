@@ -40,5 +40,5 @@ hashLiteral                 : LLAVEIZQ hashContent (COMMA hashContent)* LLAVEDER
 hashContent                 : expression DOSPUN expression  #hashContentASP;
 expressionList              : expression (COMMA expression)* #expressionListF;
 printExpression             : PUTS PIZQ expression PDER #printExpressionASP;
-ifExpression                : IF expression blockStatement (ELSE blockStatement | ) #ifExpressionASP;
+ifExpression                : IF expression blockStatement ((ELSE blockStatement) | ) #ifExpressionASP;
 blockStatement              : LLAVEIZQ statement* LLAVEDER  #blockStatementASP;
