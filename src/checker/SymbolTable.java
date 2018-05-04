@@ -57,11 +57,13 @@ public class SymbolTable {
     public void openScope(){
         this.child = new SymbolTable(this);
         SymbolTable.actual=this.child;
+        this.nivel++;
     }
 
     public void closeScope(){
         SymbolTable.actual=this.parent;
         this.parent.child=null;
+        this.nivel--;
     }
 
     public Element buscar(String nombre)
@@ -96,7 +98,7 @@ public class SymbolTable {
         System.out.println("****** ESTADO DE TABLA DE SÍMBOLOS DE NIVEL " + this.nivel + " ******");
         if (!this.tabla.isEmpty()) {
             for (Element i : this.tabla) {
-                System.out.println(nivel + "Nombre: " + i.tok.getText());
+                System.out.println(nivel + " Nombre: " + i.tok.getText());
             }
             System.out.println("------------------------------------------");
         }
