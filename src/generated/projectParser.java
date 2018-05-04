@@ -1,4 +1,4 @@
-// Generated from C:/Users/kembl/Desktop/ProyectoCompiladores\projectParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Alberth/Google Drive/Desktop/TEC/Compiladores/Proyecto\projectParser.g4 by ANTLR 4.7
 package generated;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -2150,6 +2150,7 @@ public class projectParser extends Parser {
 	}
 
 	public static class BlockStatementContext extends ParserRuleContext {
+		public boolean returns = false;
 		public BlockStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2158,6 +2159,7 @@ public class projectParser extends Parser {
 		public BlockStatementContext() { }
 		public void copyFrom(BlockStatementContext ctx) {
 			super.copyFrom(ctx);
+			this.returns = ctx.returns;
 		}
 	}
 	public static class BlockStatementASPContext extends BlockStatementContext {
