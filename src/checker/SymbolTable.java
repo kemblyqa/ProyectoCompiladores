@@ -34,7 +34,7 @@ public class SymbolTable {
     public SymbolTable(SymbolTable parent)
     {
         SymbolTable.actual = this;
-        this.nivel=0;
+        this.nivel=1;
         this.tabla = new ArrayList<>();
         this.parent = parent;
     }
@@ -98,7 +98,7 @@ public class SymbolTable {
         System.out.println("****** ESTADO DE TABLA DE SÍMBOLOS DE NIVEL " + this.nivel + " ******");
         if (!this.tabla.isEmpty()) {
             for (Element i : this.tabla) {
-                System.out.println(nivel + " Nombre: " + i.tok.getText());
+                System.out.println(" Nombre: " + i.tok.getText() + " Tipo: " + i.tok.getType());
             }
             System.out.println("------------------------------------------");
         }
