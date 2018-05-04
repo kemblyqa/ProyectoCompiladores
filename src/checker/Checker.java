@@ -228,9 +228,14 @@ public class Checker extends projectParserBaseVisitor {
         int primExpType = getElementType(ctx.primitiveExpression());
         if(primExpType!=6 && primExpType!=-2) return makeElement(-1,ctx);
 
-        projectParser.CallExpressionASPContext elCallExp =(projectParser.CallExpressionASPContext) ((SymbolTable.Element) visit(ctx.callExpression())).decl;
+        SymbolTable.Element elCallExp =(SymbolTable.Element) visit(ctx.callExpression());
 
-        int elAccExpSize = ((projectParser.ExpressionListFContext) elCallExp.expressionList().getRuleContext()).expression().size();
+        if (elCallExp.getType()==-1)
+            return makeElement(-1,ctx);
+        if(primExpType==-2)
+            return makeElement(-2,ctx);
+        projectParser.ExpressionListFContext expList = (projectParser.ExpressionListFContext) ((projectParser.CallExpressionASPContext)elCallExp.decl).expressionList();
+        int elAccExpSize = expList.expression().size();
         projectParser.FunctionLiteralASPContext funcLitExp = (projectParser.FunctionLiteralASPContext) ((SymbolTable.Element) visit(ctx.primitiveExpression())).decl;
         projectParser.FunctionParametersASPContext funcParamsEpx = ((projectParser.FunctionParametersASPContext) funcLitExp.functionParameters());
         int funcParamsSize = funcParamsEpx.IDENTIFIER().size();

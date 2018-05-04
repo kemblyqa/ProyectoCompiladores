@@ -98,7 +98,7 @@ public class SymbolTable {
         System.out.println("****** ESTADO DE TABLA DE SÍMBOLOS DE NIVEL " + this.nivel + " ******");
         if (!this.tabla.isEmpty()) {
             for (Element i : this.tabla) {
-                System.out.println(" Nombre: " + i.tok.getText() + " Tipo: " + i.tok.getType());
+                System.out.println(" Nombre: " + i.tok.getText() + " Tipo: " + i.tok.getType() + " contexto: " + i.decl.getText());
             }
             System.out.println("------------------------------------------");
         }
