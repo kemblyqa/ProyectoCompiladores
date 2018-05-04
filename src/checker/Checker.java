@@ -20,7 +20,6 @@ public class Checker extends projectParserBaseVisitor {
         for (projectParser.StatementContext ele : ctx.statement()){
             if (-1 == getElementType(ele)){
                 type=-1;
-                //this.errorList+="\nError de Statement encontrado";
             }
         }
         return makeElement(type,ctx);
@@ -45,8 +44,6 @@ public class Checker extends projectParserBaseVisitor {
     public Object visitLetStatementAST(projectParser.LetStatementASTContext ctx) {
         if(isReserved(ctx.IDENTIFIER())) return makeElement(-1,ctx);
         SymbolTable.Element expType = (SymbolTable.Element) visit(ctx.expression());
-
-        //System.out.println("assign .. "+ctx.IDENTIFIER().getSymbol().getText()+" let exp -- " + expType);
 
         if (expType.getType() == -1){
             //this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida.";
@@ -81,12 +78,12 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitExpressionStatementAST(projectParser.ExpressionStatementASTContext ctx) {
-        int type = getElementType(ctx.expression());
-        if(type != 0){
+        SymbolTable.Element type = (SymbolTable.Element) visit(ctx.expression());
+        if(type.getType() != 0){
             this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Expresión invalida, debe estar contenida en una variable o expresión correcta.";
             return makeElement(-1,ctx);
         }
-        return makeElement(0, ctx);
+        return makeElement(type.getType(),type.decl);
     }
 
     @Override
@@ -112,7 +109,7 @@ public class Checker extends projectParserBaseVisitor {
             this.errorList+="\nError linea " + ctx.getStart().getLine() + " comparación invalida entre tipos no numericos";
             addExpType=-1;
         }
-        return makeElement(addExpType,ctx);
+        return makeElement(1,ctx);
     }
 
     @Override
@@ -257,7 +254,7 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitEleExpPriOnly(projectParser.EleExpPriOnlyContext ctx) {
         SymbolTable.Element priExp = (SymbolTable.Element) visit(ctx.primitiveExpression());
-        return makeElement(priExp.getType(),priExp.decl);
+        return priExp;
     }
 
     @Override
@@ -421,10 +418,10 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitHashContentASP(projectParser.HashContentASPContext ctx) {
-        if(ctx.expression().size() == 0){
-            this.errorList+="\nError en la linea " + ctx.DOSPUN().getSymbol().getLine() + ", columna " + ctx.DOSPUN().getSymbol().getCharPositionInLine() + "; Error, no se puede declarar un elemento hash vacío.";
-            return makeElement(-1,ctx);
-        }
+//        if(ctx.expression().size() == 0){
+//            this.errorList+="\nError en la linea " + ctx.DOSPUN().getSymbol().getLine() + ", columna " + ctx.DOSPUN().getSymbol().getCharPositionInLine() + "; Error, no se puede declarar un elemento hash vacío.";
+//            return makeElement(-1,ctx);
+//        }
         if (getElementType(ctx.expression(0))!=2){
             this.errorList+="\nError en la linea " + ctx.DOSPUN().getSymbol().getLine() + ", columna " + ctx.DOSPUN().getSymbol().getCharPositionInLine() + "; Error, la clave especificada no es de tipo numerico.";
             makeElement(-1,ctx);
@@ -470,24 +467,41 @@ public class Checker extends projectParserBaseVisitor {
             this.errorList+="\nError IF() linea " + ctx.expression().getStart().getLine() + " columna " + ctx.expression().getStart().getCharPositionInLine() + " la expresión debe ser booleano";
             return makeElement(-1,ctx);
         }
-        else if (-1 == getElementType(ctx.blockStatement(0)) || -1 == getElementType(ctx.blockStatement(ctx.blockStatement().size() - 1))) {
+
+        int blockStIf = getElementType(ctx.blockStatement(0));
+        int blockStElse = getElementType(ctx.blockStatement(1));
+
+        if (-1 == blockStIf || -1 == blockStElse)
             return makeElement(-1,ctx);
-        } else
-            return makeElement(0,ctx);
+        return makeElement(0, ctx);
     }
 
     @Override
     public Object visitBlockStatementASP(projectParser.BlockStatementASPContext ctx) {
         int typeErr = 0;
+
         for(projectParser.StatementContext ele : ctx.statement()){
-            int stType = getElementType(ele);
+            int stType = 0;
+
+//            try {
+////                if(ifExp.blockStatement(0).returns || ifExp.blockStatement(1).returns)
+////                    ctx.returns=true;
+//                projectParser.StExpressASTContext var = (projectParser.StExpressASTContext) ((SymbolTable.Element) visit(ele)).decl;
+//                System.out.println(var.getClass().getSimpleName());
+//            } catch (Exception e){
+//                System.out.println("oh oh");
+//            }
+            SymbolTable.Element var = (SymbolTable.Element) visit(ele);
+            System.out.println("name "+var.decl.getClass().getSimpleName());
+
+            stType = getElementType(ele);
             if(stType == -1){
                 return makeElement(-1,ctx);
             }
             if(stType != 0){
                 ctx.returns=true;
                 typeErr = stType;
-                }
+            }
         }
         return makeElement(typeErr, ctx);
     }
