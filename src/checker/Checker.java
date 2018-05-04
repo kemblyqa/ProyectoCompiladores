@@ -46,7 +46,7 @@ public class Checker extends projectParserBaseVisitor {
         if(isReserved(ctx.IDENTIFIER())) return makeElement(-1,ctx);
         SymbolTable.Element expType = (SymbolTable.Element) visit(ctx.expression());
 
-        System.out.println("assign .. "+ctx.IDENTIFIER().getSymbol().getText()+" let exp -- " + expType);
+        //System.out.println("assign .. "+ctx.IDENTIFIER().getSymbol().getText()+" let exp -- " + expType);
 
         if (expType.getType() == -1){
             //this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida.";
@@ -234,8 +234,10 @@ public class Checker extends projectParserBaseVisitor {
             return makeElement(-1,ctx);
         if(primExpType==-2)
             return makeElement(-2,ctx);
+
         projectParser.ExpressionListFContext expList = (projectParser.ExpressionListFContext) ((projectParser.CallExpressionASPContext)elCallExp.decl).expressionList();
         int elAccExpSize = expList.expression().size();
+
         projectParser.FunctionLiteralASPContext funcLitExp = (projectParser.FunctionLiteralASPContext) ((SymbolTable.Element) visit(ctx.primitiveExpression())).decl;
         projectParser.FunctionParametersASPContext funcParamsEpx = ((projectParser.FunctionParametersASPContext) funcLitExp.functionParameters());
         int funcParamsSize = funcParamsEpx.IDENTIFIER().size();

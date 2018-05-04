@@ -34,7 +34,10 @@ public class SymbolTable {
     public SymbolTable(SymbolTable parent)
     {
         SymbolTable.actual = this;
-        this.nivel=1;
+        if(parent==null)
+            this.nivel=1;
+        else
+            this.nivel=parent.nivel+1;
         this.tabla = new ArrayList<>();
         this.parent = parent;
     }
@@ -57,13 +60,11 @@ public class SymbolTable {
     public void openScope(){
         this.child = new SymbolTable(this);
         SymbolTable.actual=this.child;
-        this.nivel++;
     }
 
     public void closeScope(){
         SymbolTable.actual=this.parent;
         this.parent.child=null;
-        this.nivel--;
     }
 
     public Element buscar(String nombre)
