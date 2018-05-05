@@ -1,4 +1,1 @@
-let key = "func";
-let hash = { key : fn(pinchi) { puts("Monkey") } , 6 : "Hola" + "Mundo"  };
-hash[key](4);
-puts(hash[4+2]);
+let y = fn(1){return 1}

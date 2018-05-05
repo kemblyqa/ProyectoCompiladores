@@ -58,7 +58,10 @@ public class Main {
             parser.addErrorListener(ThrowingErrorListener.INSTANCE);
             //obtencion del arbol de codigo
             tree = parser.program();
-
+            if (!Objects.equals(ThrowingErrorListener.errorList, "")) {
+                mainView.compDetails.setText(ThrowingErrorListener.errorList);
+                return;
+            }
             //checker
             Checker v = new Checker();
             v.visit(tree);

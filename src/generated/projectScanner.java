@@ -1,4 +1,4 @@
-// Generated from C:/Users/kembl/Desktop/ProyectoCompiladores\projectScanner.g4 by ANTLR 4.7
+// Generated from C:/Users/Alberth/Google Drive/Desktop/TEC/Compiladores/Proyecto\projectScanner.g4 by ANTLR 4.7
 package generated;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

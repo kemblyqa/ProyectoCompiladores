@@ -15,7 +15,7 @@ public class ThrowingErrorListener extends BaseErrorListener {
     {
         //apilamiento de
         System.out.println();
-        errorList= errorList + ("\nlinea " + line + ":" + charPositionInLine + " " + msg);
+        errorList= errorList + ("\nError de sintaxis, linea " + line + ":" + charPositionInLine + " " + msg);
     }
 
 }

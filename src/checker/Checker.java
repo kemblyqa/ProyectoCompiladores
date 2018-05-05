@@ -278,7 +278,7 @@ public class Checker extends projectParserBaseVisitor {
         SymbolTable.Element resul = SymbolTable.actual.buscar(ctx.IDENTIFIER().getSymbol().getText());
         if (resul!=null)
             return makeElement(resul.getType(),resul.decl);
-        this.errorList+="\nError de variable, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Variable no existe en este contexto.";
+        this.errorList+="\nError de variable, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Variable "+ctx.IDENTIFIER().getSymbol().getText()+" no existe en este contexto.";
         return makeElement(-1,ctx);
     }
 
@@ -305,20 +305,48 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitPExpArrayFuncASP(projectParser.PExpArrayFuncASPContext ctx) {
-        if (-1 == ((SymbolTable.Element) visit(ctx.expressionList())).getType()){
+        SymbolTable.Element expListCtx = (SymbolTable.Element) visit(ctx.expressionList());
+        if (-1 == expListCtx.getType()){
             return makeElement(-1,ctx);
+        }
+        projectParser.ExpressionListFContext expList = (projectParser.ExpressionListFContext) expListCtx.decl;
+        if (getElementType(expList.expression(0))!=4 && getElementType(expList.expression(0))!=-2){
+            this.errorList+="\nError de función de array linea " +expList.getStart().getLine() + " la primera expresión debe ser una lista";
         }
         switch (ctx.arrayFunctions().getStart().getText()){
             case "len":
+                if (expList.expression().size()!=1){
+                    this.errorList+="\nError linea " +expList.getStart().getLine() + " \"LEN\" solo permite una expresión";
+                    return makeElement(-1,ctx);
+                }
                 return makeElement(2,ctx);
             case "first":
+                if (expList.expression().size()!=1){
+                    this.errorList+="\nError linea " +expList.getStart().getLine() + " \"FIRST\" solo permite una expresión";
+                    return makeElement(-1,ctx);
+                }
                 return makeElement(-2,ctx);
             case "last":
+                if (expList.expression().size()!=1){
+                    this.errorList+="\nError linea " +expList.getStart().getLine() + " \"LAST\" solo permite una expresión";
+                    return makeElement(-1,ctx);
+                }
                 return makeElement(-2,ctx);
             case "rest":
+                if (expList.expression().size()!=1){
+                    this.errorList+="\nError linea " +expList.getStart().getLine() + " \"REST\" solo permite una expresión";
+                    return makeElement(-1,ctx);
+                }
                 return makeElement(4,ctx);
             case "push":
-                return makeElement(0,ctx);
+                if (expList.expression().size()!=2){
+                    this.errorList+="\nError linea " +expList.getStart().getLine() + " \"PUSH\" solo dos expresiones";
+                    return makeElement(-1,ctx);
+                }
+                else if(getElementType(expList.expression(1))==0){
+                    this.errorList+="\nError linea " +expList.getStart().getLine() + " \"LEN\" la segunda expresión no tiene tipo";
+                }
+                return makeElement(4,ctx);
         }
         return makeElement(-1,ctx);
     }
