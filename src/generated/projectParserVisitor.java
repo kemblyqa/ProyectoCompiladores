@@ -1,4 +1,4 @@
-// Generated from C:/Users/kembl/Desktop/ProyectoCompiladores\projectParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Alberth/Google Drive/Desktop/TEC/Compiladores/Proyecto\projectParser.g4 by ANTLR 4.7
 package generated;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -66,13 +66,6 @@ public interface projectParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpressionAST(projectParser.ExpressionASTContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code comparisonAST}
-	 * labeled alternative in {@link projectParser#comparison}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitComparisonAST(projectParser.ComparisonASTContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code additionExpressionAST}
 	 * labeled alternative in {@link projectParser#additionExpression}.

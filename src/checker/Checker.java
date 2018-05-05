@@ -91,58 +91,34 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitExpressionAST(projectParser.ExpressionASTContext ctx) {
-        SymbolTable.Element addExp = (SymbolTable.Element) visit(ctx.additionExpression());
+        SymbolTable.Element addExp = (SymbolTable.Element) visit(ctx.additionExpression(0));
         int addExpType=addExp.getType();
         if(-1 == addExpType) {
             return makeElement(addExp.getType(), addExp.decl);
         }
+        else if (ctx.additionExpression().size()==1)
+            return makeElement(addExp.getType(),addExp.decl);
 
-        SymbolTable.Element comp = (SymbolTable.Element) visit(ctx.comparison());
-        if (comp.getType()==0){
-            return makeElement(addExpType,addExp.decl);
-        }
-        else if(-1 == comp.getType()){
-            return makeElement(-1,ctx);
-        }
-        else if (comp.getType() != addExpType && !(comp.getType() == -2 || addExpType ==-2)){
-            this.errorList+="\nError linea " + ctx.getStart().getLine() + " comparación entre tipos distintos";
-            return makeElement(-1,ctx);
-        }
-        else if (!((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("==") && ((addExpType!=2 && addExpType!=-2) || (comp.getType()!=2 && comp.getType()!=-2))) {
-            this.errorList+="\nError linea " + ctx.getStart().getLine() + " comparación invalida entre tipos no numericos";
-            return makeElement(-1,ctx);
-        }
-        return makeElement(1,ctx);
-    }
-
-    @Override
-    public Object visitComparisonAST(projectParser.ComparisonASTContext ctx) {
-        if(ctx.additionExpression().size()==0){
-            return makeElement(0,ctx);
-        }
-        SymbolTable.Element addExp = (SymbolTable.Element) visit(ctx.additionExpression(0));
-        int addExpType = addExp.getType();
-        if (-1 == addExpType) {
-            return makeElement(-1, ctx);
-        } else if(addExpType==0) {
-            this.errorList+="\nError linea " + ctx.getStart() + " comparación invalida";
-            return makeElement(-1, ctx);
-        }
         for (int x=1;x<ctx.additionExpression().size();x++) {
-            int temporalType = getElementType(ctx.additionExpression(x));
-            if (temporalType==-1)return makeElement(-1,ctx);
-            if(temporalType!=(addExpType) && !(addExpType==-2 || temporalType==-2)){
-                this.errorList+="\nError linea " + ctx.getStart() + " comparación entre tipos distintos";
+            SymbolTable.Element nextAdd =(SymbolTable.Element) visit(ctx.additionExpression(x));
+            int nextType = nextAdd.getType();
+            if (nextType==-1)return makeElement(-1,ctx);
+            if (nextType==0){
+                this.errorList+="\nError: linea " + ctx.additionExpression(x).getStart().getLine() + "; columna " + ctx.additionExpression(x).getStart().getCharPositionInLine() + " comparación con una expresión vacía";
+                return makeElement(-1,ctx);
+            }
+            if(nextType!=(addExpType) && !(addExpType==-2 || nextType==-2)){
+                this.errorList+="\nError linea " + ctx.COMPARATOR(x-1).getSymbol().getLine() + "; columna " + ctx.COMPARATOR(x-1).getSymbol().getCharPositionInLine() +" comparación entre tipos distintos";
                 return makeElement(-1,ctx);
             }
             if(!ctx.COMPARATOR(x-1).getSymbol().getText().equals("==") && addExpType!=2 && addExpType!=-2){
-                this.errorList+="\nError linea " + ctx.getStart() + " comparación invalida entre tipos no numericos";
+                this.errorList+="\nError linea " + ctx.COMPARATOR(x-1).getSymbol().getLine() + "; columna " + ctx.COMPARATOR(x-1).getSymbol().getCharPositionInLine() + " comparación invalida entre tipos no numericos";
                 return makeElement(-1,ctx);
             }
-            if(addExpType==-2 && temporalType!=-2)
-                addExpType=temporalType;
+            if(addExpType==-2 && nextType!=-2)
+                addExpType=nextType;
         }
-        return makeElement(addExpType,ctx);
+        return makeElement(1,ctx);
     }
 
     @Override

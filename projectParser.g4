@@ -11,8 +11,7 @@ statement   : LET letStatement                  #stLetAST
 letStatement: IDENTIFIER ASSIGN expression (PyCOMMA | ) #letStatementAST;
 returnStatement: expression (PyCOMMA | ) #returnStatementAST;
 expressionStatement: expression (PyCOMMA | ) #expressionStatementAST;
-expression : additionExpression comparison #expressionAST;
-comparison : (COMPARATOR additionExpression)* #comparisonAST;
+expression : additionExpression (COMPARATOR additionExpression)* #expressionAST;
 additionExpression  :ADDOPERATOR* multiplicationExpression (ADDOPERATOR multiplicationExpression)*  #additionExpressionAST;
 multiplicationExpression    : elementExpression (MULOPERATOR elementExpression)*    #multiplicationExpressionASP;
 elementExpression           : primitiveExpression elementAccess     #eleExpEleAcc

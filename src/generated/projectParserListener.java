@@ -1,4 +1,4 @@
-// Generated from C:/Users/kembl/Desktop/ProyectoCompiladores\projectParser.g4 by ANTLR 4.7
+// Generated from C:/Users/Alberth/Google Drive/Desktop/TEC/Compiladores/Proyecto\projectParser.g4 by ANTLR 4.7
 package generated;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -103,18 +103,6 @@ public interface projectParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpressionAST(projectParser.ExpressionASTContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code comparisonAST}
-	 * labeled alternative in {@link projectParser#comparison}.
-	 * @param ctx the parse tree
-	 */
-	void enterComparisonAST(projectParser.ComparisonASTContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code comparisonAST}
-	 * labeled alternative in {@link projectParser#comparison}.
-	 * @param ctx the parse tree
-	 */
-	void exitComparisonAST(projectParser.ComparisonASTContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code additionExpressionAST}
 	 * labeled alternative in {@link projectParser#additionExpression}.
