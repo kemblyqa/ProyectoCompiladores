@@ -102,15 +102,15 @@ public class Checker extends projectParserBaseVisitor {
             return makeElement(addExpType,addExp.decl);
         }
         else if(-1 == comp.getType()){
-            addExpType=-1;
+            return makeElement(-1,ctx);
         }
         else if (comp.getType() != addExpType && !(comp.getType() == -2 || addExpType ==-2)){
             this.errorList+="\nError linea " + ctx.getStart().getLine() + " comparación entre tipos distintos";
-            addExpType=-1;
+            return makeElement(-1,ctx);
         }
         else if (!((projectParser.ComparisonASTContext) comp.decl).COMPARATOR(0).getSymbol().getText().equals("==") && ((addExpType!=2 && addExpType!=-2) || (comp.getType()!=2 && comp.getType()!=-2))) {
             this.errorList+="\nError linea " + ctx.getStart().getLine() + " comparación invalida entre tipos no numericos";
-            addExpType=-1;
+            return makeElement(-1,ctx);
         }
         return makeElement(1,ctx);
     }

@@ -48,21 +48,21 @@ public class Main {
             ANTLRInputStream input = new ANTLRInputStream(mainView.codeEditor.getText());
             //añadir un listener de errores personalizado
             scanner =  new projectScanner(input);
-//            scanner.removeErrorListeners();
-//            scanner.addErrorListener(ThrowingErrorListener.INSTANCE);
+            scanner.removeErrorListeners();
+            scanner.addErrorListener(ThrowingErrorListener.INSTANCE);
             //declaracion de la cadena de tokens
             CommonTokenStream tokens = new CommonTokenStream(scanner);
             //declaracion del parser y cambiar el listener de errores
             parser = new projectParser(tokens);
-//            parser.removeErrorListeners();
-//            parser.addErrorListener(ThrowingErrorListener.INSTANCE);
+            parser.removeErrorListeners();
+            parser.addErrorListener(ThrowingErrorListener.INSTANCE);
             //obtencion del arbol de codigo
             tree = parser.program();
 
             //checker
             Checker v = new Checker();
             v.visit(tree);
-            ThrowingErrorListener.errorList = v.errorList;
+            ThrowingErrorListener.errorList += v.errorList;
 
             //comprobacion de errores
             if (Objects.equals(ThrowingErrorListener.errorList, ""))
