@@ -55,7 +55,10 @@ public class Checker extends projectParserBaseVisitor {
             return makeElement(-1,ctx);
         }
         else {
-            SymbolTable.actual.insertar(ctx.IDENTIFIER().getSymbol().getText(), expType.getType(),expType.decl);
+            if (SymbolTable.actual.insertar(ctx.IDENTIFIER().getSymbol().getText(), expType.getType(),expType.decl)==null){
+                this.errorList+="\nError de asignación, en linea " + ctx.IDENTIFIER().getSymbol().getLine() + ", columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador ya fué declarado en este contexto";
+                return makeElement(-1,ctx);
+            }
             SymbolTable.actual.imprimir();
             return makeElement(0,ctx);
         }
@@ -192,9 +195,9 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitEleExpEleAcc(projectParser.EleExpEleAccContext ctx) {
-        SymbolTable.Element priExp = (SymbolTable.Element) visit(ctx.primitiveExpression());
-        int primExpType = priExp.getType();
-        if(primExpType!=4 && primExpType!=5 && primExpType!=-2) return makeElement(-1,ctx);
+        SymbolTable.Element eleExp = (SymbolTable.Element) visit(ctx.elementExpression());
+        int eleExpType = eleExp.getType();
+        if(eleExpType!=4 && eleExpType!=5 && eleExpType!=-2) return makeElement(-1,ctx);
 
         if (getElementType(ctx.elementAccess()) != -1){
             return makeElement(-2,ctx);
@@ -205,21 +208,21 @@ public class Checker extends projectParserBaseVisitor {
 
     @Override
     public Object visitEleExpCall(projectParser.EleExpCallContext ctx) {
-        int primExpType = getElementType(ctx.primitiveExpression());
-        if (primExpType==-1)return makeElement(-1,ctx);
-        else if(primExpType!=6 && primExpType!=-2) return makeElement(-1,ctx);
+        int eleExpType = getElementType(ctx.elementExpression());
+        if (eleExpType==-1)return makeElement(-1,ctx);
+        else if(eleExpType!=6 && eleExpType!=-2) return makeElement(-1,ctx);
 
         SymbolTable.Element elCallExp =(SymbolTable.Element) visit(ctx.callExpression());
 
         if (elCallExp.getType()==-1)
             return makeElement(-1,ctx);
-        if(primExpType==-2)
+        if(eleExpType==-2)
             return makeElement(-2,ctx);
 
         projectParser.ExpressionListFContext expList = (projectParser.ExpressionListFContext) ((projectParser.CallExpressionASPContext)elCallExp.decl).expressionList();
         int elAccExpSize = expList.expression().size();
 
-        projectParser.FunctionLiteralASPContext funcLitExp = (projectParser.FunctionLiteralASPContext) ((SymbolTable.Element) visit(ctx.primitiveExpression())).decl;
+        projectParser.FunctionLiteralASPContext funcLitExp = (projectParser.FunctionLiteralASPContext) ((SymbolTable.Element) visit(ctx.elementExpression())).decl;
         projectParser.FunctionParametersASPContext funcParamsEpx = ((projectParser.FunctionParametersASPContext) funcLitExp.functionParameters());
         int funcParamsSize = funcParamsEpx.IDENTIFIER().size();
 

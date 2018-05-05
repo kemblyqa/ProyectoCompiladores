@@ -14,8 +14,8 @@ expressionStatement: expression (PyCOMMA | ) #expressionStatementAST;
 expression : additionExpression (COMPARATOR additionExpression)* #expressionAST;
 additionExpression  :ADDOPERATOR* multiplicationExpression (ADDOPERATOR multiplicationExpression)*  #additionExpressionAST;
 multiplicationExpression    : elementExpression (MULOPERATOR elementExpression)*    #multiplicationExpressionASP;
-elementExpression           : primitiveExpression elementAccess     #eleExpEleAcc
-                            | primitiveExpression callExpression    #eleExpCall
+elementExpression           : elementExpression elementAccess     #eleExpEleAcc
+                            | elementExpression callExpression    #eleExpCall
                             | primitiveExpression                   #eleExpPriOnly;
 elementAccess               : PCIZQ expression PCDER    #elementAccessASP;
 callExpression              : PIZQ expressionList PDER  #callExpressionASP;

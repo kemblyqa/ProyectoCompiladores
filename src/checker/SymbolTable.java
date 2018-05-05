@@ -48,9 +48,10 @@ public class SymbolTable {
         Element i = new Element(token,declaracion);
         for(int j=0;j<this.tabla.size();j++){
             if(this.tabla.get(j).tok.getText().equals(token.getText())){
-                this.tabla.remove(j);
-                System.out.println("El identificador " + nombre + " ya ha sido declarado, pero le cayó encima");
-                break;
+                return null;
+//                this.tabla.remove(j);
+//                System.out.println("El identificador " + nombre + " ya ha sido declarado, pero le cayó encima");
+//                break;
             }
         }
         this.tabla.add(i);

@@ -1,0 +1,7 @@
+let x = len([1,2,3]);
+let y = push([1,2],x);
+let z = rest(y);
+let a = first(z);
+let b = last(z);
+
+puts("total: "first(y)+a+b);

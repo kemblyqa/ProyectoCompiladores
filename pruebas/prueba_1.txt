@@ -1,0 +1,18 @@
+let operaciones = [fn(x,y){return x+y},fn(x,y) {return x*y}];
+let mayor = fn(x,y){
+if(x<y){
+return y
+}
+else
+{
+return x
+}
+}
+let porcentaje = (fn(x,y){
+if(mayor(x,y)>100){
+	return true
+}
+else{
+return operaciones[0](mayor(x,y),-100)
+}
+})(1,2);
