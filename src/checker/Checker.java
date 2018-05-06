@@ -137,6 +137,10 @@ public class Checker extends projectParserBaseVisitor {
         }
         for (Integer x=1;x<ctx.multiplicationExpression().size();x++){
             int nextType = getElementType(ctx.multiplicationExpression(x));
+            if (type==-2 && (nextType==2 || nextType==3))
+               	type=nextType;
+            if (nextType==-2)
+            	nextType=type;
             if (nextType==-1) return makeElement(-1,ctx);
             if(!(type==2 || type==-2) && ctx.ADDOPERATOR(x - 1).getText().equals("-")) {
                 errorList+="\nError: linea " + ctx.multiplicationExpression(x-1).getStart().getLine() + " columna " + ctx.multiplicationExpression(x).getStart().getCharPositionInLine() + " resta con tipos no numericos";
@@ -147,9 +151,9 @@ public class Checker extends projectParserBaseVisitor {
                     errorList+="\nError: linea " + ctx.multiplicationExpression(x-1).getStart().getLine() + " columna " + ctx.multiplicationExpression(x).getStart().getCharPositionInLine() + " resta con tipos no numericos";
                     return makeElement(-1,ctx);
                 }
-                else if(type==2 && nextType==3)
+                else if (type==2 && nextType==3)
                         type=3;
-                else if (type != 3 || nextType != 2) {
+                else if (type!=3 && nextType!=2) {
                     this.errorList+="Error: linea " + ctx.getStart().getLine() + ", columna " + ctx.multiplicationExpression(x).getStart().getCharPositionInLine() + " adición entre tipos incompatibles";
                     return makeElement(-1,ctx);
                 }
