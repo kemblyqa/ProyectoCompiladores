@@ -49,13 +49,20 @@ public class SymbolTable {
         for(int j=0;j<this.tabla.size();j++){
             if(this.tabla.get(j).tok.getText().equals(token.getText())){
                 return null;
-//                this.tabla.remove(j);
-//                System.out.println("El identificador " + nombre + " ya ha sido declarado, pero le cayó encima");
-//                break;
             }
         }
         this.tabla.add(i);
         return this.tabla.get(this.tabla.size()-1);
+    }
+
+    public void eliminar(String nombre){
+        for(int j=0;j<this.tabla.size();j++){
+            if(this.tabla.get(j).tok.getText().equals(nombre)){
+                this.tabla.remove(j);
+                break;
+            }
+        }
+        return;
     }
 
     public void openScope(){

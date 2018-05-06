@@ -43,18 +43,22 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitLetStatementAST(projectParser.LetStatementASTContext ctx) {
         if(isReserved(ctx.IDENTIFIER())) return makeElement(-1,ctx);
+        SymbolTable.actual.insertar(ctx.IDENTIFIER().getSymbol().getText(),-2,ctx.expression());
         SymbolTable.Element expType = (SymbolTable.Element) visit(ctx.expression());
 
         if (expType.getType() == -1){
             //this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión invalida.";
+            SymbolTable.actual.eliminar(ctx.IDENTIFIER().getSymbol().getText());
             return makeElement(-1,ctx);
 
         }
         else if(expType.getType() == 0){
+            SymbolTable.actual.eliminar(ctx.IDENTIFIER().getSymbol().getText());
             this.errorList+="\nError de asignación, en linea " + ctx.ASSIGN().getSymbol().getLine() + ", columna " + ctx.ASSIGN().getSymbol().getCharPositionInLine() + "; Expresión sin tipo.";
             return makeElement(-1,ctx);
         }
         else {
+            SymbolTable.actual.eliminar(ctx.IDENTIFIER().getSymbol().getText());
             if (SymbolTable.actual.insertar(ctx.IDENTIFIER().getSymbol().getText(), expType.getType(),expType.decl)==null){
                 this.errorList+="\nError de asignación, en linea " + ctx.IDENTIFIER().getSymbol().getLine() + ", columna " + ctx.IDENTIFIER().getSymbol().getCharPositionInLine() + "; El identificador ya fué declarado en este contexto";
                 return makeElement(-1,ctx);
