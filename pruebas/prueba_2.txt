@@ -4,4 +4,4 @@ let z = rest(y);
 let a = first(z);
 let b = last(z);
 
-puts("total: "first(y)+a+b);
+puts("total: "+first(y)+a+b);
