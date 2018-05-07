@@ -1,0 +1,26 @@
+let hash = {
+	1:"hola", 
+	2: { 
+		3: {
+	        	4: [ { 5 :"mundo"} , 2, "code", { 6 : true } ], 
+	        	7:  fn(x){ let b = "text"},
+			8: {
+				9:[ 2*9-18, {9:false}, len(["a", fn(x){ let c = rest([1,2]) } ]) ]
+			} 
+		}
+	}
+}
+
+let prueba = fn(x){
+	//pruebas hash
+	let hash1 = hash[2]
+	let hash2 = hash1[3]
+	let hash3 = hash2[4]
+	//imprime parametro
+	puts(x)
+	//retorna uno de los hash
+	return hash3
+}
+
+let hashFinal = prueba("esto es una prueba")
+                        
