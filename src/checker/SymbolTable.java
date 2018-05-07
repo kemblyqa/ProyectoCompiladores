@@ -48,7 +48,8 @@ public class SymbolTable {
         Element i = new Element(token,declaracion);
         for(int j=0;j<this.tabla.size();j++){
             if(this.tabla.get(j).tok.getText().equals(token.getText())){
-                return null;
+                this.tabla.remove(j);
+                break;
             }
         }
         this.tabla.add(i);
