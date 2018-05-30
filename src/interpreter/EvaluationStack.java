@@ -14,6 +14,13 @@ public class EvaluationStack {
     }
 
     public Object popValue(){
+        if(this.evalStack.empty()){
+            System.out.println("Se intentó hacer pop a evaluationstack vacio");
+            return null;
+        }
         return this.evalStack.pop();
+    }
+    public Integer len(){
+        return evalStack.size();
     }
 }

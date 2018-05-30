@@ -1,6 +1,7 @@
 import checker.Checker;
 import generated.projectParser;
 import generated.projectScanner;
+import interpreter.Interpreter;
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -68,8 +69,16 @@ public class Main {
             ThrowingErrorListener.errorList += v.errorList;
 
             //comprobacion de errores
-            if (Objects.equals(ThrowingErrorListener.errorList, ""))
-                mainView.compDetails.setText("Compilación Exitosa!!");
+            if (Objects.equals(ThrowingErrorListener.errorList, "")){
+                Interpreter i = new Interpreter();
+                i.visit(tree);
+                if(!i.errorList.equals(""))
+                    mainView.compDetails.setText(i.errorList);
+                else{
+                    mainView.compDetails.setText(i.log);
+                    mainView.compDetails.append("\n--FIN DE PROGRAMA--");
+                }
+            }
             else
                 mainView.compDetails.setText(ThrowingErrorListener.errorList);
 

@@ -355,7 +355,7 @@ public class Checker extends projectParserBaseVisitor {
                     return makeElement(-1,ctx);
                 }
                 else if(getElementType(expList.expression(1))==0){
-                    this.errorList+="\nError linea " +expList.getStart().getLine() + " \"LEN\" la segunda expresión no tiene tipo";
+                    this.errorList+="\nError linea " +expList.getStart().getLine() + " la segunda expresión no tiene tipo";
                 }
                 return makeElement(4,ctx);
         }
