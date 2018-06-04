@@ -1,7 +1,27 @@
-let x = len([1,2,3]);
-let y = push([1,2],x);
-let z = rest(y);
-let a = first(z);
-let b = last(z);
+//se muestra un ejemplo complejo sobre el uso de mapas de hash
+let hash = {
+	1:"hola", 
+	2: { 
+		3: {
+	        	4: [ { 5 :"mundo"} , 2, "code", { 6 : true } ], 
+	        	7:  fn(x){ let b = "text"},
+			8: {
+				9:[ 2*9-18, {9:false}, len(["a", fn(x){ let c = rest([1,2]) } ]) ]
+			} 
+		}
+	}
+}
+//se pueden acceder a datos anidados y realizar operaciones y llamadas con ellos
+let prueba = fn(x){
+	//pruebas hash
+	let hash1 = hash[2]
+	let hash2 = hash1[3]
+	let hash3 = hash2[4]
+	//imprime parametro
+	puts(x)
+	//retorna uno de los hash
+	return hash3
+}
 
-puts("total: "+first(y)+a+b);
+let hashFinal = prueba("esto es una prueba")
+                        

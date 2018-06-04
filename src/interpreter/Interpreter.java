@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Interpreter extends generated.projectParserBaseVisitor{
     private DataStorage dataS;
@@ -13,6 +14,7 @@ public class Interpreter extends generated.projectParserBaseVisitor{
     public String errorList;
     public String log;
     private int callcounter=0;
+    public static javax.swing.JTextArea logBox;
     public Interpreter(){
         DataStorage.actual=new DataStorage(null);
         this.evalStack = new EvaluationStack();
@@ -22,11 +24,22 @@ public class Interpreter extends generated.projectParserBaseVisitor{
 
     @Override
     public Object visitProgAST(projectParser.ProgASTContext ctx) {//ok
+        this.errorList="";
         for (projectParser.StatementContext ele : ctx.statement()){
             visit(ele);
-            if(!this.errorList.equals(""))
-                return null;
+            logBox.setText(this.log);
+            if(!this.errorList.equals("")){
+                this.log+=this.errorList;
+                break;
+            }
+            if(1==this.evalStack.len()){
+                Object text = this.evalStack.popValue();
+                this.log+="\n"+toString(text);
+            }
+            this.evalStack.reduce(0);
         }
+        logBox.setText(this.log);
+        log = logBox.getText();
         return null;
     }
 
@@ -104,19 +117,27 @@ public class Interpreter extends generated.projectParserBaseVisitor{
                             status = false;
                         break;
                     case "<=":
-                        if(!first.equals(last)&&(!(isInteger(first)&&isInteger(last)) || (Integer)first>(Integer)last))
+                        if(!(isInteger(first)&&isInteger(last)))
+                            addError(ctx.COMPARATOR(x).getSymbol(),"Comparación de contexto entero en variables no enteras");
+                        else if(!first.equals(last) || (Integer)first>(Integer)last)
                             status = false;
                         break;
                     case "<":
-                        if(!(isInteger(first)&&isInteger(last)) || (Integer)first>(Integer)last)
+                        if(!(isInteger(first)&&isInteger(last)))
+                            addError(ctx.COMPARATOR(x).getSymbol(),"Comparación de contexto entero en variables no enteras");
+                        else if((Integer)first>(Integer)last)
                             status = false;
                         break;
                     case ">=":
-                        if(!first.equals(last)&&(!(isInteger(first)&&isInteger(last)) || (Integer)first<(Integer)last))
+                        if(!(isInteger(first)&&isInteger(last)))
+                            addError(ctx.COMPARATOR(x).getSymbol(),"Comparación de contexto entero en variables no enteras");
+                        else if(!first.equals(last) || (Integer)first<(Integer)last)
                             status = false;
                         break;
                     case ">":
-                        if(!(isInteger(first)&&isInteger(last)) || (Integer)first<(Integer)last)
+                        if(!(isInteger(first)&&isInteger(last)))
+                            addError(ctx.COMPARATOR(x).getSymbol(),"Comparación de contexto entero en variables no enteras");
+                        else if((Integer)first<(Integer)last)
                             status = false;
                         break;
                 }
@@ -170,7 +191,7 @@ public class Interpreter extends generated.projectParserBaseVisitor{
                 }
             }
             else {
-                Object res;
+                Object res = null;
                 if(first.getClass().getSimpleName().equals("Boolean")){
                     res = boolPlus((Boolean)first,last);
                 }
@@ -186,11 +207,11 @@ public class Interpreter extends generated.projectParserBaseVisitor{
                 else if(first.getClass().getSimpleName().equals("ArrayList")){
                     res = arrPlus((ArrayList) first,last);
                 }
-                else{
+                else if(first.getClass().getSimpleName().equals("HashMap")){
                     res = hashPlus((HashMap) first,last);
                 }
                 if(res==null)
-                    addError(ops,"Error de tipos en adicion"+first.getClass().getSimpleName()+","+last.getClass().getSimpleName());
+                    addError(ops,"Error de tipos en adicion: "+first.getClass().getSimpleName()+","+last.getClass().getSimpleName());
                 this.evalStack.pushValue(res);
             }
         }
@@ -246,11 +267,17 @@ public class Interpreter extends generated.projectParserBaseVisitor{
         switch (map.getClass().getSimpleName()) {
             case "HashMap":
                 HashMap h = (HashMap) map;
-                this.evalStack.pushValue(h.get(access));
+                if(h.containsKey(access))
+                    this.evalStack.pushValue(h.get(access));
+                else
+                    addError(ctx.elementAccess().getStart(),"La clave solicitada no se encuentra en este objeto");
                 break;
             case "ArrayList":
                 ArrayList a = (ArrayList) map;
-                this.evalStack.pushValue(a.get(access));
+                if(access<a.size() && !(access<0))
+                    this.evalStack.pushValue(a.get(access));
+                else
+                    addError(ctx.elementAccess().getStart(),"El indice solicitado no se encuentra en esta lista");
                 break;
             default:
                 this.addError(ctx.elementExpression().start, "El elemento solicitado no es de tipo accesible");
@@ -272,6 +299,11 @@ public class Interpreter extends generated.projectParserBaseVisitor{
         else if(rawFunction.getClass().getSimpleName().equals("FunctionLiteralASPContext")){
             this.callcounter++;
             DataStorage.actual.openScope();
+            if(DataStorage.actual.scope>100){
+                this.errorList+="\nError de recursividad! se ha superado el limite de 100 llamadas";
+                DataStorage.actual.closeScope();
+                return null;
+            }
             projectParser.FunctionLiteralASPContext function = (projectParser.FunctionLiteralASPContext) rawFunction;
             List<TerminalNode> parameters = ((projectParser.FunctionParametersASPContext)function.functionParameters()).IDENTIFIER();
 
@@ -281,6 +313,10 @@ public class Interpreter extends generated.projectParserBaseVisitor{
                 return null;
             }
             Integer counter = (Integer) c;
+            if(counter!= ((projectParser.FunctionParametersASPContext) function.functionParameters()).IDENTIFIER().size()){
+                this.addError(ctx.callExpression().getStart(),"no se ha obtenido la cantidad de parametros esperada");
+                return null;
+            }
             for(int x = counter-1;x >= 0;x--){
                 Object parametro = this.evalStack.popValue();
                 if(parametro==null){
@@ -339,7 +375,8 @@ public class Interpreter extends generated.projectParserBaseVisitor{
 
     @Override
     public Object visitPExpStrASP(projectParser.PExpStrASPContext ctx) {//ok
-        this.evalStack.pushValue(ctx.STRING().getSymbol().getText());
+        String string = ctx.STRING().getSymbol().getText().substring(1,ctx.STRING().getSymbol().getText().length()-1);
+        this.evalStack.pushValue(string);
         return null;
     }
 
@@ -439,6 +476,7 @@ public class Interpreter extends generated.projectParserBaseVisitor{
             return null;
         }
         ArrayList a = ((ArrayList)explist.get(0));
+        ArrayList res = new ArrayList();
         switch (ctx.getStart().getText()){
             case "len":
                 this.evalStack.pushValue(a.size());
@@ -450,14 +488,17 @@ public class Interpreter extends generated.projectParserBaseVisitor{
                 this.evalStack.pushValue(a.get(a.size()-1));
                 break;
             case "rest":
-                ArrayList res=new ArrayList();
+                res=new ArrayList();
                 for(int x = 1;x<a.size();x++)
                     res.add(a.get(x));
                 this.evalStack.pushValue(res);
                 break;
             case "push":
-                a.add(explist.get(1));
-                this.evalStack.pushValue(a);
+                res=new ArrayList();
+                for(int x = 0;x<a.size();x++)
+                    res.add(a.get(x));
+                res.add(explist.get(1));
+                this.evalStack.pushValue(res);
                 break;
         }
         return null;
@@ -549,7 +590,7 @@ public class Interpreter extends generated.projectParserBaseVisitor{
             this.addError(ctx.expression().getStart(),"Error interpretando valor a imprimir");
             return null;
         }
-        this.log+=String.valueOf(text);
+        this.log+="\n"+toString(text);
         return null;
     }
 
@@ -565,7 +606,7 @@ public class Interpreter extends generated.projectParserBaseVisitor{
             if(conditional){
                 visit(ctx.blockStatement(0));
             }
-            else
+            else if(ctx.blockStatement().size()==2)
                 visit(ctx.blockStatement(1));
         }
         else
@@ -576,7 +617,9 @@ public class Interpreter extends generated.projectParserBaseVisitor{
     @Override
     public Object visitBlockStatementASP(projectParser.BlockStatementASPContext ctx) {
         for (projectParser.StatementContext ele : ctx.statement()){
+            Integer limit = this.evalStack.len();
             visit(ele);
+            this.evalStack.reduce(limit);
             if(!this.errorList.equals("") || DataStorage.actual.getData("return")!=null)
                 return null;
         }
@@ -664,5 +707,43 @@ public class Interpreter extends generated.projectParserBaseVisitor{
                 return temp;
         }
         return null;
+    }
+    private String toString(Object O){
+        StringBuilder text = new StringBuilder();
+        switch (O.getClass().getSimpleName()){
+            case "Boolean":
+                return ((Boolean)O).toString();
+            case "Integer":
+                return ((Integer)O).toString();
+            case "Character":
+                return ((Character)O).toString();
+            case "String":
+                return (String)O;
+            case "ArrayList":
+                ArrayList a = (ArrayList) O;
+                text.append("[");
+                for(Object x : a){
+                    text.append(toString(x)).append(",");
+                }
+                if(text.length()!=1)
+                    text.deleteCharAt(text.length()-1);
+                text.append("]");
+                return text.toString();
+            case "HashMap":
+                HashMap h = (HashMap)O;
+                text.append("{");
+                h.forEach((k,v)->{
+                    text.append("\n").append(k).append(":").append(toString(v)).append(",");
+                });
+                if(text.length()!=1)
+                    text.deleteCharAt(text.length()-1);
+                text.append("\n}");
+                return text.toString();
+            case "FunctionLiteralASPContext":
+                projectParser.FunctionLiteralASPContext fn = (projectParser.FunctionLiteralASPContext)  O;
+                return fn.getText();
+            default:
+                return "";
+        }
     }
 }

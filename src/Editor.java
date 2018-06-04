@@ -18,6 +18,8 @@ public class Editor {
     private JButton btnCargar;
     private JPanel Principal;
     private JLabel cursorStatus;
+    JTextField console;
+    JButton consoleBtn;
     private Main creator;
 
     JFrame frame;
@@ -58,6 +60,7 @@ public class Editor {
         });
         btnCompilar.addActionListener(e -> creator.compile());
         btnGen.addActionListener(e -> creator.genTree());
+        consoleBtn.addActionListener(e -> creator.enterCommand(console.getText()));
     }
 
     public static void main(String[] args) {

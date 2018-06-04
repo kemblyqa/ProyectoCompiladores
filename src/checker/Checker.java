@@ -17,6 +17,7 @@ public class Checker extends projectParserBaseVisitor {
     @Override
     public Object visitProgAST(projectParser.ProgASTContext ctx) {
         Integer type = 0;
+        this.errorList="";
         for (projectParser.StatementContext ele : ctx.statement()){
             if (-1 == getElementType(ele)){
                 type=-1;
@@ -89,10 +90,6 @@ public class Checker extends projectParserBaseVisitor {
         SymbolTable.Element type = (SymbolTable.Element) visit(ctx.expression());
         if(type.getType()==-1)
             return makeElement(-1,ctx);
-        if(type.getType() != 0){
-            this.errorList+="\nError de expresión, en linea " + ctx.getStart().getLine() + ", columna " + ctx.getStart().getCharPositionInLine() + "; Expresión invalida, debe estar contenida en una variable o expresión correcta.";
-            return makeElement(-1,ctx);
-        }
         return makeElement(type.getType(),type.decl);
     }
 
@@ -135,10 +132,6 @@ public class Checker extends projectParserBaseVisitor {
         if (-1 == type) {
             return makeElement(-1,ctx);
         }
-        if ((type >3) && ctx.ADDOPERATOR().size() > 0) {
-            this.errorList+="\nError: linea " + ctx.getStart().getLine() + " operación con tipos incompatibles";
-            return makeElement(-1,ctx);
-        }
         for (Integer x=1;x<ctx.multiplicationExpression().size();x++){
             int nextType = getElementType(ctx.multiplicationExpression(x));
             if (type==-2 && (nextType==2 || nextType==3))
@@ -171,10 +164,6 @@ public class Checker extends projectParserBaseVisitor {
         SymbolTable.Element eleExp= (SymbolTable.Element) visit(ctx.elementExpression(0));
         int type = eleExp.getType();
         if (-1 == type) return makeElement(-1,ctx);
-        else if ((type>3) && ctx.MULOPERATOR().size()>0){
-            this.errorList+="\nError: linea " + ctx.getStart().getLine() + " operación con tipos incompatibles";
-            return makeElement(-1,ctx);
-        }
         for (Integer x=1;x<ctx.elementExpression().size();x++){
             int nextType = getElementType(ctx.elementExpression(x));
             if (nextType==-1)
@@ -184,7 +173,7 @@ public class Checker extends projectParserBaseVisitor {
                 return makeElement(-1,ctx);
             }
             if(type != nextType){
-                if(!ctx.MULOPERATOR(x - 1).getText().equals("/") && !(nextType==2 || nextType==-2)) {
+                if(ctx.MULOPERATOR(x - 1).getText().equals("/") && !(nextType==2 || nextType==-2)) {
                     errorList+="\nError: linea " + ctx.elementExpression(x).getStart().getLine() + " columna " + ctx.elementExpression(x).getStart().getCharPositionInLine() + " división con tipos no numericos";
                     return makeElement(-1,ctx);
                 }
@@ -193,7 +182,7 @@ public class Checker extends projectParserBaseVisitor {
                 else if(nextType==2 && (type==3 || type==4))
                     type=4;
                 else {
-                    errorList+="\nError: linea " + ctx.elementExpression(x-1).getStart().getLine() + " columna " + ctx.elementExpression(x).getStart().getCharPositionInLine() + " multiplicacióon con tipos incompatibles";
+                    errorList+="\nError: linea " + ctx.elementExpression(x-1).getStart().getLine() + " columna " + ctx.elementExpression(x).getStart().getCharPositionInLine() + " multiplicación con tipos incompatibles";
                     return makeElement(-1,ctx);
                 }
             }
@@ -493,7 +482,7 @@ public class Checker extends projectParserBaseVisitor {
         int expType = getElementType(ctx.expression());
         if (expType==-1)
             return makeElement(-1,ctx);
-        else if(expType!=1){
+        else if(expType!=1 && expType!=-2){
             this.errorList+="\nError IF() linea " + ctx.expression().getStart().getLine() + " columna " + ctx.expression().getStart().getCharPositionInLine() + " la expresión debe ser booleano";
             return makeElement(-1,ctx);
         }

@@ -1,0 +1,12 @@
+//las funciones sobre arreglos retornan el resultado, en vez de trabajar directamente en la lista objetivo
+let lista = [1,2,3,4,5]
+let tamano = len(lista)
+tamano
+let primer = first(lista)
+primer
+let ultimo = last(lista)
+ultimo
+let nuevo = push(lista,[1,2,3,4])
+nuevo
+let resto = rest(lista)
+resto

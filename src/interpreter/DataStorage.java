@@ -7,7 +7,7 @@ public class DataStorage {
     private LinkedList<Value> data;
     private int actualIndex;
     private DataStorage padre;
-    private Integer scope;
+    public Integer scope;
     public static DataStorage actual;
 
     public class Value{

@@ -1,26 +1,28 @@
-let hash = {
-	1:"hola", 
-	2: { 
-		3: {
-	        	4: [ { 5 :"mundo"} , 2, "code", { 6 : true } ], 
-	        	7:  fn(x){ let b = "text"},
-			8: {
-				9:[ 2*9-18, {9:false}, len(["a", fn(x){ let c = rest([1,2]) } ]) ]
-			} 
-		}
-	}
+//se presenta un ejemplo de un for recursivo escrito en monkey, junto con sus modulos necesarios
+let menor = fn(x,y){
+	return x<y
+}
+let menorI= fn(x,y){
+	return x<=y
+}
+let igual = fn(x,y){
+	return x==y
+}
+let distinto = fn(x,y){
+	return x!=y
+}
+let mayorI = fn(x,y){
+	return x>=y
+}
+let mayor = fn(x,y){
+	return x>y
 }
 
-let prueba = fn(x){
-	//pruebas hash
-	let hash1 = hash[2]
-	let hash2 = hash1[3]
-	let hash3 = hash2[4]
-	//imprime parametro
-	puts(x)
-	//retorna uno de los hash
-	return hash3
+let for = fn(contador,modificador,quiebre,funcion,condicional){
+if(condicional(contador,quiebre)){
+funcion(contador)
+for(contador+modificador,modificador,quiebre,funcion,condicional)
 }
-
-let hashFinal = prueba("esto es una prueba")
-                        
+}
+//ejemplo de una llamada al nuevo FOR
+for(10,-1,0,fn(c){puts(c)},mayor)

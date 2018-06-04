@@ -1,0 +1,11 @@
+//ejemplo complejo de uso de listas
+//esta es una funcion que agrega un elemento a una lista predefinida sin usar push
+let fnArreglo=fn(x){return [1,2]+[x]}
+let x = len(fnArreglo(3));
+//uso de push
+let y = push([1,2],x);
+let z = rest(y);
+let a = first(z);
+let b = last(z);
+
+puts("total: "+first(y)+a+b);

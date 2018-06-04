@@ -1,3 +1,5 @@
+//se muestra un ejemplo de uso de funciones anidadas
+//las fucnones se pueden almacenar en cualquier parte y ejecutarsen para obtener su resutado
 let operaciones = [fn(x,y){return x+y},fn(x,y) {return x*y}];
 let mayor = fn(x,y){
 if(x<y){
@@ -8,11 +10,13 @@ else
 return x
 }
 }
-let porcentaje = (fn(x,y){
-if(mayor(x,y)>100){
+let porcentaje = (fn(poblacion,muestra){
+if(muestra/poblacion<100){
 	return true
 }
 else{
-return operaciones[0](mayor(x,y),-100)
+return false
 }
-})(1,2);
+});
+
+porcentaje(operaciones[0](40,30),operaciones[1](50,2))

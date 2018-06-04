@@ -20,10 +20,14 @@ public class Main {
     private static projectParser parser = null;
     //declaracion del scanner
     private static projectScanner scanner = null;
+    //declaracion del checker
+    private static Checker checker = null;
+    //declaracion del interprete
+    private static Interpreter interpreter = null;
     //declaracion del arbol
     private static ParseTree tree = null;
     //declaracion de la vista
-    private Editor mainView;
+    public static Editor mainView;
     //declaracion de la vista del arbol
     private JFrame treeFrame;
 
@@ -64,19 +68,25 @@ public class Main {
                 return;
             }
             //checker
-            Checker v = new Checker();
-            v.visit(tree);
-            ThrowingErrorListener.errorList += v.errorList;
+            checker = new Checker();
+            checker.visit(tree);
+            ThrowingErrorListener.errorList += checker.errorList;
 
             //comprobacion de errores
             if (Objects.equals(ThrowingErrorListener.errorList, "")){
-                Interpreter i = new Interpreter();
-                i.visit(tree);
-                if(!i.errorList.equals(""))
-                    mainView.compDetails.setText(i.errorList);
+                Interpreter.logBox = mainView.compDetails;
+                mainView.compDetails.setText("");
+                interpreter = new Interpreter();
+                interpreter.visit(tree);
+                if(!interpreter.errorList.equals("")){
+                    mainView.compDetails.append("\n--ERROR DE PROGRAMA--");
+                }
                 else{
-                    mainView.compDetails.setText(i.log);
-                    mainView.compDetails.append("\n--FIN DE PROGRAMA--");
+                    mainView.compDetails.append("\n--Esperando entrada--");
+                    interpreter.log=mainView.compDetails.getText();
+                    mainView.consoleBtn.setEnabled(true);
+                    mainView.console.setEnabled(true);
+                    mainView.console.setText("");
                 }
             }
             else
@@ -115,6 +125,41 @@ public class Main {
         } catch (Exception exc) {
             mainView.compDetails.setText("ERROR: " + exc.getMessage() + "\nCAUSA: " + exc.getCause());
         }
+    }
+    public void enterCommand(String command){
+        System.out.println(interpreter.log);
+        interpreter.log+="\n>"+command;
+        ANTLRInputStream input = new ANTLRInputStream(command);
+        //añadir un listener de errores personalizado
+        scanner =  new projectScanner(input);
+        scanner.removeErrorListeners();
+        scanner.addErrorListener(ThrowingErrorListener.INSTANCE);
+        //declaracion de la cadena de tokens
+        CommonTokenStream tokens = new CommonTokenStream(scanner);
+        //declaracion del parser y cambiar el listener de errores
+        parser = new projectParser(tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(ThrowingErrorListener.INSTANCE);
+        //obtencion del arbol de codigo
+        tree = parser.program();
+        if (!Objects.equals(ThrowingErrorListener.errorList, "")) {
+           interpreter.log+=(ThrowingErrorListener.errorList);
+            return;
+        }
+        //checker
+        checker.visit(tree);
+        ThrowingErrorListener.errorList += checker.errorList;
+
+        //comprobacion de errores
+        if (Objects.equals(ThrowingErrorListener.errorList, "")){
+            interpreter.visit(tree);
+        }
+        else {
+            interpreter.log+=("\n"+ThrowingErrorListener.errorList);
+            ThrowingErrorListener.errorList="";
+        }
+        mainView.compDetails.setText(interpreter.log);
+        mainView.console.setText("");
     }
 
     private void showMain() {

@@ -23,4 +23,9 @@ public class EvaluationStack {
     public Integer len(){
         return evalStack.size();
     }
+    public void reduce(Integer limit){
+        while(this.evalStack.size()>limit){
+            this.popValue();
+        }
+    }
 }
